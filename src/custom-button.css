@@ -1,0 +1,40 @@
+button.phone-button-rounded {
+  border-radius: 6px !important;
+  border-top-left-radius: 6px !important;
+  border-top-right-radius: 6px !important;
+  border-bottom-left-radius: 6px !important;
+  border-bottom-right-radius: 6px !important;
+}
+
+button.phone-button-rounded:hover {
+  border-radius: 6px !important;
+  border-top-left-radius: 6px !important;
+  border-top-right-radius: 6px !important;
+  border-bottom-left-radius: 6px !important;
+  border-bottom-right-radius: 6px !important;
+}
+
+button.phone-button-rounded:active {
+  border-radius: 6px !important;
+  border-top-left-radius: 6px !important;
+  border-top-right-radius: 6px !important;
+  border-bottom-left-radius: 6px !important;
+  border-bottom-right-radius: 6px !important;
+}
+
+button.phone-button-rounded:focus {
+  border-radius: 6px !important;
+  border-top-left-radius: 6px !important;
+  border-top-right-radius: 6px !important;
+  border-bottom-left-radius: 6px !important;
+  border-bottom-right-radius: 6px !important;
+}
+
+/* Extra specificity for hover state */
+button.phone-button-rounded.hover\:bg-white\/90:hover {
+  border-radius: 6px !important;
+  border-top-left-radius: 6px !important;
+  border-top-right-radius: 6px !important;
+  border-bottom-left-radius: 6px !important;
+  border-bottom-right-radius: 6px !important;
+}

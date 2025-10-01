@@ -1,0 +1,39 @@
+[build]
+  command = "npm run build"
+  publish = "dist"
+
+[build.environment]
+  NODE_VERSION = "18"
+
+[[headers]]
+  for = "/assets/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Frame-Options = "DENY"
+    X-Content-Type-Options = "nosniff"
+    X-XSS-Protection = "1; mode=block"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    Content-Security-Policy = "default-src 'self'; img-src 'self' data: https:; script-src 'self' 'unsafe-inline' https:; style-src 'self' 'unsafe-inline' https:; font-src 'self' https: data:; connect-src 'self' https:; frame-ancestors 'self'"
+    Strict-Transport-Security = "max-age=63072000; includeSubDomains; preload"
+    X-Content-Type-Options = "nosniff"
+    Permissions-Policy = "camera=(), microphone=(), geolocation=()"
+
+[[redirects]]
+  from = "/index.html"
+  to = "/"
+  status = 301
+
+# Example legacy URLs
+[[redirects]]
+  from = "/web-design-company"
+  to = "/services/web-design/"
+  status = 301
+
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
