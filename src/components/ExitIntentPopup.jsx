@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { X, Gift, Clock, Star, ArrowRight, CheckCircle, Zap } from 'lucide-react'
+import { X, Clock, Star, ArrowRight, CheckCircle, Zap } from 'lucide-react'
 import { Button } from '@/components/ui/button.jsx'
 import { Card, CardContent } from '@/components/ui/card.jsx'
 
@@ -28,10 +28,13 @@ const ExitIntentPopup = ({
       setCountdown(prev => Math.max(0, prev - 1))
     }, 1000)
 
-    // Exit intent detection
+    // True exit intent detection - only when mouse leaves the window
     const handleMouseLeave = (e) => {
+      // Only trigger if mouse is moving toward the top of the browser (to close tab/navigate)
+      // and has sufficient velocity indicating intent to leave
       if (
         e.clientY <= 0 && 
+        e.relatedTarget === null && // Mouse left the document entirely
         timeOnPage >= delay && 
         !hasShown && 
         !isVisible
@@ -41,31 +44,33 @@ const ExitIntentPopup = ({
       }
     }
 
-    // Mobile scroll detection (alternative to mouse leave)
-    let lastScrollY = window.scrollY
-    const handleScroll = () => {
-      const currentScrollY = window.scrollY
+    // For mobile: detect when user tries to navigate away (beforeunload event)
+    const handleBeforeUnload = (e) => {
       if (
-        currentScrollY < lastScrollY && 
-        currentScrollY < 100 && 
         timeOnPage >= delay && 
         !hasShown && 
-        !isVisible
+        !isVisible &&
+        /Mobi|Android/i.test(navigator.userAgent) // Only on mobile devices
       ) {
         setIsVisible(true)
         setHasShown(true)
+        // Small delay to show popup before page unloads
+        e.preventDefault()
+        e.returnValue = ''
+        setTimeout(() => {
+          setIsVisible(false)
+        }, 3000)
       }
-      lastScrollY = currentScrollY
     }
 
     document.addEventListener('mouseleave', handleMouseLeave)
-    window.addEventListener('scroll', handleScroll)
+    window.addEventListener('beforeunload', handleBeforeUnload)
 
     return () => {
       clearInterval(timeTracker)
       clearInterval(countdownTimer)
       document.removeEventListener('mouseleave', handleMouseLeave)
-      window.removeEventListener('scroll', handleScroll)
+      window.removeEventListener('beforeunload', handleBeforeUnload)
     }
   }, [enabled, delay, hasShown, timeOnPage, isVisible])
 
@@ -182,17 +187,7 @@ const ExitIntentPopup = ({
                   animate={{ opacity: 1, y: 0 }}
                   className="text-center mb-6"
                 >
-                  {/* Icon */}
-                  <motion.div
-                    className={`w-16 h-16 mx-auto mb-4 rounded-full bg-gradient-to-r ${currentOffer.gradient} flex items-center justify-center text-white`}
-                    animate={{ 
-                      scale: [1, 1.1, 1],
-                      rotate: [0, 5, -5, 0]
-                    }}
-                    transition={{ duration: 2, repeat: Infinity }}
-                  >
-                    <Gift className="w-8 h-8" />
-                  </motion.div>
+
 
                   <h2 className="text-2xl font-bold text-gray-900 mb-2">
                     {currentOffer.title}

@@ -148,19 +148,23 @@ const SimpleMobileNavigation = ({ scrollToTop }) => {
                 <div key={item.title} style={{ marginBottom: '10px' }}>
                   {item.submenu ? (
                     <div>
-                      <div
+                      <Link
+                        to={item.path}
+                        onClick={() => handleLinkClick(item.path)}
                         style={{
+                          display: 'block',
                           padding: '15px',
-                          backgroundColor: 'white',
+                          backgroundColor: location.pathname === item.path ? '#e8f5e8' : 'white',
                           border: '1px solid #ddd',
                           borderRadius: '8px',
                           marginBottom: '5px',
                           fontWeight: 'bold',
-                          color: '#333'
+                          color: location.pathname === item.path ? '#4bbf39' : '#333',
+                          textDecoration: 'none'
                         }}
                       >
                         {item.title}
-                      </div>
+                      </Link>
                       {item.submenu.map((subItem) => (
                         <Link
                           key={subItem.path}

@@ -445,6 +445,10 @@ function HomePage() {
             WebkitPlaysinline: true,
             objectFit: 'cover'
           }}
+          webkit-playsinline="true"
+          x5-playsinline="true"
+          x5-video-player-type="h5"
+          x5-video-player-fullscreen="true"
           onError={(e) => {
             e.target.style.display = 'none';
             e.target.nextElementSibling.style.backgroundImage = 'url(/uptrade_media_hero.webp)';
@@ -605,7 +609,7 @@ function HomePage() {
             <p className="text-gray-600 font-medium">Trusted by Leading Businesses in Cincinnati and Nationwide</p>
           </div>
           <div className="relative overflow-hidden w-full">
-            <div className="flex animate-scroll-fast whitespace-nowrap">
+            <div className="flex animate-scroll-mobile md:animate-scroll-fast whitespace-nowrap">
               {Array(4).fill([
                 '3CDC_Logo.svg',
                 'Adams_Real_Estate_Advisors_Logo.svg',
@@ -1299,6 +1303,10 @@ function MarketingPage() {
               WebkitPlaysinline: true,
               objectFit: 'cover'
             }}
+            webkit-playsinline="true"
+            x5-playsinline="true"
+            x5-video-player-type="h5"
+            x5-video-player-fullscreen="true"
           >
           <source src="/videos/marketing_page_hero_video.webm" type="video/webm" />
           <source src="/videos/marketing_hero.mp4" type="video/mp4" />
@@ -1761,6 +1769,10 @@ function MediaPage() {
             WebkitPlaysinline: true,
             objectFit: 'cover'
           }}
+          webkit-playsinline="true"
+          x5-playsinline="true"
+          x5-video-player-type="h5"
+          x5-video-player-fullscreen="true"
           onError={(e) => {
             e.target.style.display = 'none';
             e.target.nextElementSibling.style.backgroundImage = 'url(/design_hero.webp)';
@@ -2005,6 +2017,10 @@ function DesignPage() {
             WebkitPlaysinline: true,
             objectFit: 'cover'
           }}
+          webkit-playsinline="true"
+          x5-playsinline="true"
+          x5-video-player-type="h5"
+          x5-video-player-fullscreen="true"
         >
           <source src="/videos/media_page_hero_video.webm" type="video/webm" />
           <source src="/videos/media_hero.mp4" type="video/mp4" />

@@ -138,6 +138,15 @@
   }
 }
 
+@keyframes scroll-mobile {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-25%);
+  }
+}
+
 .animate-scroll {
   animation: scroll 30s linear infinite;
 }
@@ -146,7 +155,12 @@
   animation: scroll-fast 15s linear infinite;
 }
 
+.animate-scroll-mobile {
+  animation: scroll-mobile 8s linear infinite;
+}
+
 .animate-scroll:hover,
-.animate-scroll-fast:hover {
+.animate-scroll-fast:hover,
+.animate-scroll-mobile:hover {
   animation-play-state: paused;
 }
