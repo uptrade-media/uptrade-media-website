@@ -610,7 +610,7 @@ function HomePage() {
           </div>
           <div className="relative overflow-hidden w-full">
             <div className="flex animate-scroll-mobile md:animate-scroll-fast whitespace-nowrap">
-              {Array(3).fill([
+              {Array(2).fill([
                 '3CDC_Logo.svg',
                 '4M_Lawn_Care_logo.svg',
                 'Adams_Real_Estate_Advisors_Logo.svg',
