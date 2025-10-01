@@ -14,6 +14,8 @@ import {
 } from 'lucide-react'
 import { motion } from 'framer-motion'
 import { getBlogPost, getBlogPostsByCategory } from '../utils/blogManager'
+import '../mobile-blog-fixes.css'
+import SEO from '../components/SEO'
 
 const BlogPostPage = () => {
   const { slug } = useParams()
@@ -123,7 +125,24 @@ const BlogPostPage = () => {
   const shareTitle = post.title
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-white blog-container">
+      {post && (
+        <SEO
+          title={post.title}
+          description={post.excerpt}
+          keywords={post.tags?.join(', ')}
+          image={post.image}
+          url={`/insights/${post.slug}`}
+          type="article"
+          article={{
+            publishedTime: post.publishDate,
+            modifiedTime: post.modifiedDate || post.publishDate,
+            author: 'Uptrade Media',
+            section: post.category,
+            tags: post.tags
+          }}
+        />
+      )}
       {/* Navigation Breadcrumb */}
       <div className="bg-gray-50 py-4">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -150,7 +169,7 @@ const BlogPostPage = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid lg:grid-cols-3 gap-12">
             {/* Main Content */}
-            <div className="lg:col-span-2">
+            <div className="lg:col-span-2 min-w-0 overflow-hidden">
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -201,50 +220,58 @@ const BlogPostPage = () => {
 
             {/* Featured Image */}
             {post.image && (
-              <div className="mb-8">
+              <div className="mb-8 overflow-hidden">
                 <img 
                   src={post.image} 
                   alt={post.title}
-                  className="w-full h-64 md:h-96 object-cover rounded-lg shadow-lg"
+                  className="w-full h-64 md:h-96 object-cover rounded-lg shadow-lg max-w-full"
+                  style={{ maxWidth: '100%', height: 'auto' }}
                 />
               </div>
             )}
 
             {/* Share Buttons */}
-            <div className="flex items-center gap-4 mb-8 pb-8 border-b border-gray-200">
-              <span className="text-gray-600 font-medium">Share:</span>
-              <a
-                href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareUrl)}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center gap-2 px-3 py-2 bg-[#4bbf39] text-white rounded-lg hover:bg-[#39bfb0] transition-colors"
-              >
-                <Facebook className="w-4 h-4" />
-                Facebook
-              </a>
-              <a
-                href={`https://twitter.com/intent/tweet?url=${encodeURIComponent(shareUrl)}&text=${encodeURIComponent(shareTitle)}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center gap-2 px-3 py-2 bg-[#4bbf39] text-white rounded-lg hover:bg-[#39bfb0] transition-colors"
-              >
-                <Twitter className="w-4 h-4" />
-                Twitter
-              </a>
-              <a
-                href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(shareUrl)}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center gap-2 px-3 py-2 bg-[#39bfb0] text-white rounded-lg hover:bg-blue-800 transition-colors"
-              >
-                <Linkedin className="w-4 h-4" />
-                LinkedIn
-              </a>
+            <div className="mb-8 pb-8 border-b border-gray-200">
+              <span className="text-gray-600 font-medium mb-3 block">Share:</span>
+              <div className="flex flex-wrap gap-2">
+                <a
+                  href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareUrl)}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-2 px-3 py-2 bg-[#4bbf39] text-white rounded-lg hover:bg-[#39bfb0] transition-colors text-sm"
+                >
+                  <Facebook className="w-4 h-4" />
+                  <span className="hidden sm:inline">Facebook</span>
+                </a>
+                <a
+                  href={`https://twitter.com/intent/tweet?url=${encodeURIComponent(shareUrl)}&text=${encodeURIComponent(shareTitle)}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-2 px-3 py-2 bg-[#4bbf39] text-white rounded-lg hover:bg-[#39bfb0] transition-colors text-sm"
+                >
+                  <Twitter className="w-4 h-4" />
+                  <span className="hidden sm:inline">Twitter</span>
+                </a>
+                <a
+                  href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(shareUrl)}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-2 px-3 py-2 bg-[#39bfb0] text-white rounded-lg hover:bg-blue-800 transition-colors text-sm"
+                >
+                  <Linkedin className="w-4 h-4" />
+                  <span className="hidden sm:inline">LinkedIn</span>
+                </a>
+              </div>
             </div>
 
             {/* Article Content */}
             <div 
-              className="prose prose-lg max-w-none"
+              className="prose prose-lg max-w-none overflow-hidden"
+              style={{ 
+                maxWidth: '100%',
+                wordWrap: 'break-word',
+                overflowWrap: 'break-word'
+              }}
               dangerouslySetInnerHTML={{ __html: content }}
             />
 
@@ -263,8 +290,8 @@ const BlogPostPage = () => {
             </div>
 
             {/* Sidebar - Recommended */}
-            <div className="lg:col-span-1">
-              <div className="bg-gray-50 rounded-lg p-6 shadow-sm sticky top-24">
+            <div className="lg:col-span-1 min-w-0">
+              <div className="bg-gray-50 rounded-lg p-6 shadow-sm lg:sticky lg:top-24">
                 <h3 className="text-xl font-bold text-gray-900 mb-6">Recommended</h3>
                 <div className="space-y-6">
                   {relatedPosts.map((relatedPost) => (
@@ -278,7 +305,8 @@ const BlogPostPage = () => {
                           <img 
                             src={relatedPost.image} 
                             alt={relatedPost.title}
-                            className="w-full h-32 object-cover"
+                            className="w-full h-32 object-cover max-w-full"
+                            style={{ maxWidth: '100%', height: 'auto', minHeight: '128px' }}
                           />
                         )}
                         <div className="p-4">

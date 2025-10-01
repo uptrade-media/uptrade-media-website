@@ -18,6 +18,7 @@ import {
   Target,
   Zap
 } from 'lucide-react'
+import { ContactSEO } from '../components/SEO'
 import { motion } from 'framer-motion'
 
 const ContactPage = () => {
@@ -45,11 +46,27 @@ const ContactPage = () => {
     e.preventDefault()
     setIsSubmitting(true)
     
-    // Simulate form submission
-    setTimeout(() => {
+    try {
+      const form = e.target
+      const formData = new FormData(form)
+      
+      const response = await fetch('/', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: new URLSearchParams(formData).toString()
+      })
+      
+      if (response.ok) {
+        setIsSubmitted(true)
+      } else {
+        throw new Error('Form submission failed')
+      }
+    } catch (error) {
+      console.error('Error submitting form:', error)
+      alert('There was an error submitting the form. Please try again.')
+    } finally {
       setIsSubmitting(false)
-      setIsSubmitted(true)
-    }, 2000)
+    }
   }
 
   const services = [
@@ -75,6 +92,7 @@ const ContactPage = () => {
 
   return (
     <div className="min-h-screen bg-white">
+      <ContactSEO />
       {/* Navigation Breadcrumb */}
       <div className="bg-gray-50 py-4">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -90,7 +108,7 @@ const ContactPage = () => {
         <div className="absolute inset-0 w-full h-full">
           <img 
             src="/about_page_background_2.svg" 
-            alt="" 
+            alt="Contact Uptrade Media - Cincinnati digital marketing agency background design" 
             className="w-full h-full object-cover object-center"
             style={{ minWidth: '100%', minHeight: '100%' }}
           />
@@ -221,7 +239,18 @@ const ContactPage = () => {
                       </Button>
                     </div>
                   ) : (
-                    <form onSubmit={handleSubmit} className="space-y-6">
+                    <form 
+                      name="contact" 
+                      method="POST" 
+                      data-netlify="true" 
+                      netlify-honeypot="bot-field"
+                      onSubmit={handleSubmit} 
+                      className="space-y-6"
+                    >
+                      <input type="hidden" name="form-name" value="contact" />
+                      <p style={{display: 'none'}}>
+                        <label>Don't fill this out if you're human: <input name="bot-field" /></label>
+                      </p>
                       <div className="grid md:grid-cols-2 gap-4">
                         <div>
                           <label className="block text-sm font-medium text-gray-700 mb-2">

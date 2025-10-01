@@ -39,11 +39,38 @@ function FreeAuditPage() {
     })
   }
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault()
-    // Form submission logic would go here
-    console.log('Form submitted:', formData)
-    alert('Thank you! We\'ll send your free website audit within 24 hours.')
+    
+    try {
+      const form = e.target
+      const formData = new FormData(form)
+      
+      const response = await fetch('/', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: new URLSearchParams(formData).toString()
+      })
+      
+      if (response.ok) {
+        alert('Thank you! We\'ll send your free website audit within 24 hours.')
+        // Reset form
+        setFormData({
+          name: '',
+          email: '',
+          phone: '',
+          website: '',
+          company: '',
+          goals: '',
+          currentChallenges: ''
+        })
+      } else {
+        throw new Error('Form submission failed')
+      }
+    } catch (error) {
+      console.error('Error submitting form:', error)
+      alert('There was an error submitting the form. Please try again.')
+    }
   }
 
   const auditBenefits = [
@@ -119,7 +146,7 @@ function FreeAuditPage() {
         <div className="absolute inset-0 w-full h-full">
           <img 
             src="/about_page_background_2.svg" 
-            alt="" 
+            alt="Free marketing audit - Uptrade Media Cincinnati digital marketing analysis background" 
             className="w-full h-full object-cover object-center"
             style={{ minWidth: '100%', minHeight: '100%' }}
           />
@@ -167,7 +194,18 @@ function FreeAuditPage() {
                   </CardDescription>
                 </CardHeader>
                 <CardContent>
-                  <form onSubmit={handleSubmit} className="space-y-4">
+                  <form 
+                    name="free-audit" 
+                    method="POST" 
+                    data-netlify="true" 
+                    netlify-honeypot="bot-field"
+                    onSubmit={handleSubmit} 
+                    className="space-y-4"
+                  >
+                    <input type="hidden" name="form-name" value="free-audit" />
+                    <p style={{display: 'none'}}>
+                      <label>Don't fill this out if you're human: <input name="bot-field" /></label>
+                    </p>
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                       <div>
                         <label className="block text-sm font-medium mb-2">Full Name</label>

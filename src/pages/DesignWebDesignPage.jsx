@@ -572,18 +572,15 @@ function DesignWebDesignPage() {
             </div>
 
             <div className="relative">
-              <div className="bg-gray-100 rounded-lg overflow-hidden shadow-xl">
-                <video 
-                  autoPlay 
-                  loop 
-                  muted 
-                  playsInline 
-                  className="w-full h-auto"
-                  poster="/Portfolio/The_Marina_at_Manhattan_Harbour_Portfolio.png"
-                >
-                  <source src="https://video.wixstatic.com/video/b59d6f_77531281a97a4066b8e0a7b36bcee236/1080p/mp4/file.mp4" type="video/mp4" />
-                  Your browser does not support the video tag.
-                </video>
+              <div className="bg-gray-100 rounded-lg overflow-hidden shadow-xl aspect-video">
+                <iframe 
+                  src="https://fast.wistia.net/embed/iframe/6jjp0sfsz9?autoPlay=true&muted=true&playButton=false&fullscreenButton=false&volumeControl=false"
+                  title="The Marina at Manhattan Harbour - Custom Header Video"
+                  allow="autoplay; fullscreen"
+                  allowFullScreen
+                  className="w-full h-full"
+                  style={{ border: 'none' }}
+                ></iframe>
               </div>
               <div className="absolute bottom-4 left-4 bg-black/70 text-white px-4 py-2 rounded-lg">
                 <p className="text-sm font-semibold">The Marina at Manhattan Harbour</p>

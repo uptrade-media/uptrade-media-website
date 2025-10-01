@@ -23,10 +23,37 @@ function MediaPhotographyPage() {
     })
   }
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault()
-    // Handle form submission
-    console.log('Form submitted:', formData)
+    
+    try {
+      const form = e.target
+      const formData = new FormData(form)
+      
+      const response = await fetch('/', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: new URLSearchParams(formData).toString()
+      })
+      
+      if (response.ok) {
+        alert('Thank you! We\'ll be in touch within 24 hours to discuss your photography project.')
+        // Reset form
+        setFormData({
+          name: '',
+          email: '',
+          phone: '',
+          company: '',
+          projectType: '',
+          details: ''
+        })
+      } else {
+        throw new Error('Form submission failed')
+      }
+    } catch (error) {
+      console.error('Error submitting form:', error)
+      alert('There was an error submitting the form. Please try again.')
+    }
   }
 
   const photographyServices = [
@@ -261,7 +288,18 @@ function MediaPhotographyPage() {
                   <p className="text-gray-600">Get expert insights on your photography needs and discover how professional images can transform your marketing.</p>
                 </div>
 
-                <form onSubmit={handleSubmit} className="space-y-4">
+                <form 
+                  name="photography-quote" 
+                  method="POST" 
+                  data-netlify="true" 
+                  netlify-honeypot="bot-field"
+                  onSubmit={handleSubmit} 
+                  className="space-y-4"
+                >
+                  <input type="hidden" name="form-name" value="photography-quote" />
+                  <p style={{display: 'none'}}>
+                    <label>Don't fill this out if you're human: <input name="bot-field" /></label>
+                  </p>
                   <div className="grid grid-cols-2 gap-4">
                     <div>
                       <label className="block text-sm font-medium text-gray-700 mb-1">Full Name *</label>

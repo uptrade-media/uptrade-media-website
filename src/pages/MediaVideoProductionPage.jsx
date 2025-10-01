@@ -6,40 +6,26 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/com
 import { CheckCircle, ArrowRight, Video, Camera, Film, Play, Lightbulb, Award, ArrowLeft, Phone, Star, Users, TrendingUp, Eye, Zap } from 'lucide-react'
 import { motion } from 'framer-motion'
 
-// Video Preview Component
-function VideoPreview({ video }) {
-  const [isPlaying, setIsPlaying] = React.useState(false)
-
-  const handlePlayClick = () => {
-    setIsPlaying(true)
+// Video Player Component
+const VideoPlayer = ({ video }) => {
+  // Extract Wistia video ID from URL
+  const getWistiaVideoId = (url) => {
+    const match = url.match(/medias\/([a-zA-Z0-9]+)/)
+    return match ? match[1] : null
   }
 
+  const videoId = getWistiaVideoId(video.videoUrl)
+
   return (
-    <div className="relative rounded-xl overflow-hidden shadow-2xl">
-      {!isPlaying ? (
-        <div className="relative group cursor-pointer" onClick={handlePlayClick}>
-          <img 
-            src={video.preview}
-            alt={`${video.title} preview`}
-            className="w-full h-auto object-cover"
-          />
-          <div className="absolute inset-0 bg-black/30 group-hover:bg-black/40 transition-all duration-300 flex items-center justify-center">
-            <div className="bg-white/90 rounded-full p-4 group-hover:scale-110 transition-transform duration-300">
-              <Play className="w-8 h-8 text-[#4bbf39] ml-1" />
-            </div>
-          </div>
-        </div>
-      ) : (
-        <video 
-          controls 
-          autoPlay
-          poster={video.preview}
-          className="w-full h-auto"
-        >
-          <source src={video.videoUrl} type="video/mp4" />
-          Your browser does not support the video tag.
-        </video>
-      )}
+    <div className="relative rounded-xl overflow-hidden shadow-2xl aspect-video">
+      <iframe 
+        src={`https://fast.wistia.net/embed/iframe/${videoId}?playButton=true&fullscreenButton=true&volumeControl=true`}
+        title={video.title}
+        allow="autoplay; fullscreen"
+        allowFullScreen
+        className="w-full h-full"
+        style={{ border: 'none' }}
+      ></iframe>
     </div>
   )
 }
@@ -53,7 +39,7 @@ function MediaVideoProductionPage() {
     {
       title: 'The American Dream TV Show',
       description: 'We shot video content for The American Dream TV show, a prestigious platform showcasing successful businesses and entrepreneurs. This is a significant achievement in our video production portfolio.',
-      videoUrl: 'https://video.wixstatic.com/video/b59d6f_52de325775c34d238eff4f8fac937e48/1080p/mp4/file.mp4',
+      videoUrl: 'https://uptrademedia.wistia.com/medias/jbshk5kolr',
       category: 'TV Production',
       client: 'The American Dream',
       services: ['Video Production', 'Professional Filming', 'TV Content Creation'],
@@ -64,7 +50,7 @@ function MediaVideoProductionPage() {
     {
       title: 'Mercedes Benz Fort Mitchell - Sprinter Promo',
       description: 'A sleek 15-second promotional video for Mercedes Benz of Fort Mitchell featuring their Sprinter line. Working with such a prestigious automotive brand demonstrates our capability to deliver high-end commercial content.',
-      videoUrl: 'https://video.wixstatic.com/video/b59d6f_540b1fc151c8494eb6430b9b42f0544c/1080p/mp4/file.mp4',
+      videoUrl: 'https://uptrademedia.wistia.com/medias/0je0mhqiqi',
       category: 'Commercial',
       client: 'Mercedes Benz of Fort Mitchell',
       services: ['Commercial Video', 'Automotive Marketing', 'Brand Promotion'],
@@ -73,7 +59,7 @@ function MediaVideoProductionPage() {
     {
       title: 'Chateau at Heritage Square - Independent Living Community',
       description: 'A compelling promotional video for Chateau at Heritage Square, an independent living community in Brockport, NY. This video showcases the lifestyle and amenities that make this community special.',
-      videoUrl: 'https://video.wixstatic.com/video/b59d6f_e42d266457614f44ba109b8592fb81e3/1080p/mp4/file.mp4',
+      videoUrl: 'https://uptrademedia.wistia.com/medias/hgjm1s7f7r',
       category: 'Senior Living Marketing',
       client: 'Chateau at Heritage Square',
       services: ['Video Production', 'Senior Living Marketing', 'Lifestyle Videography'],
@@ -82,7 +68,7 @@ function MediaVideoProductionPage() {
     {
       title: 'El Senor Pig - Restaurant Header Video',
       description: 'An appetizing header video for El Senor Pig restaurant that captures the vibrant atmosphere and delicious food offerings, designed to engage website visitors immediately.',
-      videoUrl: 'https://video.wixstatic.com/video/b59d6f_bd38e2ac1d444a8989ee891adae8f0b1/1080p/mp4/file.mp4',
+      videoUrl: 'https://uptrademedia.wistia.com/medias/sd2pbokc1n',
       category: 'Restaurant Marketing',
       client: 'El Senor Pig',
       services: ['Food Videography', 'Website Video', 'Restaurant Marketing'],
@@ -91,7 +77,7 @@ function MediaVideoProductionPage() {
     {
       title: 'Blue Catty\'s Bar & Grille - Atmosphere Video',
       description: 'A dynamic header video showcasing the lively atmosphere and dining experience at Blue Catty\'s Bar & Grille, perfect for attracting customers and setting expectations.',
-      videoUrl: 'https://video.wixstatic.com/video/b59d6f_80437ff734af4343bcfd1284d4bcae86/1080p/mp4/file.mp4',
+      videoUrl: 'https://uptrademedia.wistia.com/medias/lha83id9s4',
       category: 'Restaurant Marketing',
       client: 'Blue Catty\'s Bar & Grille',
       services: ['Atmosphere Video', 'Restaurant Branding', 'Website Content'],
@@ -388,7 +374,7 @@ function MediaVideoProductionPage() {
                 className={`grid lg:grid-cols-2 gap-8 items-center ${index % 2 === 1 ? 'lg:grid-flow-col-dense' : ''}`}
               >
                 <div className={`${index % 2 === 1 ? 'lg:col-start-2' : ''} relative`}>
-                  <VideoPreview video={video} />
+                  <VideoPlayer video={video} />
                   {video.featured && (
                     <div className="absolute top-4 left-4 z-10">
                       <span className="bg-gradient-to-r from-[#4bbf39] to-[#39bfb0] text-white px-3 py-1 rounded-full text-sm font-semibold">

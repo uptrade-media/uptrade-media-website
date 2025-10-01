@@ -261,27 +261,42 @@ function MediaTestimonialPage() {
               className="bg-white rounded-lg p-8 shadow-xl"
             >
               <h3 className="text-2xl font-bold text-gray-900 mb-6">Start Your Testimonial Project</h3>
-              <form className="space-y-4">
+              <form 
+                name="testimonial-project" 
+                method="POST" 
+                data-netlify="true" 
+                netlify-honeypot="bot-field"
+                className="space-y-4"
+              >
+                <input type="hidden" name="form-name" value="testimonial-project" />
+                <p style={{display: 'none'}}>
+                  <label>Don't fill this out if you're human: <input name="bot-field" /></label>
+                </p>
                 <div>
                   <label className="block text-gray-700 text-sm font-medium mb-2">Full Name *</label>
                   <input 
                     type="text" 
+                    name="name"
                     className="w-full px-4 py-3 rounded-lg bg-gray-50 border border-gray-300 text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-#4bbf39 focus:border-transparent"
                     placeholder="John Smith"
+                    required
                   />
                 </div>
                 <div>
                   <label className="block text-gray-700 text-sm font-medium mb-2">Email Address *</label>
                   <input 
                     type="email" 
+                    name="email"
                     className="w-full px-4 py-3 rounded-lg bg-gray-50 border border-gray-300 text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-#4bbf39 focus:border-transparent"
                     placeholder="john@company.com"
+                    required
                   />
                 </div>
                 <div>
                   <label className="block text-gray-700 text-sm font-medium mb-2">Company Name</label>
                   <input 
                     type="text" 
+                    name="company"
                     className="w-full px-4 py-3 rounded-lg bg-gray-50 border border-gray-300 text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-#4bbf39 focus:border-transparent"
                     placeholder="Your Company"
                   />
@@ -290,6 +305,7 @@ function MediaTestimonialPage() {
                   <label className="block text-gray-700 text-sm font-medium mb-2">Phone Number</label>
                   <input 
                     type="tel" 
+                    name="phone"
                     className="w-full px-4 py-3 rounded-lg bg-gray-50 border border-gray-300 text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-#4bbf39 focus:border-transparent"
                     placeholder="(555) 123-4567"
                   />
@@ -298,6 +314,7 @@ function MediaTestimonialPage() {
                   <label className="block text-gray-700 text-sm font-medium mb-2">Project Details</label>
                   <textarea 
                     rows="4"
+                    name="details"
                     className="w-full px-4 py-3 rounded-lg bg-gray-50 border border-gray-300 text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-#4bbf39 focus:border-transparent resize-none"
                     placeholder="Tell us about your testimonial video needs..."
                   ></textarea>
@@ -331,20 +348,20 @@ function MediaTestimonialPage() {
               transition={{ duration: 0.6 }}
               viewport={{ once: true }}
             >
-              <div className="relative rounded-xl overflow-hidden shadow-2xl">
-                <video 
-                  controls
-                  poster="/testimonial_video_preview.png"
-                  className="w-full h-auto"
-                >
-                  <source src="https://video.wixstatic.com/video/b59d6f_1dcf2c4c566d4cda9f525d34be89bb2f/1080p/mp4/file.mp4" type="video/mp4" />
-                  Your browser does not support the video tag.
-                </video>
-                <div className="absolute top-4 left-4">
-                  <span className="bg-gradient-to-r from-[#4bbf39] to-[#39bfb0] text-white px-3 py-1 rounded-full text-sm font-semibold">
-                    Featured Success Story
-                  </span>
-                </div>
+              <div className="relative rounded-xl overflow-hidden shadow-2xl aspect-video">
+                <iframe 
+                  src="https://fast.wistia.net/embed/iframe/bpxzzfnsxq?playButton=true&fullscreenButton=true&volumeControl=true"
+                  title="Testimonial & Case Studies Video"
+                  allow="autoplay; fullscreen"
+                  allowFullScreen
+                  className="w-full h-full"
+                  style={{ border: 'none' }}
+                ></iframe>
+              </div>
+              <div className="absolute top-4 left-4">
+                <span className="bg-gradient-to-r from-[#4bbf39] to-[#39bfb0] text-white px-3 py-1 rounded-full text-sm font-semibold">
+                  Featured Success Story
+                </span>
               </div>
             </motion.div>
             

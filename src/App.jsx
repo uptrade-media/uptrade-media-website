@@ -89,8 +89,11 @@ import LoadingSpinner from './components/LoadingSpinner.jsx'
 import FloatingActionButton from './components/FloatingActionButton.jsx'
 import StickyCTABar from './components/StickyCTABar.jsx'
 import ExitIntentPopup from './components/ExitIntentPopup.jsx'
-import MobileNavigation from './components/MobileNavigation.jsx'
+import SimpleMobileNavigation from './components/SimpleMobileNavigation.jsx'
 import { MobileStickyFooter } from './components/MobileTouchComponents.jsx'
+import { LocalBusinessSchema, OrganizationSchema, WebsiteSchema } from './components/StructuredData.jsx'
+import { HelmetProvider } from '@dr.pogodin/react-helmet'
+import { HomeSEO, AboutSEO, ContactSEO, PortfolioSEO, InsightsSEO } from './components/SEO.jsx'
 
 
 function Header() {
@@ -248,7 +251,7 @@ function Header() {
           </div>
 
           {/* Mobile menu button */}
-          <MobileNavigation scrollToTop={scrollToTop} />
+          <SimpleMobileNavigation scrollToTop={scrollToTop} />
         </div>
       </div>
 
@@ -422,12 +425,36 @@ function HomePage() {
 
   return (
     <div className="min-h-screen bg-white">
+      <HomeSEO />
+      <LocalBusinessSchema />
+      <OrganizationSchema />
+      <WebsiteSchema />
       {/* Hero Section */}
       <section className="relative overflow-hidden py-20">
-        <video autoPlay loop muted playsInline className="absolute inset-0 w-full h-full object-cover z-0">
-          <source src="https://video.wixstatic.com/video/b59d6f_53217ae78b1f46579ce48eed7583dee2/1080p/mp4/file.mp4" type="video/mp4" />
+        <video 
+          autoPlay 
+          loop 
+          muted 
+          playsInline
+          controls={false}
+          disablePictureInPicture
+          preload="metadata"
+          poster="/uptrade_media_hero.webp"
+          className="absolute inset-0 w-full h-full object-cover z-0"
+          style={{
+            WebkitPlaysinline: true,
+            objectFit: 'cover'
+          }}
+          onError={(e) => {
+            e.target.style.display = 'none';
+            e.target.nextElementSibling.style.backgroundImage = 'url(/uptrade_media_hero.webp)';
+          }}
+        >
+          <source src="/videos/Home_page_hero_video.webm" type="video/webm" />
+          <source src="/videos/home_hero.mp4" type="video/mp4" />
           Your browser does not support the video tag.
         </video>
+        <div className="absolute inset-0 bg-cover bg-center bg-no-repeat" style={{backgroundImage: 'url(/uptrade_media_hero.webp)'}}></div>
         <div className="absolute inset-0 bg-black/50 z-10"></div>
         <div className="relative z-20 h-full flex items-center justify-center">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -573,13 +600,13 @@ function HomePage() {
 
       {/* Proof Strip */}
       <section className="py-12 bg-white border-b border-gray-200">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="w-full">
           <div className="text-center mb-8">
             <p className="text-gray-600 font-medium">Trusted by Leading Businesses in Cincinnati and Nationwide</p>
           </div>
-          <div className="relative overflow-hidden">
-            <div className="flex animate-scroll">
-              {[
+          <div className="relative overflow-hidden w-full">
+            <div className="flex animate-scroll-fast whitespace-nowrap">
+              {Array(4).fill([
                 '3CDC_Logo.svg',
                 'Adams_Real_Estate_Advisors_Logo.svg',
                 'Blue_Cattys_Bar_and_Grille_Logo.png',
@@ -592,20 +619,7 @@ function HomePage() {
                 'Sexton_Law_Logo.svg',
                 'Spade_Kreations_Logo.svg',
                 'The_Marina_at_Manhattan_Harbour_logo.svg'
-              ].concat([
-                '3CDC_Logo.svg',
-                'Adams_Real_Estate_Advisors_Logo.svg',
-                'Blue_Cattys_Bar_and_Grille_Logo.png',
-                'GRSM50_logo.svg',
-                'Gateway_Flats_at_Manhattan_Harbour_logo.svg',
-                'Gunning_Homes_Logo.svg',
-                'Nikki_Hayden_Realtor_Logo.svg',
-                'Prost_Bellevue_Tavern_Logo.svg',
-                'Queen_City_Riverboats_Logo.svg',
-                'Sexton_Law_Logo.svg',
-                'Spade_Kreations_Logo.svg',
-                'The_Marina_at_Manhattan_Harbour_logo.svg'
-              ]).map((logo, index) => (
+              ]).flat().map((logo, index) => (
                 <div key={index} className="flex-shrink-0 w-48 h-16 mx-8 flex items-center justify-center">
                   <img 
                     src={`/Client_logos/${logo}`} 
@@ -768,17 +782,14 @@ function HomePage() {
             </div>
             <div className="relative">
               <div className="aspect-video bg-gray-100 rounded-lg overflow-hidden shadow-xl">
-                <video 
-                  autoPlay 
-                  loop 
-                  muted 
-                  playsInline 
-                  className="w-full h-full object-cover"
-                  poster="/Portfolio/Queen_City_Riverboats_Portfolio.png"
-                >
-                  <source src="https://video.wixstatic.com/video/b59d6f_355e0ad2420e4c119326481452405b67/1080p/mp4/file.mp4" type="video/mp4" />
-                  Your browser does not support the video tag.
-                </video>
+                <iframe 
+                  src="https://fast.wistia.net/embed/iframe/94gc73ze2x?autoPlay=true&muted=true&playButton=false&fullscreenButton=true&volumeControl=false"
+                  title="Queen City Riverboats Case Study Video"
+                  allow="autoplay; fullscreen"
+                  allowFullScreen
+                  className="w-full h-full"
+                  style={{ border: 'none' }}
+                ></iframe>
               </div>
               <div className="absolute -bottom-4 -right-4 bg-white p-4 rounded-lg shadow-xs">
                 <div className="flex items-center space-x-2">
@@ -1264,18 +1275,32 @@ function MarketingPage() {
 
   return (
     <div className="min-h-screen bg-white">
+      <HomeSEO />
+      <LocalBusinessSchema />
+      <OrganizationSchema />
+      <WebsiteSchema />
       {/* Hero Section */}
       <section className="relative py-20 overflow-hidden">
         {/* Video Background */}
-        <div className="absolute inset-0 z-0">
+        <div className="absolute inset-0">
           <video 
             autoPlay 
-            muted 
             loop 
+            muted 
             playsInline
-            className="w-full h-full object-cover"
+            controls={false}
+            disablePictureInPicture
+            preload="metadata"
+            poster="/marketing_hero.webp"
+            className="absolute inset-0 w-full h-full object-cover z-0"
+            style={{
+              WebkitPlaysinline: true,
+              objectFit: 'cover'
+            }}
           >
-            <source src="https://video.wixstatic.com/video/b59d6f_5b0fe7775d0b4b2e8aff566e1ed791d5/1080p/mp4/file.mp4" type="video/mp4" />
+          <source src="/videos/marketing_page_hero_video.webm" type="video/webm" />
+          <source src="/videos/marketing_hero.mp4" type="video/mp4" />
+          Your browser does not support the video tag.
           </video>
           <div className="absolute inset-0 bg-black/70"></div>
         </div>
@@ -1714,12 +1739,36 @@ function MediaPage() {
 
   return (
     <div className="min-h-screen bg-white">
+      <HomeSEO />
+      <LocalBusinessSchema />
+      <OrganizationSchema />
+      <WebsiteSchema />
       {/* Hero Section */}
       <section className="relative overflow-hidden py-20">
-        <video autoPlay loop muted playsInline className="absolute inset-0 w-full h-full object-cover z-0">
-          <source src="https://video.wixstatic.com/video/b59d6f_0e7422e484e44f9a8ae7ecbfb8a828e2/1080p/mp4/file.mp4" type="video/mp4" />
+        <video 
+          autoPlay 
+          loop 
+          muted 
+          playsInline
+          controls={false}
+          disablePictureInPicture
+          preload="metadata"
+          poster="/design_hero.webp"
+          className="absolute inset-0 w-full h-full object-cover z-0"
+          style={{
+            WebkitPlaysinline: true,
+            objectFit: 'cover'
+          }}
+          onError={(e) => {
+            e.target.style.display = 'none';
+            e.target.nextElementSibling.style.backgroundImage = 'url(/design_hero.webp)';
+          }}
+        >
+          <source src="/videos/design_page_hero_video.webm" type="video/webm" />
+          <source src="/videos/design_hero.mp4" type="video/mp4" />
           Your browser does not support the video tag.
         </video>
+        <div className="absolute inset-0 bg-cover bg-center bg-no-repeat" style={{backgroundImage: 'url(/design_hero.webp)'}}></div>
         <div className="absolute inset-0 bg-black/50 z-0"></div>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 flex items-center min-h-[60vh]">
           <div className="text-center w-full">
@@ -1934,10 +1983,29 @@ function DesignPage() {
 
   return (
     <div className="min-h-screen bg-white">
+      <HomeSEO />
+      <LocalBusinessSchema />
+      <OrganizationSchema />
+      <WebsiteSchema />
       {/* Hero Section */}
       <section className="relative overflow-hidden py-20">
-        <video autoPlay loop muted playsInline className="absolute inset-0 w-full h-full object-cover z-0">
-          <source src="https://video.wixstatic.com/video/b59d6f_c027e6ff6c8b4460bc5d242d359daadf/1080p/mp4/file.mp4" type="video/mp4" />
+        <video 
+          autoPlay 
+          loop 
+          muted 
+          playsInline
+          controls={false}
+          disablePictureInPicture
+          preload="metadata"
+          poster="/media_hero.webp"
+          className="absolute inset-0 w-full h-full object-cover z-0"
+          style={{
+            WebkitPlaysinline: true,
+            objectFit: 'cover'
+          }}
+        >
+          <source src="/videos/media_page_hero_video.webm" type="video/webm" />
+          <source src="/videos/media_hero.mp4" type="video/mp4" />
           Your browser does not support the video tag.
         </video>
         <div className="absolute inset-0 bg-black/50 z-0"></div>
@@ -2135,6 +2203,10 @@ function AppContent() {
   
   return (
     <div className="min-h-screen bg-white">
+      <HomeSEO />
+      <LocalBusinessSchema />
+      <OrganizationSchema />
+      <WebsiteSchema />
       <Header />
       <main>
         <Suspense fallback={<LoadingSpinner />}>
@@ -2190,9 +2262,11 @@ function AppContent() {
 
 function App() {
   return (
-    <Router>
-      <AppContent />
-    </Router>
+    <HelmetProvider>
+      <Router>
+        <AppContent />
+      </Router>
+    </HelmetProvider>
   )
 }
 

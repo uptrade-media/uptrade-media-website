@@ -17,6 +17,7 @@ import {
   Star
 } from 'lucide-react'
 import { motion } from 'framer-motion'
+import { AboutSEO } from '../components/SEO'
 
 const AboutPage = () => {
   const values = [
@@ -90,6 +91,7 @@ const AboutPage = () => {
 
   return (
     <div className="min-h-screen bg-white">
+      <AboutSEO />
       {/* Navigation Breadcrumb */}
       <div className="bg-gray-50 py-4">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -105,7 +107,7 @@ const AboutPage = () => {
         <div className="absolute inset-0 w-full h-full">
           <img 
             src="/about_page_background_2.svg" 
-            alt="" 
+            alt="Uptrade Media team collaboration and creative process background illustration" 
             className="w-full h-full object-cover object-center"
             style={{ minWidth: '100%', minHeight: '100%' }}
           />

@@ -135,12 +135,23 @@ function MarketingReputationPage() {
                   <p className="text-gray-600">Discover how your online reputation impacts your business and get actionable insights to improve it.</p>
                 </div>
 
-                <form className="space-y-4">
+                <form 
+                  name="reputation-management" 
+                  method="POST" 
+                  data-netlify="true" 
+                  netlify-honeypot="bot-field"
+                  className="space-y-4"
+                >
+                  <input type="hidden" name="form-name" value="reputation-management" />
+                  <p style={{display: 'none'}}>
+                    <label>Don't fill this out if you're human: <input name="bot-field" /></label>
+                  </p>
                   <div className="grid grid-cols-2 gap-4">
                     <div>
                       <label className="block text-sm font-medium text-gray-700 mb-1">Full Name *</label>
                       <input
                         type="text"
+                        name="name"
                         className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#4bbf39] focus:border-transparent"
                         placeholder="John Smith"
                         style={{ color: 'black' }}
@@ -151,6 +162,7 @@ function MarketingReputationPage() {
                       <label className="block text-sm font-medium text-gray-700 mb-1">Email Address *</label>
                       <input
                         type="email"
+                        name="email"
                         className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#4bbf39] focus:border-transparent"
                         placeholder="john@company.com"
                         style={{ color: 'black' }}

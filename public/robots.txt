@@ -1,0 +1,49 @@
+User-agent: *
+Allow: /
+
+# Disallow development and system files
+Disallow: /src/
+Disallow: /node_modules/
+Disallow: /.git/
+Disallow: /dist/
+Disallow: /build/
+Disallow: /.env
+Disallow: /package.json
+Disallow: /package-lock.json
+Disallow: /vite.config.js
+Disallow: /tailwind.config.js
+
+# Allow important directories
+Allow: /videos/
+Allow: /images/
+Allow: /assets/
+Allow: /*.css
+Allow: /*.js
+Allow: /*.webp
+Allow: /*.jpg
+Allow: /*.png
+Allow: /*.svg
+
+# Crawl-delay for respectful crawling
+Crawl-delay: 1
+
+# Sitemap location
+Sitemap: https://uptrademedia.com/sitemap.xml
+
+# Additional sitemaps (if created)
+# Sitemap: https://uptrademedia.com/sitemap-images.xml
+# Sitemap: https://uptrademedia.com/sitemap-videos.xml
+
+# Block specific bots if needed (uncomment if necessary)
+# User-agent: BadBot
+# Disallow: /
+
+# Allow Google and Bing specifically
+User-agent: Googlebot
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+User-agent: Slurp
+Allow: /

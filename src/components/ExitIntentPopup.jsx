@@ -135,7 +135,7 @@ const ExitIntentPopup = ({
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          className="fixed inset-0 z-[100] flex items-center justify-center p-4"
+          className="fixed inset-0 z-[100] flex items-center justify-center p-2 sm:p-4"
         >
           {/* Backdrop */}
           <motion.div
@@ -152,7 +152,7 @@ const ExitIntentPopup = ({
             animate={{ scale: 1, opacity: 1, y: 0 }}
             exit={{ scale: 0.8, opacity: 0, y: 50 }}
             transition={{ type: "spring", stiffness: 300, damping: 30 }}
-            className="relative z-10 w-full max-w-lg"
+            className="relative z-10 w-full max-w-sm sm:max-w-lg mx-2 sm:mx-0"
           >
             <Card className="relative overflow-hidden border-0 shadow-2xl">
               {/* Animated background */}
@@ -168,14 +168,14 @@ const ExitIntentPopup = ({
               {/* Close button */}
               <motion.button
                 onClick={handleClose}
-                className="absolute top-4 right-4 z-20 w-8 h-8 flex items-center justify-center bg-gray-100 hover:bg-gray-200 rounded-full transition-colors duration-200"
+                className="absolute top-2 right-2 sm:top-4 sm:right-4 z-20 w-8 h-8 flex items-center justify-center bg-gray-100 hover:bg-gray-200 rounded-full transition-colors duration-200 shadow-md"
                 whileHover={{ scale: 1.1 }}
                 whileTap={{ scale: 0.9 }}
               >
                 <X className="w-4 h-4 text-gray-600" />
               </motion.button>
 
-              <CardContent className="p-8 relative z-10">
+              <CardContent className="p-4 sm:p-8 relative z-10">
                 {/* Header */}
                 <motion.div
                   initial={{ opacity: 0, y: 20 }}

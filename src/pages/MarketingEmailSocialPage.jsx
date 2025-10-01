@@ -74,6 +74,7 @@ function MarketingEmailSocialPage() {
             playsInline
             className="w-full h-full object-cover"
           >
+            <source src="/videos/email_social_campaigns_hero.webm" type="video/webm" />
             <source src="https://video.wixstatic.com/video/b59d6f_e0686571977c4b8d948c3f9358b8ae45/1080p/mp4/file.mp4" type="video/mp4" />
           </video>
           <div className="absolute inset-0 bg-black/60"></div>
