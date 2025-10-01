@@ -350,10 +350,12 @@ function MediaTestimonialPage() {
             >
               <div className="relative rounded-xl overflow-hidden shadow-2xl aspect-video">
                 <iframe 
-                  src="https://fast.wistia.net/embed/iframe/bpxzzfnsxq?playButton=true&fullscreenButton=true&volumeControl=true"
+                  src="https://uptrademedia.wistia.com/embed/iframe/bpxzzfnsxq?playButton=true&fullscreenButton=true&volumeControl=true&seo=false"
                   title="Testimonial & Case Studies Video"
-                  allow="autoplay; fullscreen"
+                  allow="autoplay; fullscreen; encrypted-media; picture-in-picture"
                   allowFullScreen
+                  frameBorder="0"
+                  scrolling="no"
                   className="w-full h-full"
                   style={{ border: 'none' }}
                 ></iframe>

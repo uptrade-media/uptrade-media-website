@@ -783,10 +783,12 @@ function HomePage() {
             <div className="relative">
               <div className="aspect-video bg-gray-100 rounded-lg overflow-hidden shadow-xl">
                 <iframe 
-                  src="https://fast.wistia.net/embed/iframe/94gc73ze2x?autoPlay=true&muted=true&playButton=false&fullscreenButton=true&volumeControl=false"
+                  src="https://uptrademedia.wistia.com/embed/iframe/94gc73ze2x?autoPlay=true&muted=true&playButton=false&fullscreenButton=true&volumeControl=false&seo=false"
                   title="Queen City Riverboats Case Study Video"
-                  allow="autoplay; fullscreen"
+                  allow="autoplay; fullscreen; encrypted-media; picture-in-picture"
                   allowFullScreen
+                  frameBorder="0"
+                  scrolling="no"
                   className="w-full h-full"
                   style={{ border: 'none' }}
                 ></iframe>

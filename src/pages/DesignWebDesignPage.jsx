@@ -574,10 +574,12 @@ function DesignWebDesignPage() {
             <div className="relative">
               <div className="bg-gray-100 rounded-lg overflow-hidden shadow-xl aspect-video">
                 <iframe 
-                  src="https://fast.wistia.net/embed/iframe/6jjp0sfsz9?autoPlay=true&muted=true&playButton=false&fullscreenButton=false&volumeControl=false"
+                  src="https://uptrademedia.wistia.com/embed/iframe/6jjp0sfsz9?autoPlay=true&muted=true&playButton=false&fullscreenButton=false&volumeControl=false&seo=false"
                   title="The Marina at Manhattan Harbour - Custom Header Video"
-                  allow="autoplay; fullscreen"
+                  allow="autoplay; fullscreen; encrypted-media; picture-in-picture"
                   allowFullScreen
+                  frameBorder="0"
+                  scrolling="no"
                   className="w-full h-full"
                   style={{ border: 'none' }}
                 ></iframe>
