@@ -156,7 +156,7 @@
 }
 
 .animate-scroll-mobile {
-  animation: scroll-mobile 8s linear infinite;
+  animation: scroll-mobile 3s linear infinite;
 }
 
 .animate-scroll:hover,
