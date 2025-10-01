@@ -610,12 +610,15 @@ function HomePage() {
           </div>
           <div className="relative overflow-hidden w-full">
             <div className="flex animate-scroll-mobile md:animate-scroll-fast whitespace-nowrap">
-              {Array(4).fill([
+              {Array(3).fill([
                 '3CDC_Logo.svg',
+                '4M_Lawn_Care_logo.svg',
                 'Adams_Real_Estate_Advisors_Logo.svg',
-                'Blue_Cattys_Bar_and_Grille_Logo.png',
-                'GRSM50_logo.svg',
+                'Blue_Cattys_Bar_and_Grille_Logo.svg',
+                'Boulevard_flats_at_manhattan_harbour_logo.svg',
+                'Burnt_store_booking_logo.svg',
                 'Gateway_Flats_at_Manhattan_Harbour_logo.svg',
+                'GRSM50_logo.svg',
                 'Gunning_Homes_Logo.svg',
                 'Nikki_Hayden_Realtor_Logo.svg',
                 'Prost_Bellevue_Tavern_Logo.svg',
