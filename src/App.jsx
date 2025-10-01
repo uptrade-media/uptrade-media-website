@@ -610,7 +610,7 @@ function HomePage() {
           </div>
           <div className="relative overflow-hidden w-full">
             <div className="flex animate-scroll-mobile md:animate-scroll-fast whitespace-nowrap">
-              {Array(2).fill([
+              {Array(4).fill([
                 '3CDC_Logo.svg',
                 '4M_Lawn_Care_logo.svg',
                 'Adams_Real_Estate_Advisors_Logo.svg',
@@ -627,7 +627,7 @@ function HomePage() {
                 'Spade_Kreations_Logo.svg',
                 'The_Marina_at_Manhattan_Harbour_logo.svg'
               ]).flat().map((logo, index) => (
-                <div key={index} className="flex-shrink-0 w-48 h-16 mx-8 flex items-center justify-center">
+                <div key={index} className="flex-shrink-0 w-32 md:w-48 h-16 mx-4 md:mx-8 flex items-center justify-center">
                   <img 
                     src={`/Client_logos/${logo}`} 
                     alt={logo.replace('.svg', '').replace(/Logo|logo/g, '').trim()}
