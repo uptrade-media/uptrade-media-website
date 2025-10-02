@@ -306,6 +306,27 @@ function MarketingPaidAdsPage() {
 
   const [expandedFaq, setExpandedFaq] = React.useState(null);
 
+  // Netlify form state
+  const [submitted, setSubmitted] = React.useState(false)
+
+  // Netlify form submit handler
+  const handleSubmit = (e) => {
+    e.preventDefault()
+    const form = e.target
+    const data = new FormData(form)
+    fetch("/", {
+      method: "POST",
+      headers: { "Content-Type": "application/x-www-form-urlencoded" },
+      body: new URLSearchParams(data).toString(),
+    })
+      .then(() => setSubmitted(true))
+      .catch((err) => {
+        console.error("Form submit error:", err)
+        alert("There was an error. Please try again.")
+      })
+  }
+
+
   return (
     <div className="min-h-screen bg-white">
       {/* Navigation */}
@@ -384,66 +405,93 @@ function MarketingPaidAdsPage() {
                     Discover opportunities to improve your paid advertising performance and ROI.
                   </p>
                 </CardHeader>
-                <CardContent className="space-y-4">
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">Full Name *</label>
-                      <input
-                        type="text"
-                        placeholder="John Smith"
-                        className="w-full px-4 py-3 rounded-lg bg-gray-50 border border-gray-200 text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#4bbf39] focus:border-transparent"
-                      />
-                    </div>
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">Email Address *</label>
-                      <input
-                        type="email"
-                        placeholder="john@company.com"
-                        className="w-full px-4 py-3 rounded-lg bg-gray-50 border border-gray-200 text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#4bbf39] focus:border-transparent"
-                      />
-                    </div>
-                  </div>
+                
+<CardContent className="space-y-4">
+  {submitted ? (
+    <div className="text-center py-6">
+      <CheckCircle className="mx-auto text-green-600 mb-4" size={40} />
+      <h3 className="text-xl font-bold mb-2">Thank you</h3>
+      <p className="text-gray-600">We received your request and will follow up shortly.</p>
+    </div>
+  ) : (
+    <form
+      name="paid-ads-audit"
+      method="POST"
+      data-netlify="true"
+      data-netlify-honeypot="bot-field"
+      onSubmit={handleSubmit}
+      className="space-y-4"
+    >
+      <input type="hidden" name="form-name" value="paid-ads-audit" />
+      <p hidden>
+        <label>Don’t fill this out: <input name="bot-field" /></label>
+      </p>
 
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">Phone Number</label>
-                      <input
-                        type="tel"
-                        placeholder="(513) 555-0123"
-                        className="w-full px-4 py-3 rounded-lg bg-gray-50 border border-gray-200 text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#4bbf39] focus:border-transparent"
-                      />
-                    </div>
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">Monthly Ad Budget</label>
-                      <select className="w-full px-4 py-3 rounded-lg bg-gray-50 border border-gray-200 text-gray-900 focus:outline-none focus:ring-2 focus:ring-[#4bbf39] focus:border-transparent">
-                        <option value="">Select Budget Range</option>
-                        <option value="1000-2500">$1,000 - $2,500</option>
-                        <option value="2500-5000">$2,500 - $5,000</option>
-                        <option value="5000-10000">$5,000 - $10,000</option>
-                        <option value="10000+">$10,000+</option>
-                      </select>
-                    </div>
-                  </div>
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-2">Full Name *</label>
+          <input
+            type="text"
+            name="name"
+            placeholder="John Smith"
+            required
+            className="w-full px-4 py-3 rounded-lg bg-gray-50 border border-gray-200 text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#4bbf39] focus:border-transparent"
+          />
+        </div>
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-2">Email Address *</label>
+          <input
+            type="email"
+            name="email"
+            placeholder="john@company.com"
+            required
+            className="w-full px-4 py-3 rounded-lg bg-gray-50 border border-gray-200 text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#4bbf39] focus:border-transparent"
+          />
+        </div>
+      </div>
 
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Current Advertising Platforms
-                    </label>
-                    <select className="w-full px-4 py-3 rounded-lg bg-gray-50 border border-gray-200 text-gray-900 focus:outline-none focus:ring-2 focus:ring-[#4bbf39] focus:border-transparent">
-                      <option value="">Select Primary Platform</option>
-                      <option value="google">Google Ads</option>
-                      <option value="facebook">Facebook/Instagram</option>
-                      <option value="linkedin">LinkedIn</option>
-                      <option value="tiktok">TikTok</option>
-                      <option value="other">Other</option>
-                    </select>
-                  </div>
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-2">Phone Number</label>
+          <input
+            type="tel"
+            name="phone"
+            placeholder="(513) 555-0123"
+            className="w-full px-4 py-3 rounded-lg bg-gray-50 border border-gray-200 text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#4bbf39] focus:border-transparent"
+          />
+        </div>
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-2">Monthly Ad Budget</label>
+          <select name="budget" className="w-full px-4 py-3 rounded-lg bg-gray-50 border border-gray-200 text-gray-900 focus:outline-none focus:ring-2 focus:ring-[#4bbf39] focus:border-transparent">
+            <option value="">Select Budget Range</option>
+            <option value="1000-2500">$1,000 - $2,500</option>
+            <option value="2500-5000">$2,500 - $5,000</option>
+            <option value="5000-10000">$5,000 - $10,000</option>
+            <option value="10000+">$10,000+</option>
+          </select>
+        </div>
+      </div>
 
-                  <Button className="w-full bg-gradient-to-r from-[#4bbf39] to-[#39bfb0] hover:from-[#39bfb0] hover:to-[#4bbf39] text-white py-3">
-                    Get Free Ad Audit
-                    <ArrowRight className="w-5 h-5 ml-2" />
-                  </Button>
-                </CardContent>
+      <div>
+        <label className="block text-sm font-medium text-gray-700 mb-2">Current Advertising Platform</label>
+        <select name="platform" className="w-full px-4 py-3 rounded-lg bg-gray-50 border border-gray-200 text-gray-900 focus:outline-none focus:ring-2 focus:ring-[#4bbf39] focus:border-transparent">
+          <option value="">Select Primary Platform</option>
+          <option value="google">Google Ads</option>
+          <option value="facebook">Facebook/Instagram</option>
+          <option value="linkedin">LinkedIn</option>
+          <option value="tiktok">TikTok</option>
+          <option value="other">Other</option>
+        </select>
+      </div>
+
+      <Button type="submit" className="w-full bg-gradient-to-r from-[#4bbf39] to-[#39bfb0] hover:from-[#39bfb0] hover:to-[#4bbf39] text-white py-3">
+        Get Free Ad Audit
+        <ArrowRight className="w-5 h-5 ml-2" />
+      </Button>
+    </form>
+  )}
+</CardContent>
+
               </Card>
             </motion.div>
           </div>
@@ -705,7 +753,7 @@ function MarketingPaidAdsPage() {
             className="flex flex-col sm:flex-row gap-4 justify-center"
           >
             <Link to="/contact" onClick={scrollToTop}>
-              <Button className="bg-white/20 backdrop-blur-sm border border-white/30 text-white hover:bg-white/30 transition-all duration-200">
+              <Button size="lg" className="bg-white/20 backdrop-blur-sm border border-white/30 text-white hover:bg-white/90 hover:text-[#4bbf39] px-8 py-3 transition-all duration-200 shadow-xs">
                 Get Your Free Ad Audit
                 <PieChart className="ml-2 w-5 h-5" />
               </Button>
@@ -713,6 +761,16 @@ function MarketingPaidAdsPage() {
           </motion.div>
         </div>
       </section>
+      {/* Hidden static form for Netlify build bot */}
+      <form name="paid-ads-audit" data-netlify="true" data-netlify-honeypot="bot-field" hidden>
+        <input type="hidden" name="form-name" value="paid-ads-audit" />
+        <input name="name" />
+        <input name="email" />
+        <input name="phone" />
+        <select name="budget"><option>1000-2500</option></select>
+        <select name="platform"><option>google</option></select>
+      </form>
+
     </div>
   );
 }

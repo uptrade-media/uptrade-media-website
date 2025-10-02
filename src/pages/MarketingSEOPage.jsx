@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useCallback } from 'react'
 import { Link } from 'react-router-dom'
 import SEOHead from '../components/SEOHead.jsx'
 import { Button } from '@/components/ui/button.jsx'
@@ -38,6 +38,34 @@ import { motion } from 'framer-motion'
 
 function MarketingSEOPage() {
   const [expandedFaq, setExpandedFaq] = useState(null)
+  const [submitted, setSubmitted] = useState(false)
+
+  const toFormUrlEncoded = (formData) =>
+    new URLSearchParams(Array.from(formData.entries())).toString()
+
+  const handleSubmit = useCallback(async (e) => {
+    e.preventDefault()
+    const form = e.currentTarget
+    const data = new FormData(form)
+
+    // Netlify requires form-name in the payload
+    if (!data.get('form-name')) {
+      data.append('form-name', form.getAttribute('name') || 'seo-analysis')
+    }
+
+    try {
+      const res = await fetch('/', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: toFormUrlEncoded(data),
+      })
+      if (!res.ok) throw new Error(`HTTP ${res.status}`)
+      setSubmitted(true)
+    } catch (err) {
+      console.error('Form submit error:', err)
+      alert('Something went wrong. Please try again.')
+    }
+  }, [])
 
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' })
@@ -386,71 +414,104 @@ function MarketingSEOPage() {
                   </p>
                 </CardHeader>
                 <CardContent className="space-y-4">
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">
-                        Website URL *
-                      </label>
-                      <input
-                        type="url"
-                        placeholder="https://yourwebsite.com"
-                        className="w-full px-4 py-3 rounded-lg bg-gray-50 border border-gray-200 text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#4bbf39] focus:border-transparent"
-                      />
+                  {submitted ? (
+                    <div className="text-center py-8">
+                      <div className="text-2xl font-semibold text-gray-900 mb-2">Request received</div>
+                      <p className="text-gray-600">We will review your site and email the audit within 24 hours.</p>
                     </div>
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">
-                        Business Name *
-                      </label>
-                      <input
-                        type="text"
-                        placeholder="Your Business"
-                        className="w-full px-4 py-3 rounded-lg bg-gray-50 border border-gray-200 text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#4bbf39] focus:border-transparent"
-                      />
-                    </div>
-                  </div>
-                  
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">
-                        Email Address *
-                      </label>
-                      <input
-                        type="email"
-                        placeholder="john@company.com"
-                        className="w-full px-4 py-3 rounded-lg bg-gray-50 border border-gray-200 text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#4bbf39] focus:border-transparent"
-                      />
-                    </div>
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">
-                        Phone Number
-                      </label>
-                      <input
-                        type="tel"
-                        placeholder="(513) 555-0123"
-                        className="w-full px-4 py-3 rounded-lg bg-gray-50 border border-gray-200 text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#4bbf39] focus:border-transparent"
-                      />
-                    </div>
-                  </div>
+                  ) : (
+                    <form
+                      name="seo-analysis"
+                      method="POST"
+                      data-netlify="true"
+                      netlify-honeypot="bot-field"
+                      onSubmit={handleSubmit}
+                      className="space-y-4"
+                    >
+                      {/* Netlify helpers */}
+                      <input type="hidden" name="form-name" value="seo-analysis" />
+                      <p className="hidden">
+                        <label>
+                          Do not fill this out if you are human:
+                          <input name="bot-field" />
+                        </label>
+                      </p>
 
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Primary Keywords (Optional)
-                    </label>
-                    <input
-                      type="text"
-                      placeholder="e.g., Cincinnati plumber, law firm SEO"
-                      className="w-full px-4 py-3 rounded-lg bg-gray-50 border border-gray-200 text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#4bbf39] focus:border-transparent"
-                    />
-                  </div>
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div>
+                          <label className="block text-sm font-medium text-gray-700 mb-2">
+                            Website URL *
+                          </label>
+                          <input
+                            type="url"
+                            name="website"
+                            required
+                            placeholder="https://yourwebsite.com"
+                            className="w-full px-4 py-3 rounded-lg bg-gray-50 border border-gray-200 text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#4bbf39] focus:border-transparent"
+                          />
+                        </div>
+                        <div>
+                          <label className="block text-sm font-medium text-gray-700 mb-2">
+                            Business Name *
+                          </label>
+                          <input
+                            type="text"
+                            name="business"
+                            required
+                            placeholder="Your Business"
+                            className="w-full px-4 py-3 rounded-lg bg-gray-50 border border-gray-200 text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#4bbf39] focus:border-transparent"
+                          />
+                        </div>
+                      </div>
+                      
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div>
+                          <label className="block text-sm font-medium text-gray-700 mb-2">
+                            Email Address *
+                          </label>
+                          <input
+                            type="email"
+                            name="email"
+                            required
+                            placeholder="john@company.com"
+                            className="w-full px-4 py-3 rounded-lg bg-gray-50 border border-gray-200 text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#4bbf39] focus:border-transparent"
+                          />
+                        </div>
+                        <div>
+                          <label className="block text-sm font-medium text-gray-700 mb-2">
+                            Phone Number
+                          </label>
+                          <input
+                            type="tel"
+                            name="phone"
+                            placeholder="(513) 555-0123"
+                            className="w-full px-4 py-3 rounded-lg bg-gray-50 border border-gray-200 text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#4bbf39] focus:border-transparent"
+                          />
+                        </div>
+                      </div>
 
-                  <Button className="w-full bg-gradient-to-r from-[#4bbf39] to-[#39bfb0] text-white hover:from-[#39bfb0] hover:to-[#4bbf39] py-3 text-lg font-semibold">
-                    Get My Free SEO Analysis
-                    <Search className="ml-2 w-5 h-5" />
-                  </Button>
-                  
-                  <p className="text-center text-gray-500 text-sm">
-                    Detailed report delivered within 24 hours
-                  </p>
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-2">
+                          Primary Keywords (Optional)
+                        </label>
+                        <input
+                          type="text"
+                          name="keywords"
+                          placeholder="e.g., Cincinnati plumber, law firm SEO"
+                          className="w-full px-4 py-3 rounded-lg bg-gray-50 border border-gray-200 text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#4bbf39] focus:border-transparent"
+                        />
+                      </div>
+
+                      <Button type="submit" className="w-full bg-gradient-to-r from-[#4bbf39] to-[#39bfb0] text-white hover:from-[#39bfb0] hover:to-[#4bbf39] py-3 text-lg font-semibold">
+                        Get My Free SEO Analysis
+                        <Search className="ml-2 w-5 h-5" />
+                      </Button>
+                      
+                      <p className="text-center text-gray-500 text-sm">
+                        Detailed report delivered within 24 hours
+                      </p>
+                    </form>
+                  )}
                 </CardContent>
               </Card>
             </motion.div>

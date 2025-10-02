@@ -12,7 +12,28 @@ function MarketingEmailSocialPage() {
 
   const [expandedFaq, setExpandedFaq] = useState(null)
 
-  const emailSocialServices = [
+  
+
+  // Netlify form state
+  const [submitted, setSubmitted] = useState(false)
+
+  // Netlify form submit handler
+  const handleSubmit = (e) => {
+    e.preventDefault()
+    const form = e.target
+    const data = new FormData(form)
+    fetch("/", {
+      method: "POST",
+      headers: { "Content-Type": "application/x-www-form-urlencoded" },
+      body: new URLSearchParams(data).toString(),
+    })
+      .then(() => setSubmitted(true))
+      .catch((err) => {
+        console.error("Form submit error:", err)
+        alert("There was an error. Please try again.")
+      })
+  }
+const emailSocialServices = [
     {
       title: 'Email Marketing Automation',
       description: 'Sophisticated automated email sequences that nurture leads and convert prospects into customers.',
@@ -129,46 +150,78 @@ function MarketingEmailSocialPage() {
                     Get expert insights on your email and social media strategy and discover how to maximize your marketing ROI.
                   </p>
                 </CardHeader>
-                <CardContent className="space-y-4">
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">
-                        Full Name
-                      </label>
-                      <input
-                        type="text"
-                        placeholder="John Smith"
-                        className="w-full px-4 py-3 rounded-lg bg-gray-50 border border-gray-200 text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#4bbf39] focus:border-transparent"
-                      />
-                    </div>
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">
-                        Email Address
-                      </label>
-                      <input
-                        type="email"
-                        placeholder="john@company.com"
-                        className="w-full px-4 py-3 rounded-lg bg-gray-50 border border-gray-200 text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#4bbf39] focus:border-transparent"
-                      />
-                    </div>
-                  </div>
-                  
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Current Challenge
-                    </label>
-                    <textarea
-                      rows={3}
-                      placeholder="What marketing challenges are you facing?"
-                      className="w-full px-4 py-3 rounded-lg bg-gray-50 border border-gray-200 text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#4bbf39] focus:border-transparent resize-none"
-                    ></textarea>
-                  </div>
+                
+<CardContent className="space-y-4">
+  {submitted ? (
+    <div className="text-center py-6">
+      <CheckCircle className="mx-auto text-green-600 mb-4" size={40} />
+      <h3 className="text-xl font-bold mb-2">Thank you</h3>
+      <p className="text-gray-600">We received your request and will follow up shortly.</p>
+    </div>
+  ) : (
+    <form
+      name="marketing-email-social"
+      method="POST"
+      data-netlify="true"
+      data-netlify-honeypot="bot-field"
+      onSubmit={handleSubmit}
+      className="space-y-4"
+    >
+      <input type="hidden" name="form-name" value="marketing-email-social" />
+      <p hidden>
+        <label>Don’t fill this out: <input name="bot-field" /></label>
+      </p>
 
-                  <Button className="w-full bg-gradient-to-r from-[#4bbf39] to-[#39bfb0] text-white py-3 text-lg hover:from-[#39bfb0] hover:to-[#4bbf39]">
-                    Get Free Marketing Consultation
-                    <ArrowRight className="ml-2 w-5 h-5" />
-                  </Button>
-                </CardContent>
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-2" htmlFor="fullName">
+            Full Name
+          </label>
+          <input
+            id="fullName"
+            name="name"
+            type="text"
+            placeholder="John Smith"
+            required
+            className="w-full px-4 py-3 rounded-lg bg-gray-50 border border-gray-200 text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#4bbf39] focus:border-transparent"
+          />
+        </div>
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-2" htmlFor="email">
+            Email Address
+          </label>
+          <input
+            id="email"
+            name="email"
+            type="email"
+            placeholder="john@company.com"
+            required
+            className="w-full px-4 py-3 rounded-lg bg-gray-50 border border-gray-200 text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#4bbf39] focus:border-transparent"
+          />
+        </div>
+      </div>
+
+      <div>
+        <label className="block text-sm font-medium text-gray-700 mb-2" htmlFor="challenge">
+          Current Challenge
+        </label>
+        <textarea
+          id="challenge"
+          name="message"
+          rows={3}
+          placeholder="What marketing challenges are you facing?"
+          className="w-full px-4 py-3 rounded-lg bg-gray-50 border border-gray-200 text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#4bbf39] focus:border-transparent resize-none"
+        ></textarea>
+      </div>
+
+      <Button type="submit" className="w-full bg-gradient-to-r from-[#4bbf39] to-[#39bfb0] text-white py-3 text-lg hover:from-[#39bfb0] hover:to-[#4bbf39]">
+        Get Free Marketing Consultation
+        <ArrowRight className="ml-2 w-5 h-5" />
+      </Button>
+    </form>
+  )}
+</CardContent>
+
               </Card>
             </motion.div>
           </div>
@@ -449,7 +502,15 @@ function MarketingEmailSocialPage() {
             </Link>
           </motion.div>
         </div>
-      </section>
+      
+      {/* Hidden static form for Netlify build bot */}
+      <form name="marketing-email-social" data-netlify="true" data-netlify-honeypot="bot-field" hidden>
+        <input type="hidden" name="form-name" value="marketing-email-social" />
+        <input name="name" />
+        <input name="email" />
+        <textarea name="message"></textarea>
+      </form>
+</section>
     </div>
   )
 }
