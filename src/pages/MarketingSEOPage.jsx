@@ -40,27 +40,20 @@ function MarketingSEOPage() {
   const [expandedFaq, setExpandedFaq] = useState(null)
   const [submitted, setSubmitted] = useState(false)
 
-  const toFormUrlEncoded = (formData) =>
-    new URLSearchParams(Array.from(formData.entries())).toString()
-
-  const handleSubmit = useCallback(async (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault()
-    const form = e.currentTarget
-    const data = new FormData(form)
-
-    // Netlify requires form-name in the payload
-    if (!data.get('form-name')) {
-      data.append('form-name', form.getAttribute('name') || 'seo-analysis')
-    }
+    const form = e.target
+    const formData = new FormData(form)
 
     try {
-      const res = await fetch('/', {
+      await fetch('/', {
         method: 'POST',
         headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-        body: toFormUrlEncoded(data),
+        body: new URLSearchParams(formData).toString()
       })
-      if (!res.ok) throw new Error(`HTTP ${res.status}`)
+      
       setSubmitted(true)
+      
       // Redirect to thank you page after successful submission
       setTimeout(() => {
         window.location.href = '/thank-you'
@@ -69,7 +62,7 @@ function MarketingSEOPage() {
       console.error('Form submit error:', err)
       alert('Something went wrong. Please try again.')
     }
-  }, [])
+  }
 
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' })
@@ -450,6 +443,7 @@ function MarketingSEOPage() {
                             type="url"
                             name="website"
                             required
+                            autoComplete="url"
                             placeholder="https://yourwebsite.com"
                             className="w-full px-4 py-3 rounded-lg bg-gray-50 border border-gray-200 text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#4bbf39] focus:border-transparent"
                           />
@@ -462,6 +456,7 @@ function MarketingSEOPage() {
                             type="text"
                             name="business"
                             required
+                            autoComplete="organization"
                             placeholder="Your Business"
                             className="w-full px-4 py-3 rounded-lg bg-gray-50 border border-gray-200 text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#4bbf39] focus:border-transparent"
                           />
@@ -477,6 +472,7 @@ function MarketingSEOPage() {
                             type="email"
                             name="email"
                             required
+                            autoComplete="email"
                             placeholder="john@company.com"
                             className="w-full px-4 py-3 rounded-lg bg-gray-50 border border-gray-200 text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#4bbf39] focus:border-transparent"
                           />
@@ -488,6 +484,7 @@ function MarketingSEOPage() {
                           <input
                             type="tel"
                             name="phone"
+                            autoComplete="tel"
                             placeholder="(513) 555-0123"
                             className="w-full px-4 py-3 rounded-lg bg-gray-50 border border-gray-200 text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#4bbf39] focus:border-transparent"
                           />

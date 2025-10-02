@@ -296,6 +296,8 @@ function MarketingContentMarketingPage() {
                       </label>
                       <input
                         type="text"
+                        name="name"
+                        autoComplete="name"
                         placeholder="John Smith"
                         className="w-full px-4 py-3 rounded-lg bg-gray-50 border border-gray-200 text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#4bbf39] focus:border-transparent"
                       />
@@ -306,6 +308,8 @@ function MarketingContentMarketingPage() {
                       </label>
                       <input
                         type="email"
+                        name="email"
+                        autoComplete="email"
                         placeholder="john@company.com"
                         className="w-full px-4 py-3 rounded-lg bg-gray-50 border border-gray-200 text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#4bbf39] focus:border-transparent"
                       />
@@ -319,6 +323,8 @@ function MarketingContentMarketingPage() {
                       </label>
                       <input
                         type="tel"
+                        name="phone"
+                        autoComplete="tel"
                         placeholder="(513) 555-0123"
                         className="w-full px-4 py-3 rounded-lg bg-gray-50 border border-gray-200 text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#4bbf39] focus:border-transparent"
                       />

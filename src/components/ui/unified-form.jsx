@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useCallback } from 'react'
 import { Button } from './button'
 import { Card, CardContent, CardHeader, CardTitle } from './card'
 import { CheckCircle, Send, AlertCircle } from 'lucide-react'
@@ -6,7 +6,7 @@ import { motion } from 'framer-motion'
 import FormLoadingSpinner from '../FormLoadingSpinner.jsx'
 
 // Unified form input component with consistent styling
-export const FormInput = ({ 
+export const FormInput = React.memo(({ 
   label, 
   name, 
   type = 'text', 
@@ -15,8 +15,27 @@ export const FormInput = ({
   value, 
   onChange,
   className = '',
+  autoComplete,
   ...props 
 }) => {
+  // Auto-detect autocomplete attribute based on field name if not provided
+  const autoCompleteValue = (() => {
+    if (autoComplete !== undefined) return autoComplete
+    
+    const lowerName = name.toLowerCase()
+    if (lowerName.includes('name')) return 'name'
+    if (lowerName.includes('email')) return 'email'
+    if (lowerName.includes('phone') || lowerName.includes('tel')) return 'tel'
+    if (lowerName.includes('company') || lowerName.includes('organization')) return 'organization'
+    if (lowerName.includes('website') || lowerName.includes('url')) return 'url'
+    if (lowerName.includes('address')) return 'street-address'
+    if (lowerName.includes('city')) return 'address-level2'
+    if (lowerName.includes('state')) return 'address-level1'
+    if (lowerName.includes('zip') || lowerName.includes('postal')) return 'postal-code'
+    
+    return 'on'
+  })()
+
   return (
     <div className="space-y-2">
       <label className="block text-sm font-medium text-gray-700">
@@ -29,12 +48,13 @@ export const FormInput = ({
         onChange={onChange}
         required={required}
         placeholder={placeholder}
+        autoComplete={autoCompleteValue}
         className={`w-full px-4 py-3 border border-gray-300 rounded-lg bg-white text-gray-900 placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-[#4bbf39] focus:border-transparent transition-all duration-200 hover:border-gray-400 ${className}`}
         {...props}
       />
     </div>
   )
-}
+})
 
 // Unified textarea component
 export const FormTextarea = ({ 
@@ -254,13 +274,13 @@ export const useFormState = (initialState = {}) => {
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [isSubmitted, setIsSubmitted] = useState(false)
 
-  const handleInputChange = (e) => {
+  const handleInputChange = useCallback((e) => {
     const { name, value } = e.target
     setFormData(prev => ({
       ...prev,
       [name]: value
     }))
-  }
+  }, [])
 
   const handleSubmit = async (formName, onSuccess, redirectTo = '/thank-you') => {
     setIsSubmitting(true)

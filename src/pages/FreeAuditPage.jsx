@@ -17,36 +17,47 @@ import {
   Clock,
   Star,
   Phone,
-  Mail
+  Mail,
+  Send
 } from 'lucide-react'
 import { motion } from 'framer-motion'
 import { 
-  UnifiedForm, 
   FormInput, 
   FormSelect, 
-  FormTextarea, 
-  useFormState 
+  FormTextarea
 } from '@/components/ui/unified-form.jsx'
 
 function FreeAuditPage() {
-  const {
-    formData,
-    isSubmitting,
-    isSubmitted,
-    handleInputChange,
-    handleSubmit,
-    resetForm
-  } = useFormState({
-    name: '',
-    email: '',
-    phone: '',
-    website: '',
-    company: '',
-    goals: '',
-    currentChallenges: ''
-  })
+  const [isSubmitting, setIsSubmitting] = useState(false)
+  const [isSubmitted, setIsSubmitted] = useState(false)
 
-  const onFormSubmit = () => handleSubmit('free-audit')
+  const onFormSubmit = async (e) => {
+    e.preventDefault()
+    setIsSubmitting(true)
+    
+    try {
+      const form = e.target
+      const formData = new FormData(form)
+      
+      await fetch('/', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: new URLSearchParams(formData).toString()
+      })
+      
+      setIsSubmitted(true)
+      
+      // Redirect to thank you page
+      setTimeout(() => {
+        window.location.href = '/thank-you'
+      }, 1500)
+    } catch (error) {
+      console.error('Form submission error:', error)
+      alert('There was an error submitting the form. Please try again.')
+    } finally {
+      setIsSubmitting(false)
+    }
+  }
 
   const auditBenefits = [
     {
@@ -161,92 +172,116 @@ function FreeAuditPage() {
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.6, delay: 0.2 }}
             >
-              <UnifiedForm
-                title="Request Your Free Audit"
-                description="Get a comprehensive analysis of your website's performance"
-                formName="free-audit"
+              <form
+                name="free-audit"
+                method="POST"
+                data-netlify="true"
+                netlify-honeypot="bot-field"
                 onSubmit={onFormSubmit}
-                submitText="Get My Free Website Audit"
-                isSubmitting={isSubmitting}
-                isSubmitted={isSubmitted}
-                successMessage="Thank you! We'll send your free website audit within 24 hours."
-                className="bg-white text-gray-900 shadow-2xl"
+                className="bg-white text-gray-900 shadow-2xl rounded-2xl p-8 space-y-6"
               >
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <FormInput
-                    label="Full Name"
-                    name="name"
-                    type="text"
-                    required
-                    placeholder="John Smith"
-                    value={formData.name}
-                    onChange={handleInputChange}
-                  />
-                  <FormInput
-                    label="Email Address"
-                    name="email"
-                    type="email"
-                    required
-                    placeholder="john@company.com"
-                    value={formData.email}
-                    onChange={handleInputChange}
-                  />
-                </div>
-                
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <FormInput
-                    label="Phone Number"
-                    name="phone"
-                    type="tel"
-                    placeholder="(513) 555-0123"
-                    value={formData.phone}
-                    onChange={handleInputChange}
-                  />
-                  <FormInput
-                    label="Website URL"
-                    name="website"
-                    type="url"
-                    required
-                    placeholder="https://yourwebsite.com"
-                    value={formData.website}
-                    onChange={handleInputChange}
-                  />
+                <input type="hidden" name="form-name" value="free-audit" />
+                <div style={{ display: 'none' }}>
+                  <label>
+                    Don't fill this out if you're human: 
+                    <input name="bot-field" tabIndex="-1" autoComplete="off" />
+                  </label>
                 </div>
 
-                <FormInput
-                  label="Company Name"
-                  name="company"
-                  type="text"
-                  placeholder="Your Company Name"
-                  value={formData.company}
-                  onChange={handleInputChange}
-                />
+                <div className="mb-6">
+                  <h3 className="text-2xl font-bold text-gray-900 mb-2">Request Your Free Audit</h3>
+                  <p className="text-gray-600">Get a comprehensive analysis of your website's performance</p>
+                </div>
 
-                <FormSelect
-                  label="Primary Goals"
-                  name="goals"
-                  placeholder="Select your main goal"
-                  options={[
-                    'Increase Website Traffic',
-                    'Improve Search Rankings',
-                    'Generate More Leads',
-                    'Boost Online Sales',
-                    'Improve User Experience',
-                    'Other'
-                  ]}
-                  value={formData.goals}
-                  onChange={handleInputChange}
-                />
+                {isSubmitted ? (
+                  <div className="text-center py-8">
+                    <CheckCircle className="w-16 h-16 text-green-500 mx-auto mb-4" />
+                    <h4 className="text-xl font-bold text-gray-900 mb-2">Success!</h4>
+                    <p className="text-gray-600">Thank you! We'll send your free website audit within 24 hours.</p>
+                  </div>
+                ) : (
+                  <>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                      <FormInput
+                        label="Full Name"
+                        name="name"
+                        type="text"
+                        required
+                        placeholder="John Smith"
+                      />
+                      <FormInput
+                        label="Email Address"
+                        name="email"
+                        type="email"
+                        required
+                        placeholder="john@company.com"
+                      />
+                    </div>
+                    
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                      <FormInput
+                        label="Phone Number"
+                        name="phone"
+                        type="tel"
+                        placeholder="(513) 555-0123"
+                      />
+                      <FormInput
+                        label="Website URL"
+                        name="website"
+                        type="url"
+                        required
+                        placeholder="https://yourwebsite.com"
+                      />
+                    </div>
 
-                <FormTextarea
-                  label="Current Challenges (Optional)"
-                  name="currentChallenges"
-                  rows={3}
-                  placeholder="Tell us about any specific issues you're facing with your website..."
-                  value={formData.currentChallenges}
-                  onChange={handleInputChange}
-                />
-              </UnifiedForm>
+                    <FormInput
+                      label="Company Name"
+                      name="company"
+                      type="text"
+                      placeholder="Your Company Name"
+                    />
+
+                    <FormSelect
+                      label="Primary Goals"
+                      name="goals"
+                      placeholder="Select your main goal"
+                      options={[
+                        'Increase Website Traffic',
+                        'Improve Search Rankings',
+                        'Generate More Leads',
+                        'Boost Online Sales',
+                        'Improve User Experience',
+                        'Other'
+                      ]}
+                    />
+
+                    <FormTextarea
+                      label="Current Challenges (Optional)"
+                      name="currentChallenges"
+                      rows={3}
+                      placeholder="Tell us about any specific issues you're facing with your website..."
+                    />
+
+                    <Button
+                      type="submit"
+                      disabled={isSubmitting}
+                      className="w-full bg-gradient-to-r from-[#4bbf39] to-[#39bfb0] hover:from-[#39bfb0] hover:to-[#4bbf39] text-white font-semibold py-3 px-6 rounded-lg transition-all duration-300 transform hover:scale-[1.02] disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
+                    >
+                      {isSubmitting ? (
+                        <>
+                          <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white mr-2 inline-block"></div>
+                          Submitting...
+                        </>
+                      ) : (
+                        <>
+                          <Send className="w-5 h-5 mr-2 inline-block" />
+                          Get My Free Website Audit
+                        </>
+                      )}
+                    </Button>
+                  </>
+                )}
+              </form>
             </motion.div>
           </div>
         </div>
@@ -471,8 +506,11 @@ function FreeAuditPage() {
       </section>
 
       {/* Hidden static form for Netlify build bot */}
-      <form name="free-audit" data-netlify="true" data-netlify-honeypot="bot-field" hidden>
+      <form name="free-audit" data-netlify="true" netlify-honeypot="bot-field" hidden>
         <input type="hidden" name="form-name" value="free-audit" />
+        <p hidden>
+          <label>Don't fill this out: <input name="bot-field" /></label>
+        </p>
         <input name="name" />
         <input name="email" />
         <input name="phone" />

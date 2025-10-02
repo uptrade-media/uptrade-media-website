@@ -213,7 +213,9 @@ function MarketingReputationPage() {
                     <div>
                       <label className="block text-sm font-medium text-gray-700 mb-1">Phone Number</label>
                       <input
-                        type="tel" autoComplete="tel"
+                        type="tel"
+                        name="phone"
+                        autoComplete="tel"
                         className="w-full px-4 py-3 rounded-lg bg-gray-50 border border-gray-300 text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#4bbf39] focus:border-transparent"
                         placeholder="(513) 555-0123"
                       />
@@ -222,6 +224,8 @@ function MarketingReputationPage() {
                       <label className="block text-sm font-medium text-gray-700 mb-1">Business Name</label>
                       <input
                         type="text"
+                        name="business"
+                        autoComplete="organization"
                         className="w-full px-4 py-3 rounded-lg bg-gray-50 border border-gray-300 text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#4bbf39] focus:border-transparent"
                         placeholder="Your Business"
                       />
@@ -231,6 +235,7 @@ function MarketingReputationPage() {
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-1">Current Reputation Concerns</label>
                     <textarea
+                      name="concerns"
                       rows={3}
                       className="w-full px-4 py-3 rounded-lg bg-gray-50 border border-gray-300 text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#4bbf39] focus:border-transparent"
                       placeholder="Tell us about your reputation management needs..."

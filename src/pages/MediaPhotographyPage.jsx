@@ -30,7 +30,14 @@ function MediaPhotographyPage() {
     details: ''
   })
 
-  const onFormSubmit = () => handleSubmit('photography-consultation')
+  const onFormSubmit = async () => {
+    try {
+      await handleSubmit('photography-consultation')
+    } catch (error) {
+      console.error('Form submission error:', error)
+      throw error
+    }
+  }
 
   const photographyServices = [
     {
@@ -209,7 +216,6 @@ function MediaPhotographyPage() {
 
       {/* Hero Section */}
       <section className="py-20 bg-gradient-to-br from-[#4bbf39] to-[#39bfb0] text-white relative overflow-hidden">
-        <div className="absolute inset-0 bg-black/10"></div>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <div>
@@ -633,12 +639,15 @@ function MediaPhotographyPage() {
       </section>
 
       {/* Hidden static form for Netlify build bot */}
-      <form name="photography-consultation" data-netlify="true" data-netlify-honeypot="bot-field" hidden>
+      <form name="photography-consultation" data-netlify="true" netlify-honeypot="bot-field" hidden>
         <input type="hidden" name="form-name" value="photography-consultation" />
-        <input name="name" autoComplete="name" />
+        <p hidden>
+          <label>Don't fill this out: <input name="bot-field" /></label>
+        </p>
+        <input name="name" />
         <input name="email" />
         <input name="phone" />
-        <input name="company" autoComplete="organization" />
+        <input name="company" />
         <select name="projectType">
           <option>Corporate & Headshots</option>
           <option>Product Photography</option>

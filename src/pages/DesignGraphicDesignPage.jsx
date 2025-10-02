@@ -284,7 +284,7 @@ function DesignGraphicDesignPage() {
                       </label>
                       <input
                         type="text"
-                        name="name"
+                        name="name" autoComplete="name"
                         placeholder="John Smith"
                         required
                         className="w-full px-4 py-3 rounded-lg bg-gray-50 border border-gray-200 text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#4bbf39] focus:border-transparent"
@@ -295,7 +295,7 @@ function DesignGraphicDesignPage() {
                         Email Address *
                       </label>
                       <input
-                        type="email"
+                        type="email" autoComplete="email"
                         name="email"
                         placeholder="john@company.com"
                         required
@@ -311,6 +311,8 @@ function DesignGraphicDesignPage() {
                       </label>
                       <input
                         type="tel"
+                        name="phone"
+                        autoComplete="tel"
                         placeholder="(513) 555-0123"
                         className="w-full px-4 py-3 rounded-lg bg-gray-50 border border-gray-200 text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#4bbf39] focus:border-transparent"
                       />
@@ -321,6 +323,8 @@ function DesignGraphicDesignPage() {
                       </label>
                       <input
                         type="text"
+                        name="company"
+                        autoComplete="organization"
                         placeholder="Your Company"
                         className="w-full px-4 py-3 rounded-lg bg-gray-50 border border-gray-200 text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#4bbf39] focus:border-transparent"
                       />

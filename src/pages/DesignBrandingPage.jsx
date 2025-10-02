@@ -223,7 +223,9 @@ function DesignBrandingPage() {
                         Phone Number
                       </label>
                       <input
-                        type="tel" autoComplete="tel"
+                        type="tel"
+                        name="phone"
+                        autoComplete="tel"
                         placeholder="(513) 555-0123"
                         className="w-full px-4 py-3 rounded-lg bg-gray-50 border border-gray-200 text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#4bbf39] focus:border-transparent"
                       />

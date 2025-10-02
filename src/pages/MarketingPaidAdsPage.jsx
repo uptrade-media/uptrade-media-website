@@ -438,7 +438,7 @@ function MarketingPaidAdsPage() {
           <label className="block text-sm font-medium text-gray-700 mb-2">Full Name *</label>
           <input
             type="text"
-            name="name"
+            name="name" autoComplete="name"
             placeholder="John Smith"
             required
             className="w-full px-4 py-3 rounded-lg bg-gray-50 border border-gray-200 text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#4bbf39] focus:border-transparent"
@@ -447,7 +447,7 @@ function MarketingPaidAdsPage() {
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-2">Email Address *</label>
           <input
-            type="email"
+            type="email" autoComplete="email"
             name="email"
             placeholder="john@company.com"
             required
@@ -460,7 +460,7 @@ function MarketingPaidAdsPage() {
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-2">Phone Number</label>
           <input
-            type="tel"
+            type="tel" autoComplete="tel"
             name="phone"
             placeholder="(513) 555-0123"
             className="w-full px-4 py-3 rounded-lg bg-gray-50 border border-gray-200 text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#4bbf39] focus:border-transparent"

@@ -18,20 +18,7 @@ const BrandedLoadingSpinner = () => {
           </div>
         </div>
 
-        {/* Branded Logo/Text */}
-        <div className="mb-6">
-          <h3 className="text-2xl font-bold bg-gradient-to-r from-[#4bbf39] to-[#39bfb0] bg-clip-text text-transparent mb-2">
-            UpTrade Media
-          </h3>
-          <p className="text-gray-600">Loading your experience...</p>
-        </div>
 
-        {/* Animated Dots */}
-        <div className="flex justify-center space-x-1">
-          <div className="w-2 h-2 bg-[#4bbf39] rounded-full animate-bounce"></div>
-          <div className="w-2 h-2 bg-[#4bbf39] rounded-full animate-bounce" style={{animationDelay: '0.1s'}}></div>
-          <div className="w-2 h-2 bg-[#39bfb0] rounded-full animate-bounce" style={{animationDelay: '0.2s'}}></div>
-        </div>
       </div>
     </div>
   )

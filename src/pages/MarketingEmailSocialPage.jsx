@@ -185,7 +185,7 @@ const emailSocialServices = [
           </label>
           <input
             id="fullName"
-            name="name"
+            name="name" autoComplete="name"
             type="text"
             placeholder="John Smith"
             required
@@ -199,7 +199,7 @@ const emailSocialServices = [
           <input
             id="email"
             name="email"
-            type="email"
+            type="email" autoComplete="email"
             placeholder="john@company.com"
             required
             className="w-full px-4 py-3 rounded-lg bg-gray-50 border border-gray-200 text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#4bbf39] focus:border-transparent"

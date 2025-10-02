@@ -21,32 +21,42 @@ import {
 import { ContactSEO } from '../components/SEO'
 import { motion } from 'framer-motion'
 import { 
-  UnifiedForm, 
   FormInput, 
   FormSelect, 
-  FormTextarea, 
-  useFormState 
+  FormTextarea
 } from '../components/ui/unified-form'
 
 const ContactPage = () => {
-  const {
-    formData,
-    isSubmitting,
-    isSubmitted,
-    handleInputChange,
-    handleSubmit,
-    resetForm
-  } = useFormState({
-    name: '',
-    email: '',
-    phone: '',
-    company: '',
-    service: '',
-    message: '',
-    budget: ''
-  })
+  const [isSubmitting, setIsSubmitting] = useState(false)
+  const [isSubmitted, setIsSubmitted] = useState(false)
 
-  const onFormSubmit = () => handleSubmit('contact')
+  const onFormSubmit = async (e) => {
+    e.preventDefault()
+    setIsSubmitting(true)
+    
+    try {
+      const form = e.target
+      const formData = new FormData(form)
+      
+      await fetch('/', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: new URLSearchParams(formData).toString()
+      })
+      
+      setIsSubmitted(true)
+      
+      // Redirect to thank you page
+      setTimeout(() => {
+        window.location.href = '/thank-you'
+      }, 1500)
+    } catch (error) {
+      console.error('Form submission error:', error)
+      alert('There was an error submitting the form. Please try again.')
+    } finally {
+      setIsSubmitting(false)
+    }
+  }
 
   const services = [
     'SEO & Digital Marketing',
@@ -72,6 +82,21 @@ const ContactPage = () => {
   return (
     <div className="min-h-screen bg-white">
       <ContactSEO />
+      
+      {/* Hidden form for Netlify detection */}
+      <form name="contact" data-netlify="true" netlify-honeypot="bot-field" hidden>
+        <input type="hidden" name="form-name" value="contact" />
+        <p hidden>
+          <label>Don't fill this out: <input name="bot-field" /></label>
+        </p>
+        <input name="name" />
+        <input name="email" />
+        <input name="phone" />
+        <input name="company" />
+        <select name="service"><option></option></select>
+        <textarea name="message"></textarea>
+        <select name="budget"><option></option></select>
+      </form>
       {/* Navigation Breadcrumb */}
       <div className="bg-gray-50 py-4">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -186,90 +211,113 @@ const ContactPage = () => {
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.6, delay: 0.6 }}
             >
-              <UnifiedForm
-                title={
-                  <div className="flex items-center">
+              <form
+                name="contact"
+                method="POST"
+                data-netlify="true"
+                netlify-honeypot="bot-field"
+                onSubmit={onFormSubmit}
+                className="bg-white rounded-2xl p-8 shadow-lg space-y-6"
+              >
+                <input type="hidden" name="form-name" value="contact" />
+                <div style={{ display: 'none' }}>
+                  <label>
+                    Don't fill this out if you're human: 
+                    <input name="bot-field" tabIndex="-1" autoComplete="off" />
+                  </label>
+                </div>
+
+                <div className="mb-6">
+                  <h3 className="text-2xl font-bold text-gray-900 mb-2 flex items-center">
                     <MessageSquare className="w-6 h-6 mr-3 text-[#4bbf39]" />
                     Send Us a Message
+                  </h3>
+                  <p className="text-gray-600">Fill out the form below and we'll get back to you within 24 hours.</p>
+                </div>
+
+                {isSubmitted ? (
+                  <div className="text-center py-8">
+                    <CheckCircle className="w-16 h-16 text-green-500 mx-auto mb-4" />
+                    <h4 className="text-xl font-bold text-gray-900 mb-2">Success!</h4>
+                    <p className="text-gray-600">Thank you for reaching out. We'll be in touch within 24 hours.</p>
                   </div>
-                }
-                description="Fill out the form below and we'll get back to you within 24 hours."
-                formName="contact"
-                onSubmit={onFormSubmit}
-                submitText="Send Message"
-                isSubmitting={isSubmitting}
-                isSubmitted={isSubmitted}
-                successMessage="Thank you for reaching out. We'll be in touch within 24 hours."
-              >
-                <div className="grid md:grid-cols-2 gap-4">
-                  <FormInput
-                    label="Full Name"
-                    name="name"
-                    type="text"
-                    required
-                    placeholder="John Smith"
-                    value={formData.name}
-                    onChange={handleInputChange}
-                  />
-                  <FormInput
-                    label="Email Address"
-                    name="email"
-                    type="email"
-                    required
-                    placeholder="john@company.com"
-                    value={formData.email}
-                    onChange={handleInputChange}
-                  />
-                </div>
+                ) : (
+                  <>
+                    <div className="grid md:grid-cols-2 gap-4">
+                      <FormInput
+                        label="Full Name"
+                        name="name"
+                        type="text"
+                        required
+                        placeholder="John Smith"
+                      />
+                      <FormInput
+                        label="Email Address"
+                        name="email"
+                        type="email"
+                        required
+                        placeholder="john@company.com"
+                      />
+                    </div>
 
-                <div className="grid md:grid-cols-2 gap-4">
-                  <FormInput
-                    label="Phone Number"
-                    name="phone"
-                    type="tel"
-                    placeholder="(513) 555-0123"
-                    value={formData.phone}
-                    onChange={handleInputChange}
-                  />
-                  <FormInput
-                    label="Company Name"
-                    name="company"
-                    type="text"
-                    placeholder="Your Company"
-                    value={formData.company}
-                    onChange={handleInputChange}
-                  />
-                </div>
+                    <div className="grid md:grid-cols-2 gap-4">
+                      <FormInput
+                        label="Phone Number"
+                        name="phone"
+                        type="tel"
+                        placeholder="(513) 555-0123"
+                      />
+                      <FormInput
+                        label="Company Name"
+                        name="company"
+                        type="text"
+                        placeholder="Your Company"
+                      />
+                    </div>
 
-                <div className="grid md:grid-cols-2 gap-4">
-                  <FormSelect
-                    label="Service Interest"
-                    name="service"
-                    placeholder="Select a service"
-                    options={services}
-                    value={formData.service}
-                    onChange={handleInputChange}
-                  />
-                  <FormSelect
-                    label="Project Budget"
-                    name="budget"
-                    placeholder="Select budget range"
-                    options={budgetRanges}
-                    value={formData.budget}
-                    onChange={handleInputChange}
-                  />
-                </div>
+                    <div className="grid md:grid-cols-2 gap-4">
+                      <FormSelect
+                        label="Service Interest"
+                        name="service"
+                        placeholder="Select a service"
+                        options={services}
+                      />
+                      <FormSelect
+                        label="Project Budget"
+                        name="budget"
+                        placeholder="Select budget range"
+                        options={budgetRanges}
+                      />
+                    </div>
 
-                <FormTextarea
-                  label="Project Details"
-                  name="message"
-                  required
-                  rows={5}
-                  placeholder="Tell us about your project goals, timeline, and any specific requirements..."
-                  value={formData.message}
-                  onChange={handleInputChange}
-                />
-              </UnifiedForm>
+                    <FormTextarea
+                      label="Project Details"
+                      name="message"
+                      required
+                      rows={5}
+                      placeholder="Tell us about your project goals, timeline, and any specific requirements..."
+                    />
+
+                    <Button
+                      type="submit"
+                      disabled={isSubmitting}
+                      className="w-full bg-gradient-to-r from-[#4bbf39] to-[#39bfb0] hover:from-[#39bfb0] hover:to-[#4bbf39] text-white font-semibold py-3 px-6 rounded-lg transition-all duration-300 transform hover:scale-[1.02] disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
+                    >
+                      {isSubmitting ? (
+                        <>
+                          <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white mr-2 inline-block"></div>
+                          Submitting...
+                        </>
+                      ) : (
+                        <>
+                          <Send className="w-5 h-5 mr-2 inline-block" />
+                          Send Message
+                        </>
+                      )}
+                    </Button>
+                  </>
+                )}
+              </form>
 
               {/* Business Hours */}
               <motion.div

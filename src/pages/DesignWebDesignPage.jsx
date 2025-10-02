@@ -1,5 +1,4 @@
 import React, { useState } from 'react'
-import FormLoadingSpinner from "../components/FormLoadingSpinner.jsx"
 import { Link } from 'react-router-dom'
 import SEOHead from '../components/SEOHead.jsx'
 import { Button } from '@/components/ui/button.jsx'
@@ -258,9 +257,9 @@ function DesignWebDesignPage() {
             <ArrowLeft className="w-4 h-4 mr-2" />
             Back to Design Services
           </Link>
-        {isSubmitting && <FormLoadingSpinner message={submitted ? "Success! Redirecting..." : "Submitting your request..."} />}
+        
       </div>
-      {isSubmitting && <FormLoadingSpinner message={submitted ? "Success! Redirecting..." : "Submitting your request..."} />}
+      
       </div>
 
       {/* Hero Section */}
@@ -296,27 +295,27 @@ function DesignWebDesignPage() {
                     (513) 331-0555
                   </Button>
                 </a>
-              {isSubmitting && <FormLoadingSpinner message={submitted ? "Success! Redirecting..." : "Submitting your request..."} />}
+              
       </div>
 
               <div className="grid grid-cols-2 gap-6 text-center">
                 <div className="flex flex-col items-center">
                   <Globe className="w-8 h-8 text-white/90 mb-2" />
-                  <div className="text-3xl font-bold">50+{isSubmitting && <FormLoadingSpinner message={submitted ? "Success! Redirecting..." : "Submitting your request..."} />}
+                  <div className="text-3xl font-bold">50+
       </div>
-                  <div className="text-white/80">Websites Designed{isSubmitting && <FormLoadingSpinner message={submitted ? "Success! Redirecting..." : "Submitting your request..."} />}
+                  <div className="text-white/80">Websites Designed
       </div>
-                {isSubmitting && <FormLoadingSpinner message={submitted ? "Success! Redirecting..." : "Submitting your request..."} />}
+                
       </div>
                 <div className="flex flex-col items-center">
                   <TrendingUp className="w-8 h-8 text-white/90 mb-2" />
-                  <div className="text-3xl font-bold">231%{isSubmitting && <FormLoadingSpinner message={submitted ? "Success! Redirecting..." : "Submitting your request..."} />}
+                  <div className="text-3xl font-bold">231%
       </div>
-                  <div className="text-white/80">Avg Traffic Increase{isSubmitting && <FormLoadingSpinner message={submitted ? "Success! Redirecting..." : "Submitting your request..."} />}
+                  <div className="text-white/80">Avg Traffic Increase
       </div>
-                {isSubmitting && <FormLoadingSpinner message={submitted ? "Success! Redirecting..." : "Submitting your request..."} />}
+                
       </div>
-              {isSubmitting && <FormLoadingSpinner message={submitted ? "Success! Redirecting..." : "Submitting your request..."} />}
+              
       </div>
             </motion.div>
 
@@ -362,7 +361,7 @@ function DesignWebDesignPage() {
                         required
                         className="w-full px-4 py-3 rounded-lg bg-gray-50 border border-gray-200 text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#4bbf39] focus:border-transparent"
                       />
-                    {isSubmitting && <FormLoadingSpinner message={submitted ? "Success! Redirecting..." : "Submitting your request..."} />}
+                    
       </div>
                     <div>
                       <label className="block text-sm font-medium text-gray-700 mb-2">
@@ -375,9 +374,9 @@ function DesignWebDesignPage() {
                         required
                         className="w-full px-4 py-3 rounded-lg bg-gray-50 border border-gray-200 text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#4bbf39] focus:border-transparent"
                       />
-                    {isSubmitting && <FormLoadingSpinner message={submitted ? "Success! Redirecting..." : "Submitting your request..."} />}
+                    
       </div>
-                  {isSubmitting && <FormLoadingSpinner message={submitted ? "Success! Redirecting..." : "Submitting your request..."} />}
+                  
       </div>
                   
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -386,11 +385,13 @@ function DesignWebDesignPage() {
                         Phone Number
                       </label>
                       <input
-                        type="tel" autoComplete="tel"
+                        type="tel"
+                        name="phone"
+                        autoComplete="tel"
                         placeholder="(513) 555-0123"
                         className="w-full px-4 py-3 rounded-lg bg-gray-50 border border-gray-200 text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#4bbf39] focus:border-transparent"
                       />
-                    {isSubmitting && <FormLoadingSpinner message={submitted ? "Success! Redirecting..." : "Submitting your request..."} />}
+                    
       </div>
                     <div>
                       <label className="block text-sm font-medium text-gray-700 mb-2">
@@ -398,12 +399,14 @@ function DesignWebDesignPage() {
                       </label>
                       <input
                         type="text"
+                        name="company"
+                        autoComplete="organization"
                         placeholder="Your Company"
                         className="w-full px-4 py-3 rounded-lg bg-gray-50 border border-gray-200 text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#4bbf39] focus:border-transparent"
                       />
-                    {isSubmitting && <FormLoadingSpinner message={submitted ? "Success! Redirecting..." : "Submitting your request..."} />}
+                    
       </div>
-                  {isSubmitting && <FormLoadingSpinner message={submitted ? "Success! Redirecting..." : "Submitting your request..."} />}
+                  
       </div>
 
                   <div>
@@ -419,7 +422,7 @@ function DesignWebDesignPage() {
                       <option value="website-audit">Website Audit</option>
                       <option value="other">Other</option>
                     </select>
-                  {isSubmitting && <FormLoadingSpinner message={submitted ? "Success! Redirecting..." : "Submitting your request..."} />}
+                  
       </div>
 
                   <div>
@@ -432,12 +435,16 @@ function DesignWebDesignPage() {
                       placeholder="What web design challenges are you facing? Tell us about your goals and current website issues."
                       className="w-full px-4 py-3 rounded-lg bg-gray-50 border border-gray-200 text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#4bbf39] focus:border-transparent resize-none"
                     ></textarea>
-                  {isSubmitting && <FormLoadingSpinner message={submitted ? "Success! Redirecting..." : "Submitting your request..."} />}
+                  
       </div>
 
-                  <Button type="submit" className="w-full bg-gradient-to-r from-[#4bbf39] to-[#39bfb0] text-white py-3 text-lg hover:from-[#39bfb0] hover:to-[#4bbf39]">
-                    Get Free Web Design Consultation
-                    <ArrowRight className="ml-2 w-5 h-5" />
+                  <Button 
+                    type="submit" 
+                    disabled={isSubmitting}
+                    className="w-full bg-gradient-to-r from-[#4bbf39] to-[#39bfb0] text-white py-3 text-lg hover:from-[#39bfb0] hover:to-[#4bbf39] disabled:opacity-50 disabled:cursor-not-allowed"
+                  >
+                    {isSubmitting ? 'Submitting...' : 'Get Free Web Design Consultation'}
+                    {!isSubmitting && <ArrowRight className="ml-2 w-5 h-5" />}
                   </Button>
                   </form>
                   
@@ -447,9 +454,9 @@ function DesignWebDesignPage() {
                 </CardContent>
               </Card>
             </motion.div>
-          {isSubmitting && <FormLoadingSpinner message={submitted ? "Success! Redirecting..." : "Submitting your request..."} />}
+          
       </div>
-        {isSubmitting && <FormLoadingSpinner message={submitted ? "Success! Redirecting..." : "Submitting your request..."} />}
+        
       </div>
       </section>
 
@@ -471,7 +478,7 @@ function DesignWebDesignPage() {
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
               See how our custom web design solutions have transformed businesses across different industries, delivering measurable results and exceptional user experiences.
             </p>
-          {isSubmitting && <FormLoadingSpinner message={submitted ? "Success! Redirecting..." : "Submitting your request..."} />}
+          
       </div>
 
           <div className="grid lg:grid-cols-3 gap-8">
@@ -494,9 +501,9 @@ function DesignWebDesignPage() {
                       <Badge className="bg-#4bbf39 text-white">
                         {project.category}
                       </Badge>
-                    {isSubmitting && <FormLoadingSpinner message={submitted ? "Success! Redirecting..." : "Submitting your request..."} />}
+                    
       </div>
-                  {isSubmitting && <FormLoadingSpinner message={submitted ? "Success! Redirecting..." : "Submitting your request..."} />}
+                  
       </div>
                   <CardContent className="p-6">
                     <h3 className="text-xl font-bold mb-2">{project.title}</h3>
@@ -508,7 +515,7 @@ function DesignWebDesignPage() {
                           {feature}
                         </Badge>
                       ))}
-                    {isSubmitting && <FormLoadingSpinner message={submitted ? "Success! Redirecting..." : "Submitting your request..."} />}
+                    
       </div>
                     
                     <Link to={project.link}>
@@ -521,7 +528,7 @@ function DesignWebDesignPage() {
                 </Card>
               </motion.div>
             ))}
-          {isSubmitting && <FormLoadingSpinner message={submitted ? "Success! Redirecting..." : "Submitting your request..."} />}
+          
       </div>
 
           <div className="text-center mt-12">
@@ -531,9 +538,9 @@ function DesignWebDesignPage() {
                 <ArrowRight className="ml-2 w-5 h-5" />
               </Button>
             </Link>
-          {isSubmitting && <FormLoadingSpinner message={submitted ? "Success! Redirecting..." : "Submitting your request..."} />}
+          
       </div>
-        {isSubmitting && <FormLoadingSpinner message={submitted ? "Success! Redirecting..." : "Submitting your request..."} />}
+        
       </div>
       </section>
 
@@ -547,7 +554,7 @@ function DesignWebDesignPage() {
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
               From initial concept to final launch, we provide end-to-end web design and development services that deliver exceptional results.
             </p>
-          {isSubmitting && <FormLoadingSpinner message={submitted ? "Success! Redirecting..." : "Submitting your request..."} />}
+          
       </div>
 
           <div className="grid md:grid-cols-2 gap-8">
@@ -564,10 +571,10 @@ function DesignWebDesignPage() {
                     <div className="flex items-center mb-4">
                       <div className="w-12 h-12 bg-gradient-to-r from-[#4bbf39] to-[#39bfb0] rounded-lg flex items-center justify-center text-white mr-4">
                         {service.icon}
-                      {isSubmitting && <FormLoadingSpinner message={submitted ? "Success! Redirecting..." : "Submitting your request..."} />}
+                      
       </div>
                       <h3 className="text-xl font-semibold">{service.title}</h3>
-                    {isSubmitting && <FormLoadingSpinner message={submitted ? "Success! Redirecting..." : "Submitting your request..."} />}
+                    
       </div>
                     <p className="text-gray-600 mb-4">{service.description}</p>
                     <ul className="space-y-2">
@@ -582,9 +589,9 @@ function DesignWebDesignPage() {
                 </Card>
               </motion.div>
             ))}
-          {isSubmitting && <FormLoadingSpinner message={submitted ? "Success! Redirecting..." : "Submitting your request..."} />}
+          
       </div>
-        {isSubmitting && <FormLoadingSpinner message={submitted ? "Success! Redirecting..." : "Submitting your request..."} />}
+        
       </div>
       </section>
 
@@ -598,7 +605,7 @@ function DesignWebDesignPage() {
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
               Why settle for stock photos when you can have custom, professional media that tells your unique story? Our in-house video production and commercial photography teams create compelling visual content that elevates your web design.
             </p>
-          {isSubmitting && <FormLoadingSpinner message={submitted ? "Success! Redirecting..." : "Submitting your request..."} />}
+          
       </div>
 
           <div className="grid lg:grid-cols-2 gap-12 items-center mb-16">
@@ -616,9 +623,9 @@ function DesignWebDesignPage() {
                   <div>
                     <h4 className="text-lg font-semibold mb-2">Custom Photography</h4>
                     <p className="text-gray-600">Professional commercial photography that showcases your products, services, team, and facilities with stunning clarity and composition.</p>
-                  {isSubmitting && <FormLoadingSpinner message={submitted ? "Success! Redirecting..." : "Submitting your request..."} />}
+                  
       </div>
-                {isSubmitting && <FormLoadingSpinner message={submitted ? "Success! Redirecting..." : "Submitting your request..."} />}
+                
       </div>
                 
                 <div className="flex items-start">
@@ -626,9 +633,9 @@ function DesignWebDesignPage() {
                   <div>
                     <h4 className="text-lg font-semibold mb-2">Video Production</h4>
                     <p className="text-gray-600">Cinematic video content including hero videos, product showcases, testimonials, and brand stories that engage visitors and increase conversions.</p>
-                  {isSubmitting && <FormLoadingSpinner message={submitted ? "Success! Redirecting..." : "Submitting your request..."} />}
+                  
       </div>
-                {isSubmitting && <FormLoadingSpinner message={submitted ? "Success! Redirecting..." : "Submitting your request..."} />}
+                
       </div>
                 
                 <div className="flex items-start">
@@ -636,11 +643,11 @@ function DesignWebDesignPage() {
                   <div>
                     <h4 className="text-lg font-semibold mb-2">Seamless Integration</h4>
                     <p className="text-gray-600">Our design and media teams work together from day one, ensuring perfect integration of visual content with your website's design and functionality.</p>
-                  {isSubmitting && <FormLoadingSpinner message={submitted ? "Success! Redirecting..." : "Submitting your request..."} />}
+                  
       </div>
-                {isSubmitting && <FormLoadingSpinner message={submitted ? "Success! Redirecting..." : "Submitting your request..."} />}
+                
       </div>
-              {isSubmitting && <FormLoadingSpinner message={submitted ? "Success! Redirecting..." : "Submitting your request..."} />}
+              
       </div>
 
               <div className="flex flex-col sm:flex-row gap-4">
@@ -656,9 +663,9 @@ function DesignWebDesignPage() {
                     <ArrowRight className="ml-2 w-5 h-5" />
                   </Button>
                 </Link>
-              {isSubmitting && <FormLoadingSpinner message={submitted ? "Success! Redirecting..." : "Submitting your request..."} />}
+              
       </div>
-            {isSubmitting && <FormLoadingSpinner message={submitted ? "Success! Redirecting..." : "Submitting your request..."} />}
+            
       </div>
 
             <div className="relative">
@@ -673,16 +680,16 @@ function DesignWebDesignPage() {
                   className="w-full h-full"
                   style={{ border: 'none' }}
                 ></iframe>
-              {isSubmitting && <FormLoadingSpinner message={submitted ? "Success! Redirecting..." : "Submitting your request..."} />}
+              
       </div>
               <div className="absolute bottom-4 left-4 bg-black/70 text-white px-4 py-2 rounded-lg">
                 <p className="text-sm font-semibold">The Marina at Manhattan Harbour</p>
                 <p className="text-xs opacity-90">Custom Header Video Production</p>
-              {isSubmitting && <FormLoadingSpinner message={submitted ? "Success! Redirecting..." : "Submitting your request..."} />}
+              
       </div>
-            {isSubmitting && <FormLoadingSpinner message={submitted ? "Success! Redirecting..." : "Submitting your request..."} />}
+            
       </div>
-          {isSubmitting && <FormLoadingSpinner message={submitted ? "Success! Redirecting..." : "Submitting your request..."} />}
+          
       </div>
 
           <div className="bg-gradient-to-br from-gray-50 to-gray-100 rounded-2xl p-8">
@@ -690,37 +697,37 @@ function DesignWebDesignPage() {
               <div>
                 <div className="w-16 h-16 bg-gradient-to-r from-[#4bbf39] to-[#39bfb0] rounded-full flex items-center justify-center text-white mx-auto mb-4">
                   <Award className="w-8 h-8" />
-                {isSubmitting && <FormLoadingSpinner message={submitted ? "Success! Redirecting..." : "Submitting your request..."} />}
+                
       </div>
                 <h4 className="text-xl font-bold mb-2">Brand Authenticity</h4>
                 <p className="text-gray-600">Custom media that truly represents your brand, not generic stock content that looks like everyone else's.</p>
-              {isSubmitting && <FormLoadingSpinner message={submitted ? "Success! Redirecting..." : "Submitting your request..."} />}
+              
       </div>
               
               <div>
                 <div className="w-16 h-16 bg-gradient-to-r from-[#4bbf39] to-[#39bfb0] rounded-full flex items-center justify-center text-white mx-auto mb-4">
                   <TrendingUp className="w-8 h-8" />
-                {isSubmitting && <FormLoadingSpinner message={submitted ? "Success! Redirecting..." : "Submitting your request..."} />}
+                
       </div>
                 <h4 className="text-xl font-bold mb-2">Higher Engagement</h4>
                 <p className="text-gray-600">Professional video and photography increase user engagement, time on site, and conversion rates significantly.</p>
-              {isSubmitting && <FormLoadingSpinner message={submitted ? "Success! Redirecting..." : "Submitting your request..."} />}
+              
       </div>
               
               <div>
                 <div className="w-16 h-16 bg-gradient-to-r from-[#4bbf39] to-[#39bfb0] rounded-full flex items-center justify-center text-white mx-auto mb-4">
                   <Lightbulb className="w-8 h-8" />
-                {isSubmitting && <FormLoadingSpinner message={submitted ? "Success! Redirecting..." : "Submitting your request..."} />}
+                
       </div>
                 <h4 className="text-xl font-bold mb-2">Competitive Edge</h4>
                 <p className="text-gray-600">Stand out from competitors with unique, high-quality visual content that showcases your business professionally.</p>
-              {isSubmitting && <FormLoadingSpinner message={submitted ? "Success! Redirecting..." : "Submitting your request..."} />}
+              
       </div>
-            {isSubmitting && <FormLoadingSpinner message={submitted ? "Success! Redirecting..." : "Submitting your request..."} />}
+            
       </div>
-          {isSubmitting && <FormLoadingSpinner message={submitted ? "Success! Redirecting..." : "Submitting your request..."} />}
+          
       </div>
-        {isSubmitting && <FormLoadingSpinner message={submitted ? "Success! Redirecting..." : "Submitting your request..."} />}
+        
       </div>
       </section>
 
@@ -742,9 +749,9 @@ function DesignWebDesignPage() {
                   <div>
                     <h3 className="text-lg font-semibold mb-2">Technical SEO Foundation</h3>
                     <p className="text-gray-600">Clean code structure, fast loading speeds, mobile optimization, and proper schema markup for search engine visibility.</p>
-                  {isSubmitting && <FormLoadingSpinner message={submitted ? "Success! Redirecting..." : "Submitting your request..."} />}
+                  
       </div>
-                {isSubmitting && <FormLoadingSpinner message={submitted ? "Success! Redirecting..." : "Submitting your request..."} />}
+                
       </div>
                 
                 <div className="flex items-start">
@@ -752,9 +759,9 @@ function DesignWebDesignPage() {
                   <div>
                     <h3 className="text-lg font-semibold mb-2">Content Optimization</h3>
                     <p className="text-gray-600">Strategic keyword placement, optimized meta tags, and content structure that both users and search engines love.</p>
-                  {isSubmitting && <FormLoadingSpinner message={submitted ? "Success! Redirecting..." : "Submitting your request..."} />}
+                  
       </div>
-                {isSubmitting && <FormLoadingSpinner message={submitted ? "Success! Redirecting..." : "Submitting your request..."} />}
+                
       </div>
                 
                 <div className="flex items-start">
@@ -762,11 +769,11 @@ function DesignWebDesignPage() {
                   <div>
                     <h3 className="text-lg font-semibold mb-2">Performance Optimization</h3>
                     <p className="text-gray-600">Image optimization, caching strategies, and code minification for lightning-fast page speeds that improve rankings.</p>
-                  {isSubmitting && <FormLoadingSpinner message={submitted ? "Success! Redirecting..." : "Submitting your request..."} />}
+                  
       </div>
-                {isSubmitting && <FormLoadingSpinner message={submitted ? "Success! Redirecting..." : "Submitting your request..."} />}
+                
       </div>
-              {isSubmitting && <FormLoadingSpinner message={submitted ? "Success! Redirecting..." : "Submitting your request..."} />}
+              
       </div>
 
               <Link to="/marketing/seo">
@@ -775,7 +782,7 @@ function DesignWebDesignPage() {
                   <ArrowRight className="ml-2 w-5 h-5" />
                 </Button>
               </Link>
-            {isSubmitting && <FormLoadingSpinner message={submitted ? "Success! Redirecting..." : "Submitting your request..."} />}
+            
       </div>
 
             <div className="relative">
@@ -785,44 +792,44 @@ function DesignWebDesignPage() {
                   <div className="flex justify-between items-center">
                     <span>Average Traffic Increase</span>
                     <span className="text-2xl font-bold">231%</span>
-                  {isSubmitting && <FormLoadingSpinner message={submitted ? "Success! Redirecting..." : "Submitting your request..."} />}
+                  
       </div>
                   <div className="w-full bg-white/20 rounded-full h-2">
-                    <div className="bg-white h-2 rounded-full" style={{width: '85%'}}>{isSubmitting && <FormLoadingSpinner message={submitted ? "Success! Redirecting..." : "Submitting your request..."} />}
+                    <div className="bg-white h-2 rounded-full" style={{width: '85%'}}>
       </div>
-                  {isSubmitting && <FormLoadingSpinner message={submitted ? "Success! Redirecting..." : "Submitting your request..."} />}
+                  
       </div>
                   
                   <div className="flex justify-between items-center">
                     <span>Page Speed Improvement</span>
                     <span className="text-2xl font-bold">+40%</span>
-                  {isSubmitting && <FormLoadingSpinner message={submitted ? "Success! Redirecting..." : "Submitting your request..."} />}
+                  
       </div>
                   <div className="w-full bg-white/20 rounded-full h-2">
-                    <div className="bg-white h-2 rounded-full" style={{width: '70%'}}>{isSubmitting && <FormLoadingSpinner message={submitted ? "Success! Redirecting..." : "Submitting your request..."} />}
+                    <div className="bg-white h-2 rounded-full" style={{width: '70%'}}>
       </div>
-                  {isSubmitting && <FormLoadingSpinner message={submitted ? "Success! Redirecting..." : "Submitting your request..."} />}
+                  
       </div>
                   
                   <div className="flex justify-between items-center">
                     <span>Search Rankings</span>
                     <span className="text-2xl font-bold">Top 3</span>
-                  {isSubmitting && <FormLoadingSpinner message={submitted ? "Success! Redirecting..." : "Submitting your request..."} />}
+                  
       </div>
                   <div className="w-full bg-white/20 rounded-full h-2">
-                    <div className="bg-white h-2 rounded-full" style={{width: '90%'}}>{isSubmitting && <FormLoadingSpinner message={submitted ? "Success! Redirecting..." : "Submitting your request..."} />}
+                    <div className="bg-white h-2 rounded-full" style={{width: '90%'}}>
       </div>
-                  {isSubmitting && <FormLoadingSpinner message={submitted ? "Success! Redirecting..." : "Submitting your request..."} />}
+                  
       </div>
-                {isSubmitting && <FormLoadingSpinner message={submitted ? "Success! Redirecting..." : "Submitting your request..."} />}
+                
       </div>
-              {isSubmitting && <FormLoadingSpinner message={submitted ? "Success! Redirecting..." : "Submitting your request..."} />}
+              
       </div>
-            {isSubmitting && <FormLoadingSpinner message={submitted ? "Success! Redirecting..." : "Submitting your request..."} />}
+            
       </div>
-          {isSubmitting && <FormLoadingSpinner message={submitted ? "Success! Redirecting..." : "Submitting your request..."} />}
+          
       </div>
-        {isSubmitting && <FormLoadingSpinner message={submitted ? "Success! Redirecting..." : "Submitting your request..."} />}
+        
       </div>
       </section>
 
@@ -836,7 +843,7 @@ function DesignWebDesignPage() {
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
               In today's digital landscape, your website is your most important marketing asset. Here's how professional web design drives business growth.
             </p>
-          {isSubmitting && <FormLoadingSpinner message={submitted ? "Success! Redirecting..." : "Submitting your request..."} />}
+          
       </div>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -851,15 +858,15 @@ function DesignWebDesignPage() {
               >
                 <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-gradient-to-r from-[#4bbf39] to-[#39bfb0] flex items-center justify-center text-white">
                   {benefit.icon}
-                {isSubmitting && <FormLoadingSpinner message={submitted ? "Success! Redirecting..." : "Submitting your request..."} />}
+                
       </div>
                 <h3 className="text-xl font-bold text-gray-900 mb-2">{benefit.title}</h3>
                 <p className="text-gray-600">{benefit.description}</p>
               </motion.div>
             ))}
-          {isSubmitting && <FormLoadingSpinner message={submitted ? "Success! Redirecting..." : "Submitting your request..."} />}
+          
       </div>
-        {isSubmitting && <FormLoadingSpinner message={submitted ? "Success! Redirecting..." : "Submitting your request..."} />}
+        
       </div>
       </section>
 
@@ -873,7 +880,7 @@ function DesignWebDesignPage() {
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
               A proven methodology that ensures every website we create delivers exceptional results and exceeds expectations.
             </p>
-          {isSubmitting && <FormLoadingSpinner message={submitted ? "Success! Redirecting..." : "Submitting your request..."} />}
+          
       </div>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
@@ -889,21 +896,21 @@ function DesignWebDesignPage() {
                 <div className="text-center">
                   <div className="w-16 h-16 bg-gradient-to-r from-[#4bbf39] to-[#39bfb0] rounded-full flex items-center justify-center text-white text-xl font-bold mx-auto mb-4">
                     {step.step}
-                  {isSubmitting && <FormLoadingSpinner message={submitted ? "Success! Redirecting..." : "Submitting your request..."} />}
+                  
       </div>
                   <h3 className="text-xl font-semibold mb-3">{step.title}</h3>
                   <p className="text-gray-600">{step.description}</p>
-                {isSubmitting && <FormLoadingSpinner message={submitted ? "Success! Redirecting..." : "Submitting your request..."} />}
+                
       </div>
                 {index < process.length - 1 && (
-                  <div className="hidden lg:block absolute top-8 left-full w-full h-0.5 bg-gradient-to-r from-[#4bbf39] to-[#39bfb0] transform -translate-x-8">{isSubmitting && <FormLoadingSpinner message={submitted ? "Success! Redirecting..." : "Submitting your request..."} />}
+                  <div className="hidden lg:block absolute top-8 left-full w-full h-0.5 bg-gradient-to-r from-[#4bbf39] to-[#39bfb0] transform -translate-x-8">
       </div>
                 )}
               </motion.div>
             ))}
-          {isSubmitting && <FormLoadingSpinner message={submitted ? "Success! Redirecting..." : "Submitting your request..."} />}
+          
       </div>
-        {isSubmitting && <FormLoadingSpinner message={submitted ? "Success! Redirecting..." : "Submitting your request..."} />}
+        
       </div>
       </section>
 
@@ -914,7 +921,7 @@ function DesignWebDesignPage() {
             <h2 className="text-3xl lg:text-4xl font-bold mb-6">
               Frequently Asked Questions
             </h2>
-          {isSubmitting && <FormLoadingSpinner message={submitted ? "Success! Redirecting..." : "Submitting your request..."} />}
+          
       </div>
 
           <div className="space-y-4">
@@ -935,7 +942,7 @@ function DesignWebDesignPage() {
                         <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
                       </svg>
                     )}
-                  {isSubmitting && <FormLoadingSpinner message={submitted ? "Success! Redirecting..." : "Submitting your request..."} />}
+                  
       </div>
                 </CardHeader>
                 {expandedFaq === index && (
@@ -945,9 +952,9 @@ function DesignWebDesignPage() {
                 )}
               </Card>
             ))}
-          {isSubmitting && <FormLoadingSpinner message={submitted ? "Success! Redirecting..." : "Submitting your request..."} />}
+          
       </div>
-        {isSubmitting && <FormLoadingSpinner message={submitted ? "Success! Redirecting..." : "Submitting your request..."} />}
+        
       </div>
       </section>
 
@@ -974,12 +981,12 @@ function DesignWebDesignPage() {
                 Call (513) 331-0555
               </Button>
             </a>
-          {isSubmitting && <FormLoadingSpinner message={submitted ? "Success! Redirecting..." : "Submitting your request..."} />}
+          
       </div>
-        {isSubmitting && <FormLoadingSpinner message={submitted ? "Success! Redirecting..." : "Submitting your request..."} />}
+        
       </div>
       </section>
-    {isSubmitting && <FormLoadingSpinner message={submitted ? "Success! Redirecting..." : "Submitting your request..."} />}
+    
       </div>
   )
 }
