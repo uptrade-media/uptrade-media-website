@@ -469,6 +469,25 @@ function FreeAuditPage() {
           </div>
         </div>
       </section>
+
+      {/* Hidden static form for Netlify build bot */}
+      <form name="free-audit" data-netlify="true" data-netlify-honeypot="bot-field" hidden>
+        <input type="hidden" name="form-name" value="free-audit" />
+        <input name="name" />
+        <input name="email" />
+        <input name="phone" />
+        <input name="website" />
+        <input name="company" />
+        <select name="goals">
+          <option>Increase Website Traffic</option>
+          <option>Improve Search Rankings</option>
+          <option>Generate More Leads</option>
+          <option>Boost Online Sales</option>
+          <option>Improve User Experience</option>
+          <option>Other</option>
+        </select>
+        <textarea name="currentChallenges"></textarea>
+      </form>
     </div>
   )
 }

@@ -1,4 +1,5 @@
-import React from 'react'
+import React, { useState } from 'react'
+import BrandedLoadingSpinner from "../components/BrandedLoadingSpinner.jsx"
 import { Link } from 'react-router-dom'
 import { Button } from '@/components/ui/button.jsx'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card.jsx'
@@ -59,6 +60,33 @@ function MarketingReputationPage() {
   ]
 
   const [expandedFaq, setExpandedFaq] = React.useState(null)
+  const [submitted, setSubmitted] = useState(false)
+  const [isSubmitting, setIsSubmitting] = useState(false)
+
+  const handleSubmit = (e) => {
+    setIsSubmitting(true)
+    e.preventDefault()
+    const form = e.target
+    const data = new FormData(form)
+    fetch("/", {
+      method: "POST",
+      headers: { "Content-Type": "application/x-www-form-urlencoded" },
+      body: new URLSearchParams(data).toString(),
+    })
+      .then(() => {
+        setSubmitted(true)
+        setIsSubmitting(false)
+        // Redirect to thank you page after successful submission
+        setTimeout(() => {
+          window.location.href = '/thank-you'
+        }, 1500)
+      })
+      .catch((err) => {
+        console.error("Form submit error:", err)
+        setIsSubmitting(false)
+        alert("There was an error. Please try again.")
+      })
+  }
 
   return (
     <div className="min-h-screen bg-white">
@@ -69,7 +97,7 @@ function MarketingReputationPage() {
             <ArrowLeft className="w-4 h-4 mr-2" />
             Back to Marketing Services
           </Link>
-        </div>
+      </div>
       </div>
 
       {/* Hero Section */}
@@ -121,17 +149,17 @@ function MarketingReputationPage() {
                 <div className="flex items-center gap-2">
                   <CheckCircle className="w-5 h-5 text-white" />
                   <span>Free Reputation Audit</span>
-                </div>
+      </div>
                 <div className="flex items-center gap-2">
                   <CheckCircle className="w-5 h-5 text-white" />
                   <span>24/7 Monitoring</span>
-                </div>
+      </div>
                 <div className="flex items-center gap-2">
                   <CheckCircle className="w-5 h-5 text-white" />
                   <span>Review Response Management</span>
-                </div>
+      </div>
               </motion.div>
-            </div>
+      </div>
 
             <motion.div
               initial={{ opacity: 0, scale: 0.8 }}
@@ -143,13 +171,14 @@ function MarketingReputationPage() {
                 <div className="text-center mb-6">
                   <h3 className="text-2xl font-bold text-gray-900 mb-2">Free Reputation Audit</h3>
                   <p className="text-gray-600">Discover how your online reputation impacts your business and get actionable insights to improve it.</p>
-                </div>
+      </div>
 
                 <form 
                   name="reputation-management" 
                   method="POST" 
                   data-netlify="true" 
                   netlify-honeypot="bot-field"
+                  onSubmit={handleSubmit}
                   className="space-y-4"
                 >
                   <input type="hidden" name="form-name" value="reputation-management" />
@@ -161,34 +190,34 @@ function MarketingReputationPage() {
                       <label className="block text-sm font-medium text-gray-700 mb-1">Full Name *</label>
                       <input
                         type="text"
-                        name="name"
+                        name="name" autoComplete="name"
                         className="w-full px-4 py-3 rounded-lg bg-gray-50 border border-gray-300 text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#4bbf39] focus:border-transparent"
                         placeholder="John Smith"
                         
                         required
                       />
-                    </div>
+      </div>
                     <div>
                       <label className="block text-sm font-medium text-gray-700 mb-1">Email Address *</label>
                       <input
-                        type="email"
+                        type="email" autoComplete="email"
                         name="email"
                         className="w-full px-4 py-3 rounded-lg bg-gray-50 border border-gray-300 text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#4bbf39] focus:border-transparent"
                         placeholder="john@company.com"
                         required
                       />
-                    </div>
-                  </div>
+      </div>
+      </div>
 
                   <div className="grid grid-cols-2 gap-4">
                     <div>
                       <label className="block text-sm font-medium text-gray-700 mb-1">Phone Number</label>
                       <input
-                        type="tel"
+                        type="tel" autoComplete="tel"
                         className="w-full px-4 py-3 rounded-lg bg-gray-50 border border-gray-300 text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#4bbf39] focus:border-transparent"
                         placeholder="(513) 555-0123"
                       />
-                    </div>
+      </div>
                     <div>
                       <label className="block text-sm font-medium text-gray-700 mb-1">Business Name</label>
                       <input
@@ -196,8 +225,8 @@ function MarketingReputationPage() {
                         className="w-full px-4 py-3 rounded-lg bg-gray-50 border border-gray-300 text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#4bbf39] focus:border-transparent"
                         placeholder="Your Business"
                       />
-                    </div>
-                  </div>
+      </div>
+      </div>
 
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-1">Current Reputation Concerns</label>
@@ -206,7 +235,7 @@ function MarketingReputationPage() {
                       className="w-full px-4 py-3 rounded-lg bg-gray-50 border border-gray-300 text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#4bbf39] focus:border-transparent"
                       placeholder="Tell us about your reputation management needs..."
                     ></textarea>
-                  </div>
+      </div>
 
                   <Button type="submit" className="w-full bg-gradient-to-r from-[#4bbf39] to-[#39bfb0] hover:from-[#39bfb0] hover:to-[#4bbf39] text-white py-3">
                     Get Free Reputation Audit
@@ -217,10 +246,10 @@ function MarketingReputationPage() {
                 <p className="text-xs text-gray-500 text-center mt-4">
                   Free audit • No obligation • Expert insights
                 </p>
-              </div>
+      </div>
             </motion.div>
-          </div>
-        </div>
+      </div>
+      </div>
       </section>
 
       {/* What We Do Section */}
@@ -241,16 +270,16 @@ function MarketingReputationPage() {
                 Get a Free Reputation Audit
                 <ArrowRight className="ml-2 w-5 h-5" />
               </Button>
-            </div>
+      </div>
             <div>
               <img 
                 src="/reputation-management.jpeg" 
                 alt="Online Reputation Management - Review monitoring and response" 
                 className="rounded-lg shadow-xl w-full h-auto" 
               />
-            </div>
-          </div>
-        </div>
+      </div>
+      </div>
+      </div>
       </section>
 
       {/* Our Process Section */}
@@ -263,13 +292,13 @@ function MarketingReputationPage() {
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
               A systematic approach to building and maintaining a positive online image.
             </p>
-          </div>
+      </div>
 
           <div className="grid md:grid-cols-3 gap-8">
             <Card className="text-center p-6 shadow-lg">
               <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-green-100 flex items-center justify-center text-[#4bbf39]">
                 <Star className="w-8 h-8" />
-              </div>
+      </div>
               <CardTitle className="text-xl font-bold mb-2">1. Audit & Strategy</CardTitle>
               <CardContent className="text-gray-600">
                 We analyze your current online reputation, identify key platforms, and develop a tailored strategy for review generation and management.
@@ -278,7 +307,7 @@ function MarketingReputationPage() {
             <Card className="text-center p-6 shadow-lg">
               <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-green-100 flex items-center justify-center text-green-600">
                 <MessageSquare className="w-8 h-8" />
-              </div>
+      </div>
               <CardTitle className="text-xl font-bold mb-2">2. Review Generation & Response</CardTitle>
               <CardContent className="text-gray-600">
                 We implement tools and techniques to encourage positive reviews and craft professional, timely responses to all feedback.
@@ -287,14 +316,14 @@ function MarketingReputationPage() {
             <Card className="text-center p-6 shadow-lg">
               <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-green-100 flex items-center justify-center text-[#4bbf39]">
                 <Shield className="w-8 h-8" />
-              </div>
+      </div>
               <CardTitle className="text-xl font-bold mb-2">3. Monitoring & Protection</CardTitle>
               <CardContent className="text-gray-600">
                 Continuous monitoring of your online presence, proactive issue resolution, and showcasing your best reviews to reinforce trust.
               </CardContent>
             </Card>
-          </div>
-        </div>
+      </div>
+      </div>
       </section>
 
       {/* Benefits Grid */}
@@ -307,7 +336,7 @@ function MarketingReputationPage() {
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
               A strong online reputation is critical for attracting new customers and building long-term brand loyalty.
             </p>
-          </div>
+      </div>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
             {reputationBenefits.map((benefit, index) => (
@@ -321,13 +350,13 @@ function MarketingReputationPage() {
               >
                 <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-gradient-to-r from-[#4bbf39] to-[#39bfb0] flex items-center justify-center text-white">
                   {benefit.icon}
-                </div>
+      </div>
                 <h3 className="text-xl font-bold text-gray-900 mb-2">{benefit.title}</h3>
                 <p className="text-gray-600">{benefit.description}</p>
               </motion.div>
             ))}
-          </div>
-        </div>
+      </div>
+      </div>
       </section>
 
       {/* FAQ Section */}
@@ -337,7 +366,7 @@ function MarketingReputationPage() {
             <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
               Frequently Asked Questions
             </h2>
-          </div>
+      </div>
 
           <div className="space-y-4">
             {faqItems.map((faq, index) => (
@@ -357,7 +386,7 @@ function MarketingReputationPage() {
                         <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
                       </svg>
                     )}
-                  </div>
+      </div>
                 </CardHeader>
                 {expandedFaq === index && (
                   <CardContent className="pt-0">
@@ -366,8 +395,8 @@ function MarketingReputationPage() {
                 )}
               </Card>
             ))}
-          </div>
-        </div>
+      </div>
+      </div>
       </section>
 
       {/* CTA Section */}
@@ -388,10 +417,10 @@ function MarketingReputationPage() {
               <Phone className="mr-2 w-5 h-5" />
               Call (513) 331-0555
             </Button>
-          </div>
-        </div>
+      </div>
+      </div>
       </section>
-    </div>
+      </div>
   )
 }
 

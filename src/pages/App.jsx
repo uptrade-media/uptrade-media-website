@@ -85,9 +85,8 @@ const SpadeKreationsPage = React.lazy(() => import('./pages/portfolio/SpadeKreat
 const ManhattanHarbourLivingPage = React.lazy(() => import('./pages/portfolio/ManhattanHarbourLivingPage.jsx'))
 const ChateauHeritageSquarePage = React.lazy(() => import('./pages/portfolio/ChateauHeritageSquarePage.jsx'))
 
-// Import loading components
-import BrandedLoadingSpinner from './components/BrandedLoadingSpinner.jsx'
-import TopLoadingBar from './components/TopLoadingBar.jsx'
+// Import loading component
+import LoadingSpinner from './components/LoadingSpinner.jsx'
 import FloatingActionButton from './components/FloatingActionButton.jsx'
 import StickyCTABar from './components/StickyCTABar.jsx'
 import ExitIntentPopup from './components/ExitIntentPopup.jsx'
@@ -2265,14 +2264,13 @@ function AppContent() {
   
   return (
     <div className="min-h-screen bg-white">
-      <TopLoadingBar />
       <HomeSEO />
       <LocalBusinessSchema />
       <OrganizationSchema />
       <WebsiteSchema />
       <Header />
       <main>
-        <Suspense fallback={<BrandedLoadingSpinner />}>
+        <Suspense fallback={<LoadingSpinner />}>
           <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/marketing" element={<MarketingPage />} />

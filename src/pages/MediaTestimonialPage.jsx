@@ -1,4 +1,5 @@
-import React from 'react'
+import React, { useState } from 'react'
+import FormLoadingSpinner from "../components/FormLoadingSpinner.jsx"
 import { Link } from 'react-router-dom'
 import { Button } from '@/components/ui/button.jsx'
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card.jsx'
@@ -6,8 +7,36 @@ import { CheckCircle, ArrowRight, MessageSquare, Users, Award, Lightbulb, Trendi
 import { motion } from 'framer-motion'
 
 function MediaTestimonialPage() {
+  const [submitted, setSubmitted] = useState(false)
+  const [isSubmitting, setIsSubmitting] = useState(false)
+  
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' })
+  }
+
+  const handleSubmit = (e) => {
+    setIsSubmitting(true)
+    e.preventDefault()
+    const form = e.target
+    const data = new FormData(form)
+    fetch("/", {
+      method: "POST",
+      headers: { "Content-Type": "application/x-www-form-urlencoded" },
+      body: new URLSearchParams(data).toString(),
+    })
+      .then(() => {
+        setSubmitted(true)
+        setIsSubmitting(false)
+        // Redirect to thank you page after successful submission
+        setTimeout(() => {
+          window.location.href = '/thank-you'
+        }, 1500)
+      })
+      .catch((err) => {
+        console.error("Form submit error:", err)
+        setIsSubmitting(false)
+        alert("There was an error. Please try again.")
+      })
   }
 
   const featuredTestimonial = {
@@ -189,7 +218,9 @@ function MediaTestimonialPage() {
             <ArrowLeft className="w-4 h-4 mr-2" />
             Back to Media Services
           </Link>
-        </div>
+        {isSubmitting && <FormLoadingSpinner message={submitted ? "Success! Redirecting..." : "Submitting your request..."} />}
+      </div>
+      {isSubmitting && <FormLoadingSpinner message={submitted ? "Success! Redirecting..." : "Submitting your request..."} />}
       </div>
 
       {/* Hero Section */}
@@ -242,21 +273,32 @@ function MediaTestimonialPage() {
               <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                 <div className="flex flex-col items-center text-center">
                   <TrendingUp className="w-8 h-8 text-white/90 mb-2" />
-                  <div className="text-3xl font-bold">34%</div>
-                  <div className="text-white/80">Conversion Increase</div>
-                </div>
+                  <div className="text-3xl font-bold">34%{isSubmitting && <FormLoadingSpinner message={submitted ? "Success! Redirecting..." : "Submitting your request..."} />}
+      </div>
+                  <div className="text-white/80">Conversion Increase{isSubmitting && <FormLoadingSpinner message={submitted ? "Success! Redirecting..." : "Submitting your request..."} />}
+      </div>
+                {isSubmitting && <FormLoadingSpinner message={submitted ? "Success! Redirecting..." : "Submitting your request..."} />}
+      </div>
                 <div className="flex flex-col items-center text-center">
                   <Users className="w-8 h-8 text-white/90 mb-2" />
-                  <div className="text-3xl font-bold">92%</div>
-                  <div className="text-white/80">Trust Recommendations</div>
-                </div>
+                  <div className="text-3xl font-bold">92%{isSubmitting && <FormLoadingSpinner message={submitted ? "Success! Redirecting..." : "Submitting your request..."} />}
+      </div>
+                  <div className="text-white/80">Trust Recommendations{isSubmitting && <FormLoadingSpinner message={submitted ? "Success! Redirecting..." : "Submitting your request..."} />}
+      </div>
+                {isSubmitting && <FormLoadingSpinner message={submitted ? "Success! Redirecting..." : "Submitting your request..."} />}
+      </div>
                 <div className="flex flex-col items-center text-center">
                   <Star className="w-8 h-8 text-white/90 mb-2" />
-                  <div className="text-3xl font-bold">3%</div>
-                  <div className="text-white/80">Proven Results</div>
-                </div>
-              </div>
-            </div>
+                  <div className="text-3xl font-bold">3%{isSubmitting && <FormLoadingSpinner message={submitted ? "Success! Redirecting..." : "Submitting your request..."} />}
+      </div>
+                  <div className="text-white/80">Proven Results{isSubmitting && <FormLoadingSpinner message={submitted ? "Success! Redirecting..." : "Submitting your request..."} />}
+      </div>
+                {isSubmitting && <FormLoadingSpinner message={submitted ? "Success! Redirecting..." : "Submitting your request..."} />}
+      </div>
+              {isSubmitting && <FormLoadingSpinner message={submitted ? "Success! Redirecting..." : "Submitting your request..."} />}
+      </div>
+            {isSubmitting && <FormLoadingSpinner message={submitted ? "Success! Redirecting..." : "Submitting your request..."} />}
+      </div>
 
             {/* Right Column - Form */}
             <motion.div
@@ -271,6 +313,7 @@ function MediaTestimonialPage() {
                 method="POST" 
                 data-netlify="true" 
                 netlify-honeypot="bot-field"
+                onSubmit={handleSubmit}
                 className="space-y-4"
               >
                 <input type="hidden" name="form-name" value="testimonial-project" />
@@ -281,40 +324,44 @@ function MediaTestimonialPage() {
                   <label className="block text-gray-700 text-sm font-medium mb-2">Full Name *</label>
                   <input 
                     type="text" 
-                    name="name"
+                    name="name" autoComplete="name"
                     className="w-full px-4 py-3 rounded-lg bg-gray-50 border border-gray-300 text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#4bbf39] focus:border-transparent"
                     placeholder="John Smith"
                     required
                   />
-                </div>
+                {isSubmitting && <FormLoadingSpinner message={submitted ? "Success! Redirecting..." : "Submitting your request..."} />}
+      </div>
                 <div>
                   <label className="block text-gray-700 text-sm font-medium mb-2">Email Address *</label>
                   <input 
-                    type="email" 
+                    type="email" autoComplete="email" 
                     name="email"
                     className="w-full px-4 py-3 rounded-lg bg-gray-50 border border-gray-300 text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#4bbf39] focus:border-transparent"
                     placeholder="john@company.com"
                     required
                   />
-                </div>
+                {isSubmitting && <FormLoadingSpinner message={submitted ? "Success! Redirecting..." : "Submitting your request..."} />}
+      </div>
                 <div>
                   <label className="block text-gray-700 text-sm font-medium mb-2">Company Name</label>
                   <input 
                     type="text" 
-                    name="company"
+                    name="company" autoComplete="organization"
                     className="w-full px-4 py-3 rounded-lg bg-gray-50 border border-gray-300 text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#4bbf39] focus:border-transparent"
                     placeholder="Your Company"
                   />
-                </div>
+                {isSubmitting && <FormLoadingSpinner message={submitted ? "Success! Redirecting..." : "Submitting your request..."} />}
+      </div>
                 <div>
                   <label className="block text-gray-700 text-sm font-medium mb-2">Phone Number</label>
                   <input 
-                    type="tel" 
+                    type="tel" autoComplete="tel" 
                     name="phone"
                     className="w-full px-4 py-3 rounded-lg bg-gray-50 border border-gray-300 text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#4bbf39] focus:border-transparent"
                     placeholder="(555) 123-4567"
                   />
-                </div>
+                {isSubmitting && <FormLoadingSpinner message={submitted ? "Success! Redirecting..." : "Submitting your request..."} />}
+      </div>
                 <div>
                   <label className="block text-gray-700 text-sm font-medium mb-2">Project Details</label>
                   <textarea 
@@ -323,15 +370,18 @@ function MediaTestimonialPage() {
                     className="w-full px-4 py-3 rounded-lg bg-gray-50 border border-gray-300 text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#4bbf39] focus:border-transparent resize-none"
                     placeholder="Tell us about your testimonial video needs..."
                   ></textarea>
-                </div>
-                <Button className="w-full bg-#4bbf39 text-white hover:bg-#9333EA font-semibold py-3">
+                {isSubmitting && <FormLoadingSpinner message={submitted ? "Success! Redirecting..." : "Submitting your request..."} />}
+      </div>
+                <Button type="submit" className="w-full bg-gradient-to-r from-[#4bbf39] to-[#39bfb0] text-white hover:from-[#39bfb0] hover:to-[#4bbf39] font-semibold py-3">
                   Get My Testimonial Quote
                   <ArrowRight className="ml-2 w-5 h-5" />
                 </Button>
               </form>
             </motion.div>
-          </div>
-        </div>
+          {isSubmitting && <FormLoadingSpinner message={submitted ? "Success! Redirecting..." : "Submitting your request..."} />}
+      </div>
+        {isSubmitting && <FormLoadingSpinner message={submitted ? "Success! Redirecting..." : "Submitting your request..."} />}
+      </div>
       </section>
 
       {/* Featured Testimonial Section */}
@@ -344,7 +394,8 @@ function MediaTestimonialPage() {
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
               See how authentic customer testimonials drive real business results with measurable impact on conversion rates and customer trust.
             </p>
-          </div>
+          {isSubmitting && <FormLoadingSpinner message={submitted ? "Success! Redirecting..." : "Submitting your request..."} />}
+      </div>
 
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <motion.div
@@ -364,12 +415,14 @@ function MediaTestimonialPage() {
                   className="w-full h-full"
                   style={{ border: 'none' }}
                 ></iframe>
-              </div>
+              {isSubmitting && <FormLoadingSpinner message={submitted ? "Success! Redirecting..." : "Submitting your request..."} />}
+      </div>
               <div className="absolute top-4 left-4">
                 <span className="bg-gradient-to-r from-[#4bbf39] to-[#39bfb0] text-white px-3 py-1 rounded-full text-sm font-semibold">
                   Featured Success Story
                 </span>
-              </div>
+              {isSubmitting && <FormLoadingSpinner message={submitted ? "Success! Redirecting..." : "Submitting your request..."} />}
+      </div>
             </motion.div>
             
             <motion.div
@@ -386,7 +439,8 @@ function MediaTestimonialPage() {
                 <p className="text-lg text-gray-600 leading-relaxed mb-6">
                   {featuredTestimonial.description}
                 </p>
-              </div>
+              {isSubmitting && <FormLoadingSpinner message={submitted ? "Success! Redirecting..." : "Submitting your request..."} />}
+      </div>
 
               <Card className="border-l-4 border-l-#4bbf39 bg-gradient-to-r from-[#4bbf39]/5 to-[#39bfb0]/5">
                 <CardHeader>
@@ -400,18 +454,21 @@ function MediaTestimonialPage() {
                     <div className="flex items-center justify-between">
                       <span className="text-gray-600">Conversion Rate Improvement:</span>
                       <span className="text-2xl font-bold text-[#4bbf39]">+{featuredTestimonial.results.conversionIncrease}</span>
-                    </div>
+                    {isSubmitting && <FormLoadingSpinner message={submitted ? "Success! Redirecting..." : "Submitting your request..."} />}
+      </div>
                     <p className="text-sm text-gray-600">
                       {featuredTestimonial.results.description}
                     </p>
-                  </div>
+                  {isSubmitting && <FormLoadingSpinner message={submitted ? "Success! Redirecting..." : "Submitting your request..."} />}
+      </div>
                 </CardContent>
               </Card>
 
               <div className="space-y-2">
                 <p className="font-semibold text-gray-900">Client: {featuredTestimonial.client}</p>
                 <p className="text-gray-600">Industry: {featuredTestimonial.industry}</p>
-              </div>
+              {isSubmitting && <FormLoadingSpinner message={submitted ? "Success! Redirecting..." : "Submitting your request..."} />}
+      </div>
 
               <Link to="/contact" onClick={scrollToTop}>
                 <Button className="bg-gradient-to-r from-[#4bbf39] to-[#39bfb0] text-white hover:opacity-90 transition-opacity">
@@ -420,8 +477,10 @@ function MediaTestimonialPage() {
                 </Button>
               </Link>
             </motion.div>
-          </div>
-        </div>
+          {isSubmitting && <FormLoadingSpinner message={submitted ? "Success! Redirecting..." : "Submitting your request..."} />}
+      </div>
+        {isSubmitting && <FormLoadingSpinner message={submitted ? "Success! Redirecting..." : "Submitting your request..."} />}
+      </div>
       </section>
 
       {/* Services Section */}
@@ -434,7 +493,8 @@ function MediaTestimonialPage() {
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
               From customer interviews to case study documentation, we create compelling testimonial content that builds trust and drives conversions.
             </p>
-          </div>
+          {isSubmitting && <FormLoadingSpinner message={submitted ? "Success! Redirecting..." : "Submitting your request..."} />}
+      </div>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
             {testimonialServices.map((service, index) => (
@@ -467,8 +527,10 @@ function MediaTestimonialPage() {
                 </Card>
               </motion.div>
             ))}
-          </div>
-        </div>
+          {isSubmitting && <FormLoadingSpinner message={submitted ? "Success! Redirecting..." : "Submitting your request..."} />}
+      </div>
+        {isSubmitting && <FormLoadingSpinner message={submitted ? "Success! Redirecting..." : "Submitting your request..."} />}
+      </div>
       </section>
 
       {/* Testimonial Types Section */}
@@ -481,7 +543,8 @@ function MediaTestimonialPage() {
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
               Different formats for different purposes, each optimized for specific marketing goals and platforms.
             </p>
-          </div>
+          {isSubmitting && <FormLoadingSpinner message={submitted ? "Success! Redirecting..." : "Submitting your request..."} />}
+      </div>
 
           <div className="grid md:grid-cols-2 gap-8">
             {testimonialTypes.map((type, index) => (
@@ -501,7 +564,8 @@ function MediaTestimonialPage() {
                       <span className="bg-#4bbf39/10 text-[#4bbf39] px-3 py-1 rounded-full text-sm font-medium">
                         {type.duration}
                       </span>
-                    </div>
+                    {isSubmitting && <FormLoadingSpinner message={submitted ? "Success! Redirecting..." : "Submitting your request..."} />}
+      </div>
                     <CardDescription className="text-gray-600">
                       {type.description}
                     </CardDescription>
@@ -520,8 +584,10 @@ function MediaTestimonialPage() {
                 </Card>
               </motion.div>
             ))}
-          </div>
-        </div>
+          {isSubmitting && <FormLoadingSpinner message={submitted ? "Success! Redirecting..." : "Submitting your request..."} />}
+      </div>
+        {isSubmitting && <FormLoadingSpinner message={submitted ? "Success! Redirecting..." : "Submitting your request..."} />}
+      </div>
       </section>
 
       {/* Process Section */}
@@ -534,7 +600,8 @@ function MediaTestimonialPage() {
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
               A proven methodology that ensures authentic, compelling testimonials that drive real business results.
             </p>
-          </div>
+          {isSubmitting && <FormLoadingSpinner message={submitted ? "Success! Redirecting..." : "Submitting your request..."} />}
+      </div>
 
           <div className="grid md:grid-cols-2 gap-8">
             {productionProcess.map((step, index) => (
@@ -553,7 +620,8 @@ function MediaTestimonialPage() {
                       <CardTitle className="text-xl font-bold text-gray-900">
                         {step.title}
                       </CardTitle>
-                    </div>
+                    {isSubmitting && <FormLoadingSpinner message={submitted ? "Success! Redirecting..." : "Submitting your request..."} />}
+      </div>
                     <CardDescription className="text-gray-600 text-base">
                       {step.description}
                     </CardDescription>
@@ -572,8 +640,10 @@ function MediaTestimonialPage() {
                 </Card>
               </motion.div>
             ))}
-          </div>
-        </div>
+          {isSubmitting && <FormLoadingSpinner message={submitted ? "Success! Redirecting..." : "Submitting your request..."} />}
+      </div>
+        {isSubmitting && <FormLoadingSpinner message={submitted ? "Success! Redirecting..." : "Submitting your request..."} />}
+      </div>
       </section>
 
       {/* Benefits Section */}
@@ -586,7 +656,8 @@ function MediaTestimonialPage() {
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
               Testimonial videos leverage the power of social proof to build trust, overcome objections, and drive conversions.
             </p>
-          </div>
+          {isSubmitting && <FormLoadingSpinner message={submitted ? "Success! Redirecting..." : "Submitting your request..."} />}
+      </div>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
             {testimonialBenefits.map((benefit, index) => (
@@ -600,13 +671,16 @@ function MediaTestimonialPage() {
               >
                 <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-gradient-to-r from-[#4bbf39] to-[#39bfb0] flex items-center justify-center text-white">
                   {benefit.icon}
-                </div>
+                {isSubmitting && <FormLoadingSpinner message={submitted ? "Success! Redirecting..." : "Submitting your request..."} />}
+      </div>
                 <h3 className="text-xl font-bold text-gray-900 mb-2">{benefit.title}</h3>
                 <p className="text-gray-600">{benefit.description}</p>
               </motion.div>
             ))}
-          </div>
-        </div>
+          {isSubmitting && <FormLoadingSpinner message={submitted ? "Success! Redirecting..." : "Submitting your request..."} />}
+      </div>
+        {isSubmitting && <FormLoadingSpinner message={submitted ? "Success! Redirecting..." : "Submitting your request..."} />}
+      </div>
       </section>
 
       {/* FAQ Section */}
@@ -619,7 +693,8 @@ function MediaTestimonialPage() {
             <p className="text-xl text-gray-600">
               Get answers to common questions about testimonial video production.
             </p>
-          </div>
+          {isSubmitting && <FormLoadingSpinner message={submitted ? "Success! Redirecting..." : "Submitting your request..."} />}
+      </div>
 
           <div className="space-y-4">
             {faqItems.map((item, index) => (
@@ -644,7 +719,8 @@ function MediaTestimonialPage() {
                           expandedFaq === index ? 'rotate-90' : ''
                         }`}
                       />
-                    </div>
+                    {isSubmitting && <FormLoadingSpinner message={submitted ? "Success! Redirecting..." : "Submitting your request..."} />}
+      </div>
                   </CardHeader>
                   {expandedFaq === index && (
                     <CardContent className="pt-0">
@@ -654,8 +730,10 @@ function MediaTestimonialPage() {
                 </Card>
               </motion.div>
             ))}
-          </div>
-        </div>
+          {isSubmitting && <FormLoadingSpinner message={submitted ? "Success! Redirecting..." : "Submitting your request..."} />}
+      </div>
+        {isSubmitting && <FormLoadingSpinner message={submitted ? "Success! Redirecting..." : "Submitting your request..."} />}
+      </div>
       </section>
 
       {/* CTA Section */}
@@ -693,9 +771,11 @@ function MediaTestimonialPage() {
               </Button>
             </Link>
           </motion.div>
-        </div>
+        {isSubmitting && <FormLoadingSpinner message={submitted ? "Success! Redirecting..." : "Submitting your request..."} />}
+      </div>
       </section>
-    </div>
+    {isSubmitting && <FormLoadingSpinner message={submitted ? "Success! Redirecting..." : "Submitting your request..."} />}
+      </div>
   )
 }
 

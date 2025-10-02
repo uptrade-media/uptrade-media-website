@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { Button } from '@/components/ui/button.jsx'
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card.jsx'
@@ -6,8 +6,32 @@ import { CheckCircle, ArrowRight, Camera, MapPin, Home, Building, Plane, Eye, Ar
 import { motion } from 'framer-motion'
 
 function MediaAerialDronePage() {
+  const [submitted, setSubmitted] = useState(false)
+  
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' })
+  }
+
+  const handleSubmit = (e) => {
+    e.preventDefault()
+    const form = e.target
+    const data = new FormData(form)
+    fetch("/", {
+      method: "POST",
+      headers: { "Content-Type": "application/x-www-form-urlencoded" },
+      body: new URLSearchParams(data).toString(),
+    })
+      .then(() => {
+        setSubmitted(true)
+        // Redirect to thank you page after successful submission
+        setTimeout(() => {
+          window.location.href = '/thank-you'
+        }, 1500)
+      })
+      .catch((err) => {
+        console.error("Form submit error:", err)
+        alert("There was an error. Please try again.")
+      })
   }
 
   const aerialServices = [
@@ -199,6 +223,19 @@ function MediaAerialDronePage() {
                   </p>
                 </CardHeader>
                 <CardContent className="space-y-4">
+                  <form 
+                    name="aerial-consultation" 
+                    method="POST" 
+                    data-netlify="true" 
+                    netlify-honeypot="bot-field"
+                    onSubmit={handleSubmit}
+                    className="space-y-4"
+                  >
+                    <input type="hidden" name="form-name" value="aerial-consultation" />
+                    <p style={{display: 'none'}}>
+                      <label>Don't fill this out if you're human: <input name="bot-field" /></label>
+                    </p>
+                    
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div>
                       <label className="block text-sm font-medium text-gray-700 mb-2">
@@ -206,7 +243,9 @@ function MediaAerialDronePage() {
                       </label>
                       <input
                         type="text"
+                        name="name"
                         placeholder="John Smith"
+                        required
                         className="w-full px-4 py-3 rounded-lg bg-gray-50 border border-gray-200 text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#4bbf39] focus:border-transparent"
                       />
                     </div>
@@ -216,7 +255,9 @@ function MediaAerialDronePage() {
                       </label>
                       <input
                         type="email"
+                        name="email"
                         placeholder="john@company.com"
+                        required
                         className="w-full px-4 py-3 rounded-lg bg-gray-50 border border-gray-200 text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#4bbf39] focus:border-transparent"
                       />
                     </div>
@@ -226,7 +267,7 @@ function MediaAerialDronePage() {
                     <label className="block text-sm font-medium text-gray-700 mb-2">
                       Project Type
                     </label>
-                    <select className="w-full px-4 py-3 rounded-lg bg-gray-50 border border-gray-200 text-gray-900 focus:outline-none focus:ring-2 focus:ring-[#4bbf39] focus:border-transparent">
+                    <select name="projectType" className="w-full px-4 py-3 rounded-lg bg-gray-50 border border-gray-200 text-gray-900 focus:outline-none focus:ring-2 focus:ring-[#4bbf39] focus:border-transparent">
                       <option>Real Estate Photography</option>
                       <option>Video Production</option>
                       <option>Commercial Property</option>
@@ -241,16 +282,18 @@ function MediaAerialDronePage() {
                       Project Details
                     </label>
                     <textarea
+                      name="details"
                       rows={3}
                       placeholder="Tell us about your aerial photography needs..."
                       className="w-full px-4 py-3 rounded-lg bg-gray-50 border border-gray-200 text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#4bbf39] focus:border-transparent resize-none"
                     ></textarea>
                   </div>
 
-                  <Button className="w-full bg-gradient-to-r from-[#4bbf39] to-[#39bfb0] text-white py-3 text-lg hover:from-#9333EA hover:to-#4bbf39">
+                  <Button type="submit" className="w-full bg-gradient-to-r from-[#4bbf39] to-[#39bfb0] text-white py-3 text-lg hover:from-[#39bfb0] hover:to-[#4bbf39]">
                     Get Free Consultation
                     <ArrowRight className="ml-2 w-5 h-5" />
                   </Button>
+                  </form>
                 </CardContent>
               </Card>
             </motion.div>

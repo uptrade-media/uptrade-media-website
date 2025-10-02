@@ -3,7 +3,6 @@ import { Button } from './button'
 import { Card, CardContent, CardHeader, CardTitle } from './card'
 import { CheckCircle, Send, AlertCircle } from 'lucide-react'
 import { motion } from 'framer-motion'
-import FormLoadingSpinner from '../FormLoadingSpinner.jsx'
 
 // Unified form input component with consistent styling
 export const FormInput = ({ 
@@ -270,7 +269,7 @@ export const useFormState = (initialState = {}) => {
       setIsSubmitted(true)
       if (onSuccess) onSuccess()
       
-      // Show success state briefly, then redirect
+      // Redirect to thank you page after successful submission
       setTimeout(() => {
         window.location.href = redirectTo
       }, 1500) // Small delay to show success message
@@ -294,7 +293,6 @@ export const useFormState = (initialState = {}) => {
     isSubmitted,
     handleInputChange,
     handleSubmit,
-    resetForm,
-    LoadingSpinner: () => isSubmitting ? <FormLoadingSpinner message={isSubmitted ? "Success! Redirecting..." : "Submitting your request..."} /> : null
+    resetForm
   }
 }

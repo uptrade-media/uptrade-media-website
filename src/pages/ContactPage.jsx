@@ -437,6 +437,31 @@ const ContactPage = () => {
           </div>
         </div>
       </section>
+
+      {/* Hidden static form for Netlify build bot */}
+      <form name="contact" data-netlify="true" data-netlify-honeypot="bot-field" hidden>
+        <input type="hidden" name="form-name" value="contact" />
+        <input name="name" />
+        <input name="email" />
+        <input name="phone" />
+        <input name="company" />
+        <select name="service">
+          <option>Web Design & Development</option>
+          <option>SEO & Digital Marketing</option>
+          <option>Branding & Graphic Design</option>
+          <option>Content Creation</option>
+          <option>Photography & Video</option>
+          <option>Other</option>
+        </select>
+        <select name="budget">
+          <option>Under $5,000</option>
+          <option>$5,000 - $10,000</option>
+          <option>$10,000 - $25,000</option>
+          <option>$25,000 - $50,000</option>
+          <option>$50,000+</option>
+        </select>
+        <textarea name="message"></textarea>
+      </form>
     </div>
   )
 }

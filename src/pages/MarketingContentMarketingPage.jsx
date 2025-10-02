@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { Button } from '@/components/ui/button.jsx'
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card.jsx'
@@ -7,8 +7,32 @@ import { Badge } from '@/components/ui/badge.jsx'
 import { motion } from 'framer-motion'
 
 function MarketingContentMarketingPage() {
+  const [submitted, setSubmitted] = useState(false)
+  
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' })
+  }
+
+  const handleSubmit = (e) => {
+    e.preventDefault()
+    const form = e.target
+    const data = new FormData(form)
+    fetch("/", {
+      method: "POST",
+      headers: { "Content-Type": "application/x-www-form-urlencoded" },
+      body: new URLSearchParams(data).toString(),
+    })
+      .then(() => {
+        setSubmitted(true)
+        // Redirect to thank you page after successful submission
+        setTimeout(() => {
+          window.location.href = '/thank-you'
+        }, 1500)
+      })
+      .catch((err) => {
+        console.error("Form submit error:", err)
+        alert("There was an error. Please try again.")
+      })
   }
 
   const contentServices = [
@@ -252,6 +276,19 @@ function MarketingContentMarketingPage() {
                   </p>
                 </CardHeader>
                 <CardContent className="space-y-4">
+                  <form 
+                    name="content-strategy" 
+                    method="POST" 
+                    data-netlify="true" 
+                    netlify-honeypot="bot-field"
+                    onSubmit={handleSubmit}
+                    className="space-y-4"
+                  >
+                    <input type="hidden" name="form-name" value="content-strategy" />
+                    <p style={{display: 'none'}}>
+                      <label>Don't fill this out if you're human: <input name="bot-field" /></label>
+                    </p>
+                    
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div>
                       <label className="block text-sm font-medium text-gray-700 mb-2">
@@ -290,7 +327,7 @@ function MarketingContentMarketingPage() {
                       <label className="block text-sm font-medium text-gray-700 mb-2">
                         Industry
                       </label>
-                      <select className="w-full px-4 py-3 rounded-lg bg-gray-50 border border-gray-200 text-gray-900 focus:outline-none focus:ring-2 focus:ring-[#4bbf39] focus:border-transparent">
+                      <select name="industry" className="w-full px-4 py-3 rounded-lg bg-gray-50 border border-gray-200 text-gray-900 focus:outline-none focus:ring-2 focus:ring-[#4bbf39] focus:border-transparent">
                         <option value="">Select Industry</option>
                         <option value="legal">Legal Services</option>
                         <option value="healthcare">Healthcare</option>
@@ -308,16 +345,19 @@ function MarketingContentMarketingPage() {
                       Content Goals *
                     </label>
                     <textarea
+                      name="goals"
                       rows={3}
                       placeholder="What are your main content marketing goals? (e.g., increase website traffic, generate leads, build brand authority)"
+                      required
                       className="w-full px-4 py-3 rounded-lg bg-gray-50 border border-gray-200 text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#4bbf39] focus:border-transparent resize-none"
                     ></textarea>
                   </div>
 
-                  <Button className="w-full bg-gradient-to-r from-[#4bbf39] to-[#39bfb0] text-white hover:from-[#39bfb0] hover:to-[#4bbf39] py-3 text-lg font-semibold">
+                  <Button type="submit" className="w-full bg-gradient-to-r from-[#4bbf39] to-[#39bfb0] text-white hover:from-[#39bfb0] hover:to-[#4bbf39] py-3 text-lg font-semibold">
                     Get My Content Strategy
                     <ArrowRight className="ml-2 w-5 h-5" />
                   </Button>
+                  </form>
                   
                   <p className="text-center text-gray-500 text-sm">
                     We'll create a custom content strategy for your business

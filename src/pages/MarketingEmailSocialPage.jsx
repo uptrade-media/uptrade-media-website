@@ -27,7 +27,13 @@ function MarketingEmailSocialPage() {
       headers: { "Content-Type": "application/x-www-form-urlencoded" },
       body: new URLSearchParams(data).toString(),
     })
-      .then(() => setSubmitted(true))
+      .then(() => {
+        setSubmitted(true)
+        // Redirect to thank you page after successful submission
+        setTimeout(() => {
+          window.location.href = '/thank-you'
+        }, 1500)
+      })
       .catch((err) => {
         console.error("Form submit error:", err)
         alert("There was an error. Please try again.")

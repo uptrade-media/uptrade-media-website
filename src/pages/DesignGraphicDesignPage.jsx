@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 import SEOHead from '../components/SEOHead.jsx'
 import { Button } from '@/components/ui/button.jsx'
@@ -28,6 +28,30 @@ import {
 import { motion } from 'framer-motion'
 
 function DesignGraphicDesignPage() {
+  const [submitted, setSubmitted] = useState(false)
+
+  const handleSubmit = (e) => {
+    e.preventDefault()
+    const form = e.target
+    const data = new FormData(form)
+    fetch("/", {
+      method: "POST",
+      headers: { "Content-Type": "application/x-www-form-urlencoded" },
+      body: new URLSearchParams(data).toString(),
+    })
+      .then(() => {
+        setSubmitted(true)
+        // Redirect to thank you page after successful submission
+        setTimeout(() => {
+          window.location.href = "/thank-you"
+        }, 1500)
+      })
+      .catch((err) => {
+        console.error("Form submit error:", err)
+        alert("There was an error. Please try again.")
+      })
+  }
+
   const graphicDesignServices = [
     {
       icon: <Truck className="w-8 h-8" />,
@@ -240,6 +264,19 @@ function DesignGraphicDesignPage() {
                   </p>
                 </CardHeader>
                 <CardContent className="space-y-4">
+                  <form 
+                    name="graphic-design-consultation" 
+                    method="POST" 
+                    data-netlify="true"
+                    onSubmit={handleSubmit} 
+                    netlify-honeypot="bot-field"
+                    className="space-y-4"
+                  >
+                    <input type="hidden" name="form-name" value="graphic-design-consultation" />
+                    <p style={{display: 'none'}}>
+                      <label>Don't fill this out if you're human: <input name="bot-field" /></label>
+                    </p>
+                    
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div>
                       <label className="block text-sm font-medium text-gray-700 mb-2">
@@ -247,7 +284,9 @@ function DesignGraphicDesignPage() {
                       </label>
                       <input
                         type="text"
+                        name="name"
                         placeholder="John Smith"
+                        required
                         className="w-full px-4 py-3 rounded-lg bg-gray-50 border border-gray-200 text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#4bbf39] focus:border-transparent"
                       />
                     </div>
@@ -257,7 +296,9 @@ function DesignGraphicDesignPage() {
                       </label>
                       <input
                         type="email"
+                        name="email"
                         placeholder="john@company.com"
+                        required
                         className="w-full px-4 py-3 rounded-lg bg-gray-50 border border-gray-200 text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#4bbf39] focus:border-transparent"
                       />
                     </div>
@@ -290,7 +331,7 @@ function DesignGraphicDesignPage() {
                     <label className="block text-sm font-medium text-gray-700 mb-2">
                       Design Type
                     </label>
-                    <select className="w-full px-4 py-3 rounded-lg bg-gray-50 border border-gray-200 text-gray-900 focus:outline-none focus:ring-2 focus:ring-[#4bbf39] focus:border-transparent">
+                    <select name="designType" className="w-full px-4 py-3 rounded-lg bg-gray-50 border border-gray-200 text-gray-900 focus:outline-none focus:ring-2 focus:ring-[#4bbf39] focus:border-transparent">
                       <option value="">Select design type</option>
                       <option value="vehicle-wrap">Vehicle Wrap</option>
                       <option value="print-materials">Print Materials</option>
@@ -306,16 +347,18 @@ function DesignGraphicDesignPage() {
                       Project Details
                     </label>
                     <textarea
+                      name="details"
                       rows={3}
                       placeholder="Tell us about your design project..."
                       className="w-full px-4 py-3 rounded-lg bg-gray-50 border border-gray-200 text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#4bbf39] focus:border-transparent resize-none"
                     ></textarea>
                   </div>
 
-                  <Button className="w-full bg-gradient-to-r from-[#4bbf39] to-[#39bfb0] text-white py-3 text-lg hover:from-[#39bfb0] hover:to-[#4bbf39]">
+                  <Button type="submit" className="w-full bg-gradient-to-r from-[#4bbf39] to-[#39bfb0] text-white py-3 text-lg hover:from-[#39bfb0] hover:to-[#4bbf39]">
                     Get Free Design Consultation
                     <ArrowRight className="ml-2 w-5 h-5" />
                   </Button>
+                  </form>
                   
                   <p className="text-xs text-gray-500 text-center">
                     Free consultation • No obligation • Expert insights

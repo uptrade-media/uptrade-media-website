@@ -1,4 +1,5 @@
-import React from 'react'
+import React, { useState } from 'react'
+import BrandedLoadingSpinner from "../components/BrandedLoadingSpinner.jsx"
 import { Link } from 'react-router-dom'
 import { Button } from '@/components/ui/button.jsx'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card.jsx'
@@ -6,6 +7,34 @@ import { CheckCircle, ArrowRight, ArrowLeft, Phone, Brush, Palette, Lightbulb, T
 import { motion } from 'framer-motion'
 
 function DesignBrandingPage() {
+  const [submitted, setSubmitted] = useState(false)
+  const [isSubmitting, setIsSubmitting] = useState(false)
+
+  const handleSubmit = (e) => {
+    setIsSubmitting(true)
+    e.preventDefault()
+    const form = e.target
+    const data = new FormData(form)
+    fetch("/", {
+      method: "POST",
+      headers: { "Content-Type": "application/x-www-form-urlencoded" },
+      body: new URLSearchParams(data).toString(),
+    })
+      .then(() => {
+        setSubmitted(true)
+        setIsSubmitting(false)
+        // Redirect to thank you page after successful submission
+        setTimeout(() => {
+          window.location.href = "/thank-you"
+        }, 1500)
+      })
+      .catch((err) => {
+        console.error("Form submit error:", err)
+        setIsSubmitting(false)
+        alert("There was an error. Please try again.")
+      })
+  }
+
   const brandingBenefits = [
     {
       title: 'Stronger Brand Recognition',
@@ -69,7 +98,7 @@ function DesignBrandingPage() {
             <ArrowLeft className="w-4 h-4 mr-2" />
             Back to Design Services
           </Link>
-        </div>
+      </div>
       </div>
 
       {/* Hero Section */}
@@ -84,7 +113,7 @@ function DesignBrandingPage() {
               <div className="bg-white/20 backdrop-blur-sm text-white border border-white/30 rounded-full px-4 py-2 inline-flex items-center mb-4">
                 <Palette className="w-4 h-4 mr-2" />
                 Brand Identity Design
-              </div>
+      </div>
               <h1 className="text-4xl lg:text-6xl font-bold mb-6">
                 Brand Identity & Logo Design in Cincinnati
               </h1>
@@ -105,18 +134,16 @@ function DesignBrandingPage() {
                     (513) 331-0555
                   </Button>
                 </a>
-              </div>
+      </div>
 
               <div className="grid grid-cols-2 gap-6 text-center">
                 <div className="flex flex-col items-center">
                   <Award className="w-8 h-8 text-white/90 mb-2" />
-                  <div className="text-3xl font-bold">50+</div>
-                  <div className="text-white/80">Brands Created</div>
+                  <span className="text-white/90 text-sm">Award Winning</span>
                 </div>
                 <div className="flex flex-col items-center">
                   <Users className="w-8 h-8 text-white/90 mb-2" />
-                  <div className="text-3xl font-bold">100%</div>
-                  <div className="text-white/80">Client Satisfaction</div>
+                  <span className="text-white/90 text-sm">Expert Team</span>
                 </div>
               </div>
             </motion.div>
@@ -138,6 +165,19 @@ function DesignBrandingPage() {
                   </p>
                 </CardHeader>
                 <CardContent className="space-y-4">
+                  <form 
+                    name="brand-consultation" 
+                    method="POST" 
+                    data-netlify="true"
+                    onSubmit={handleSubmit} 
+                    netlify-honeypot="bot-field"
+                    className="space-y-4"
+                  >
+                    <input type="hidden" name="form-name" value="brand-consultation" />
+                    <p style={{display: 'none'}}>
+                      <label>Don't fill this out if you're human: <input name="bot-field" /></label>
+                    </p>
+                    
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div>
                       <label className="block text-sm font-medium text-gray-700 mb-2">
@@ -145,21 +185,25 @@ function DesignBrandingPage() {
                       </label>
                       <input
                         type="text"
+                        name="business" autoComplete="organization"
                         placeholder="Your Business"
+                        required
                         className="w-full px-4 py-3 rounded-lg bg-gray-50 border border-gray-200 text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#4bbf39] focus:border-transparent"
                       />
-                    </div>
+      </div>
                     <div>
                       <label className="block text-sm font-medium text-gray-700 mb-2">
                         Industry *
                       </label>
                       <input
                         type="text"
+                        name="industry"
                         placeholder="e.g., Restaurant, Law Firm"
+                        required
                         className="w-full px-4 py-3 rounded-lg bg-gray-50 border border-gray-200 text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#4bbf39] focus:border-transparent"
                       />
-                    </div>
-                  </div>
+      </div>
+      </div>
                   
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div>
@@ -167,28 +211,30 @@ function DesignBrandingPage() {
                         Email Address *
                       </label>
                       <input
-                        type="email"
+                        type="email" autoComplete="email"
+                        name="email"
                         placeholder="john@company.com"
+                        required
                         className="w-full px-4 py-3 rounded-lg bg-gray-50 border border-gray-200 text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#4bbf39] focus:border-transparent"
                       />
-                    </div>
+      </div>
                     <div>
                       <label className="block text-sm font-medium text-gray-700 mb-2">
                         Phone Number
                       </label>
                       <input
-                        type="tel"
+                        type="tel" autoComplete="tel"
                         placeholder="(513) 555-0123"
                         className="w-full px-4 py-3 rounded-lg bg-gray-50 border border-gray-200 text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#4bbf39] focus:border-transparent"
                       />
-                    </div>
-                  </div>
+      </div>
+      </div>
 
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-2">
                       Project Type
                     </label>
-                    <select className="w-full px-4 py-3 rounded-lg bg-gray-50 border border-gray-200 text-gray-900 focus:outline-none focus:ring-2 focus:ring-[#4bbf39] focus:border-transparent">
+                    <select name="projectType" className="w-full px-4 py-3 rounded-lg bg-gray-50 border border-gray-200 text-gray-900 focus:outline-none focus:ring-2 focus:ring-[#4bbf39] focus:border-transparent">
                       <option value="">Select project type</option>
                       <option value="new-brand">New Brand Identity</option>
                       <option value="rebrand">Brand Refresh/Rebrand</option>
@@ -196,12 +242,13 @@ function DesignBrandingPage() {
                       <option value="brand-guidelines">Brand Guidelines</option>
                       <option value="full-package">Complete Brand Package</option>
                     </select>
-                  </div>
+      </div>
 
-                  <Button className="w-full bg-gradient-to-r from-[#4bbf39] to-[#39bfb0] text-white py-3 text-lg hover:from-[#39bfb0] hover:to-[#4bbf39]">
+                  <Button type="submit" className="w-full bg-gradient-to-r from-[#4bbf39] to-[#39bfb0] text-white py-3 text-lg hover:from-[#39bfb0] hover:to-[#4bbf39]">
                     Get Free Brand Consultation
                     <ArrowRight className="ml-2 w-5 h-5" />
                   </Button>
+                  </form>
                   
                   <p className="text-xs text-gray-500 text-center">
                     Free consultation • No obligation • Expert insights
@@ -209,8 +256,8 @@ function DesignBrandingPage() {
                 </CardContent>
               </Card>
             </motion.div>
-          </div>
-        </div>
+      </div>
+      </div>
       </section>
 
       {/* What We Do Section */}
@@ -231,7 +278,7 @@ function DesignBrandingPage() {
                 View Our Branding Portfolio
                 <ArrowRight className="ml-2 w-5 h-5" />
               </Button>
-            </div>
+      </div>
             <div>
               <div className="bg-white rounded-lg shadow-xl p-8">
                 <h3 className="text-2xl font-bold text-gray-900 mb-6 text-center">Trusted by Leading Businesses</h3>
@@ -242,71 +289,71 @@ function DesignBrandingPage() {
                       alt="The Marina at Manhattan Harbour"
                       className="max-h-12 max-w-full object-contain opacity-70 hover:opacity-100 transition-opacity"
                     />
-                  </div>
+      </div>
                   <div className="flex items-center justify-center p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors">
                     <img 
                       src="/Client_logos/Queen_City_Riverboats_Logo.svg" 
                       alt="Queen City Riverboats"
                       className="max-h-12 max-w-full object-contain opacity-70 hover:opacity-100 transition-opacity"
                     />
-                  </div>
+      </div>
                   <div className="flex items-center justify-center p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors">
                     <img 
                       src="/Client_logos/Blue_Cattys_Bar_and_Grille_Logo.png" 
                       alt="Blue Catty's Bar and Grille"
                       className="max-h-12 max-w-full object-contain opacity-70 hover:opacity-100 transition-opacity"
                     />
-                  </div>
+      </div>
                   <div className="flex items-center justify-center p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors">
                     <img 
                       src="/Client_logos/Sexton_Law_Logo.svg" 
                       alt="Sexton Law"
                       className="max-h-12 max-w-full object-contain opacity-70 hover:opacity-100 transition-opacity"
                     />
-                  </div>
+      </div>
                   <div className="flex items-center justify-center p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors">
                     <img 
                       src="/Client_logos/Gunning_Homes_Logo.svg" 
                       alt="Gunning Homes"
                       className="max-h-12 max-w-full object-contain opacity-70 hover:opacity-100 transition-opacity"
                     />
-                  </div>
+      </div>
                   <div className="flex items-center justify-center p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors">
                     <img 
                       src="/Client_logos/Adams_Real_Estate_Advisors_Logo.svg" 
                       alt="Adams Real Estate Advisors"
                       className="max-h-12 max-w-full object-contain opacity-70 hover:opacity-100 transition-opacity"
                     />
-                  </div>
+      </div>
                   <div className="flex items-center justify-center p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors">
                     <img 
                       src="/Client_logos/Nikki_Hayden_Realtor_Logo.svg" 
                       alt="Nikki Hayden Realtor"
                       className="max-h-12 max-w-full object-contain opacity-70 hover:opacity-100 transition-opacity"
                     />
-                  </div>
+      </div>
                   <div className="flex items-center justify-center p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors">
                     <img 
                       src="/Client_logos/Prost_Bellevue_Tavern_Logo.svg" 
                       alt="Prost Bellevue Tavern"
                       className="max-h-12 max-w-full object-contain opacity-70 hover:opacity-100 transition-opacity"
                     />
-                  </div>
+      </div>
                   <div className="flex items-center justify-center p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors">
                     <img 
                       src="/Client_logos/3CDC_Logo.svg" 
                       alt="3CDC"
                       className="max-h-12 max-w-full object-contain opacity-70 hover:opacity-100 transition-opacity"
                     />
-                  </div>
-                </div>
+      </div>
+      </div>
                 <p className="text-center text-gray-600 mt-6 text-sm">
                   From restaurants to real estate, law firms to luxury developments - we create brands that resonate across industries.
                 </p>
-              </div>
-            </div>
-          </div>
-        </div>
+      </div>
+      </div>
+      </div>
+      </div>
       </section>
 
       {/* Brand Services Section */}
@@ -319,13 +366,13 @@ function DesignBrandingPage() {
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
               From initial concept to complete brand implementation, we provide everything you need to establish a powerful brand presence.
             </p>
-          </div>
+      </div>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
             <Card className="p-6 shadow-lg hover:shadow-xl transition-shadow">
               <div className="w-12 h-12 mb-4 rounded-lg bg-gradient-to-r from-[#4bbf39] to-[#39bfb0] flex items-center justify-center text-white">
                 <Palette className="w-6 h-6" />
-              </div>
+      </div>
               <CardTitle className="text-xl font-bold mb-3">Logo Design</CardTitle>
               <CardContent className="text-gray-600 p-0">
                 Custom logo design that captures your brand essence and works across all applications, from business cards to billboards.
@@ -335,7 +382,7 @@ function DesignBrandingPage() {
             <Card className="p-6 shadow-lg hover:shadow-xl transition-shadow">
               <div className="w-12 h-12 mb-4 rounded-lg bg-gradient-to-r from-[#4bbf39] to-[#39bfb0] flex items-center justify-center text-white">
                 <Brush className="w-6 h-6" />
-              </div>
+      </div>
               <CardTitle className="text-xl font-bold mb-3">Brand Guidelines</CardTitle>
               <CardContent className="text-gray-600 p-0">
                 Comprehensive style guides covering logo usage, color palettes, typography, and brand voice to ensure consistency.
@@ -345,7 +392,7 @@ function DesignBrandingPage() {
             <Card className="p-6 shadow-lg hover:shadow-xl transition-shadow">
               <div className="w-12 h-12 mb-4 rounded-lg bg-gradient-to-r from-[#4bbf39] to-[#39bfb0] flex items-center justify-center text-white">
                 <CheckCircle className="w-6 h-6" />
-              </div>
+      </div>
               <CardTitle className="text-xl font-bold mb-3">Business Card Design</CardTitle>
               <CardContent className="text-gray-600 p-0">
                 Professional business card design that makes a memorable first impression and reinforces your brand identity.
@@ -355,7 +402,7 @@ function DesignBrandingPage() {
             <Card className="p-6 shadow-lg hover:shadow-xl transition-shadow">
               <div className="w-12 h-12 mb-4 rounded-lg bg-gradient-to-r from-[#4bbf39] to-[#39bfb0] flex items-center justify-center text-white">
                 <Lightbulb className="w-6 h-6" />
-              </div>
+      </div>
               <CardTitle className="text-xl font-bold mb-3">Brand Strategy</CardTitle>
               <CardContent className="text-gray-600 p-0">
                 Strategic brand positioning and messaging that differentiates you from competitors and resonates with your target audience.
@@ -365,7 +412,7 @@ function DesignBrandingPage() {
             <Card className="p-6 shadow-lg hover:shadow-xl transition-shadow">
               <div className="w-12 h-12 mb-4 rounded-lg bg-gradient-to-r from-[#4bbf39] to-[#39bfb0] flex items-center justify-center text-white">
                 <TrendingUp className="w-6 h-6" />
-              </div>
+      </div>
               <CardTitle className="text-xl font-bold mb-3">Brand Refresh</CardTitle>
               <CardContent className="text-gray-600 p-0">
                 Modernize and evolve your existing brand to better reflect your growth and changing market position.
@@ -375,14 +422,14 @@ function DesignBrandingPage() {
             <Card className="p-6 shadow-lg hover:shadow-xl transition-shadow">
               <div className="w-12 h-12 mb-4 rounded-lg bg-gradient-to-r from-[#4bbf39] to-[#39bfb0] flex items-center justify-center text-white">
                 <Award className="w-6 h-6" />
-              </div>
+      </div>
               <CardTitle className="text-xl font-bold mb-3">Marketing Materials</CardTitle>
               <CardContent className="text-gray-600 p-0">
                 Branded marketing collateral including brochures, flyers, presentations, and digital assets that maintain brand consistency.
               </CardContent>
             </Card>
-          </div>
-        </div>
+      </div>
+      </div>
       </section>
 
       {/* Our Process Section */}
@@ -395,7 +442,7 @@ function DesignBrandingPage() {
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
               A strategic, collaborative journey from initial discovery to a compelling brand presence that drives business growth.
             </p>
-          </div>
+      </div>
 
           <div className="grid lg:grid-cols-4 gap-8">
             <motion.div
@@ -407,7 +454,7 @@ function DesignBrandingPage() {
             >
               <div className="w-20 h-20 mx-auto mb-6 rounded-full bg-gradient-to-r from-[#4bbf39] to-[#39bfb0] flex items-center justify-center text-white text-2xl font-bold">
                 01
-              </div>
+      </div>
               <h3 className="text-xl font-bold mb-4">Discovery & Research</h3>
               <p className="text-gray-600 mb-4">
                 We dive deep into your business, industry, competitors, and target audience to understand what makes your brand unique.
@@ -429,7 +476,7 @@ function DesignBrandingPage() {
             >
               <div className="w-20 h-20 mx-auto mb-6 rounded-full bg-gradient-to-r from-[#4bbf39] to-[#39bfb0] flex items-center justify-center text-white text-2xl font-bold">
                 02
-              </div>
+      </div>
               <h3 className="text-xl font-bold mb-4">Strategy & Concept</h3>
               <p className="text-gray-600 mb-4">
                 Based on our research, we develop a comprehensive brand strategy and create initial design concepts that align with your goals.
@@ -451,7 +498,7 @@ function DesignBrandingPage() {
             >
               <div className="w-20 h-20 mx-auto mb-6 rounded-full bg-gradient-to-r from-[#4bbf39] to-[#39bfb0] flex items-center justify-center text-white text-2xl font-bold">
                 03
-              </div>
+      </div>
               <h3 className="text-xl font-bold mb-4">Design & Development</h3>
               <p className="text-gray-600 mb-4">
                 Our designers create your logo, select colors and typography, and develop all visual elements that will define your brand.
@@ -473,7 +520,7 @@ function DesignBrandingPage() {
             >
               <div className="w-20 h-20 mx-auto mb-6 rounded-full bg-gradient-to-r from-[#4bbf39] to-[#39bfb0] flex items-center justify-center text-white text-2xl font-bold">
                 04
-              </div>
+      </div>
               <h3 className="text-xl font-bold mb-4">Guidelines & Launch</h3>
               <p className="text-gray-600 mb-4">
                 We create comprehensive brand guidelines and help you implement your new identity across all touchpoints for maximum impact.
@@ -485,8 +532,8 @@ function DesignBrandingPage() {
                 <li>• Launch strategy</li>
               </ul>
             </motion.div>
-          </div>
-        </div>
+      </div>
+      </div>
       </section>
 
       {/* Industry Expertise Section */}
@@ -499,7 +546,7 @@ function DesignBrandingPage() {
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
               We understand the unique branding challenges and opportunities across different industries, allowing us to create targeted solutions that resonate with your specific market.
             </p>
-          </div>
+      </div>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
             <Card className="p-6 shadow-lg">
@@ -579,8 +626,8 @@ function DesignBrandingPage() {
                 </ul>
               </CardContent>
             </Card>
-          </div>
-        </div>
+      </div>
+      </div>
       </section>
 
       {/* Benefits Grid */}
@@ -593,7 +640,7 @@ function DesignBrandingPage() {
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
               A well-crafted brand identity is the foundation of effective marketing and lasting customer relationships.
             </p>
-          </div>
+      </div>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
             {brandingBenefits.map((benefit, index) => (
@@ -607,13 +654,13 @@ function DesignBrandingPage() {
               >
                 <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-gradient-to-r from-[#4bbf39] to-[#39bfb0] flex items-center justify-center text-white">
                   {benefit.icon}
-                </div>
+      </div>
                 <h3 className="text-xl font-bold text-gray-900 mb-2">{benefit.title}</h3>
                 <p className="text-gray-600">{benefit.description}</p>
               </motion.div>
             ))}
-          </div>
-        </div>
+      </div>
+      </div>
       </section>
 
       {/* FAQ Section */}
@@ -623,7 +670,7 @@ function DesignBrandingPage() {
             <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
               Frequently Asked Questions
             </h2>
-          </div>
+      </div>
 
           <div className="space-y-4">
             {faqItems.map((faq, index) => (
@@ -643,7 +690,7 @@ function DesignBrandingPage() {
                         <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
                       </svg>
                     )}
-                  </div>
+      </div>
                 </CardHeader>
                 {expandedFaq === index && (
                   <CardContent className="pt-0">
@@ -652,8 +699,8 @@ function DesignBrandingPage() {
                 )}
               </Card>
             ))}
-          </div>
-        </div>
+      </div>
+      </div>
       </section>
 
       {/* CTA Section */}
@@ -673,10 +720,10 @@ function DesignBrandingPage() {
             <Button size="lg" variant="outline" className="border-white text-white hover:bg-white/90 hover:text-[#4bbf39] backdrop-blur-sm px-8 py-3">
               Call (513) 331-0555
             </Button>
-          </div>
-        </div>
+      </div>
+      </div>
       </section>
-    </div>
+      </div>
   )
 }
 

@@ -283,7 +283,7 @@ function MediaPhotographyPage() {
                   <div className="grid grid-cols-2 gap-4">
                     <FormInput
                       label="Full Name"
-                      name="name"
+                      name="name" autoComplete="name"
                       type="text"
                       required
                       placeholder="John Smith"
@@ -293,7 +293,7 @@ function MediaPhotographyPage() {
                     <FormInput
                       label="Email Address"
                       name="email"
-                      type="email"
+                      type="email" autoComplete="email"
                       required
                       placeholder="john@company.com"
                       value={formData.email}
@@ -305,14 +305,14 @@ function MediaPhotographyPage() {
                     <FormInput
                       label="Phone Number"
                       name="phone"
-                      type="tel"
+                      type="tel" autoComplete="tel"
                       placeholder="(513) 555-0123"
                       value={formData.phone}
                       onChange={handleInputChange}
                     />
                     <FormInput
                       label="Company Name"
-                      name="company"
+                      name="company" autoComplete="organization"
                       type="text"
                       placeholder="Your Company"
                       value={formData.company}
@@ -631,6 +631,24 @@ function MediaPhotographyPage() {
           </div>
         </div>
       </section>
+
+      {/* Hidden static form for Netlify build bot */}
+      <form name="photography-consultation" data-netlify="true" data-netlify-honeypot="bot-field" hidden>
+        <input type="hidden" name="form-name" value="photography-consultation" />
+        <input name="name" autoComplete="name" />
+        <input name="email" />
+        <input name="phone" />
+        <input name="company" autoComplete="organization" />
+        <select name="projectType">
+          <option>Corporate & Headshots</option>
+          <option>Product Photography</option>
+          <option>Food & Restaurant</option>
+          <option>Event Coverage</option>
+          <option>Branding Photography</option>
+          <option>Other</option>
+        </select>
+        <textarea name="details"></textarea>
+      </form>
     </div>
   )
 }
