@@ -2,7 +2,7 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import { Button } from '@/components/ui/button.jsx'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card.jsx'
-import { CheckCircle, ArrowRight, Star, MessageSquare, Shield, TrendingUp, Users, Lightbulb, Phone } from 'lucide-react'
+import { CheckCircle, ArrowRight, Star, MessageSquare, Shield, TrendingUp, Users, Lightbulb, Phone, ArrowLeft } from 'lucide-react'
 import { motion } from 'framer-motion'
 
 function MarketingReputationPage() {
@@ -62,6 +62,16 @@ function MarketingReputationPage() {
 
   return (
     <div className="min-h-screen bg-white">
+      {/* Navigation */}
+      <div className="bg-gray-50 py-4">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <Link to="/marketing" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })} className="inline-flex items-center text-[#4bbf39] hover:text-[#39bfb0] transition-colors">
+            <ArrowLeft className="w-4 h-4 mr-2" />
+            Back to Marketing Services
+          </Link>
+        </div>
+      </div>
+
       {/* Hero Section */}
       <section className="relative py-20 bg-gradient-to-br from-[#4bbf39] to-[#39bfb0] text-white overflow-hidden">
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -152,9 +162,9 @@ function MarketingReputationPage() {
                       <input
                         type="text"
                         name="name"
-                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#4bbf39] focus:border-transparent"
+                        className="w-full px-4 py-3 rounded-lg bg-gray-50 border border-gray-300 text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#4bbf39] focus:border-transparent"
                         placeholder="John Smith"
-                        style={{ color: 'black' }}
+                        
                         required
                       />
                     </div>
@@ -163,9 +173,8 @@ function MarketingReputationPage() {
                       <input
                         type="email"
                         name="email"
-                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#4bbf39] focus:border-transparent"
+                        className="w-full px-4 py-3 rounded-lg bg-gray-50 border border-gray-300 text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#4bbf39] focus:border-transparent"
                         placeholder="john@company.com"
-                        style={{ color: 'black' }}
                         required
                       />
                     </div>
@@ -176,18 +185,16 @@ function MarketingReputationPage() {
                       <label className="block text-sm font-medium text-gray-700 mb-1">Phone Number</label>
                       <input
                         type="tel"
-                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#4bbf39] focus:border-transparent"
+                        className="w-full px-4 py-3 rounded-lg bg-gray-50 border border-gray-300 text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#4bbf39] focus:border-transparent"
                         placeholder="(513) 555-0123"
-                        style={{ color: 'black' }}
                       />
                     </div>
                     <div>
                       <label className="block text-sm font-medium text-gray-700 mb-1">Business Name</label>
                       <input
                         type="text"
-                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#4bbf39] focus:border-transparent"
+                        className="w-full px-4 py-3 rounded-lg bg-gray-50 border border-gray-300 text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#4bbf39] focus:border-transparent"
                         placeholder="Your Business"
-                        style={{ color: 'black' }}
                       />
                     </div>
                   </div>
@@ -196,9 +203,8 @@ function MarketingReputationPage() {
                     <label className="block text-sm font-medium text-gray-700 mb-1">Current Reputation Concerns</label>
                     <textarea
                       rows={3}
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#4bbf39] focus:border-transparent"
+                      className="w-full px-4 py-3 rounded-lg bg-gray-50 border border-gray-300 text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#4bbf39] focus:border-transparent"
                       placeholder="Tell us about your reputation management needs..."
-                      style={{ color: 'black' }}
                     ></textarea>
                   </div>
 

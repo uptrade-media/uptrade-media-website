@@ -35,9 +35,23 @@ import {
 } from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'
 import SEOHead from '../components/SEOHead'
+import { 
+  UnifiedForm, 
+  FormInput, 
+  FormSelect, 
+  FormTextarea, 
+  useFormState 
+} from '@/components/ui/unified-form.jsx'
 
 function DesignUXUIPage() {
-  const [formData, setFormData] = useState({
+  const {
+    formData,
+    isSubmitting,
+    isSubmitted,
+    handleInputChange,
+    handleSubmit,
+    resetForm
+  } = useFormState({
     name: '',
     email: '',
     phone: '',
@@ -46,47 +60,10 @@ function DesignUXUIPage() {
     details: ''
   })
 
+  const onFormSubmit = () => handleSubmit('ux-ui-consultation')
   const [expandedFaq, setExpandedFaq] = useState(null)
 
-  const handleInputChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value
-    })
-  }
 
-  const handleSubmit = async (e) => {
-    e.preventDefault()
-    
-    try {
-      const form = e.target
-      const formData = new FormData(form)
-      
-      const response = await fetch('/', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-        body: new URLSearchParams(formData).toString()
-      })
-      
-      if (response.ok) {
-        alert('Thank you! We\'ll be in touch within 24 hours to discuss your UX/UI project.')
-        // Reset form
-        setFormData({
-          name: '',
-          email: '',
-          phone: '',
-          company: '',
-          projectType: '',
-          details: ''
-        })
-      } else {
-        throw new Error('Form submission failed')
-      }
-    } catch (error) {
-      console.error('Error submitting form:', error)
-      alert('There was an error submitting the form. Please try again.')
-    }
-  }
 
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' })
@@ -356,117 +333,80 @@ function DesignUXUIPage() {
                   </p>
                 </CardHeader>
                 <CardContent>
-                  <form 
-                    name="ux-ui-consultation" 
-                    method="POST" 
-                    data-netlify="true" 
-                    netlify-honeypot="bot-field"
-                    onSubmit={handleSubmit} 
-                    className="space-y-4"
+                  <UnifiedForm
+                    formName="ux-ui-consultation"
+                    onSubmit={onFormSubmit}
+                    submitText="Get Free UX Consultation"
+                    isSubmitting={isSubmitting}
+                    isSubmitted={isSubmitted}
+                    successMessage="Thank you! We'll be in touch within 24 hours to discuss your UX/UI project."
+                    showCard={false}
                   >
-                    <input type="hidden" name="form-name" value="ux-ui-consultation" />
-                    <p style={{display: 'none'}}>
-                      <label>Don't fill this out if you're human: <input name="bot-field" /></label>
-                    </p>
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                      <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-2">
-                          Full Name *
-                        </label>
-                        <input
-                          type="text"
-                          name="name"
-                          value={formData.name}
-                          onChange={handleInputChange}
-                          placeholder="John Smith"
-                          className="w-full px-4 py-3 rounded-lg bg-gray-50 border border-gray-200 text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-#4bbf39 focus:border-transparent"
-                          required
-                        />
-                      </div>
-                      <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-2">
-                          Email Address *
-                        </label>
-                        <input
-                          type="email"
-                          name="email"
-                          value={formData.email}
-                          onChange={handleInputChange}
-                          placeholder="john@company.com"
-                          className="w-full px-4 py-3 rounded-lg bg-gray-50 border border-gray-200 text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-#4bbf39 focus:border-transparent"
-                          required
-                        />
-                      </div>
+                      <FormInput
+                        label="Full Name"
+                        name="name"
+                        type="text"
+                        required
+                        placeholder="John Smith"
+                        value={formData.name}
+                        onChange={handleInputChange}
+                      />
+                      <FormInput
+                        label="Email Address"
+                        name="email"
+                        type="email"
+                        required
+                        placeholder="john@company.com"
+                        value={formData.email}
+                        onChange={handleInputChange}
+                      />
                     </div>
                     
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                      <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-2">
-                          Phone Number
-                        </label>
-                        <input
-                          type="tel"
-                          name="phone"
-                          value={formData.phone}
-                          onChange={handleInputChange}
-                          placeholder="(513) 555-0123"
-                          className="w-full px-4 py-3 rounded-lg bg-gray-50 border border-gray-200 text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-#4bbf39 focus:border-transparent"
-                        />
-                      </div>
-                      <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-2">
-                          Company Name
-                        </label>
-                        <input
-                          type="text"
-                          name="company"
-                          value={formData.company}
-                          onChange={handleInputChange}
-                          placeholder="Your Company"
-                          className="w-full px-4 py-3 rounded-lg bg-gray-50 border border-gray-200 text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-#4bbf39 focus:border-transparent"
-                        />
-                      </div>
-                    </div>
-
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">
-                        Project Type
-                      </label>
-                      <select
-                        name="projectType"
-                        value={formData.projectType}
+                      <FormInput
+                        label="Phone Number"
+                        name="phone"
+                        type="tel"
+                        placeholder="(513) 555-0123"
+                        value={formData.phone}
                         onChange={handleInputChange}
-                        className="w-full px-4 py-3 rounded-lg bg-gray-50 border border-gray-200 text-gray-900 focus:outline-none focus:ring-2 focus:ring-#4bbf39 focus:border-transparent"
-                      >
-                        <option value="">Select project type</option>
-                        <option value="website-redesign">Website Redesign</option>
-                        <option value="mobile-app">Mobile App Design</option>
-                        <option value="web-app">Web Application</option>
-                        <option value="design-system">Design System</option>
-                        <option value="ux-audit">UX Audit</option>
-                        <option value="other">Other</option>
-                      </select>
-                    </div>
-
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">
-                        Project Details
-                      </label>
-                      <textarea
-                        name="details"
-                        value={formData.details}
+                      />
+                      <FormInput
+                        label="Company Name"
+                        name="company"
+                        type="text"
+                        placeholder="Your Company"
+                        value={formData.company}
                         onChange={handleInputChange}
-                        rows={3}
-                        placeholder="Tell us about your UX/UI design needs..."
-                        className="w-full px-4 py-3 rounded-lg bg-gray-50 border border-gray-200 text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-#4bbf39 focus:border-transparent"
-                      ></textarea>
+                      />
                     </div>
 
-                    <Button type="submit" className="w-full bg-#4bbf39 hover:bg-#39bfb0 text-white py-3">
-                      Get Free UX Consultation
-                      <ArrowRight className="w-5 h-5 ml-2" />
-                    </Button>
-                  </form>
+                    <FormSelect
+                      label="Project Type"
+                      name="projectType"
+                      placeholder="Select project type"
+                      options={[
+                        'Website Redesign',
+                        'Mobile App Design',
+                        'Web Application',
+                        'Design System',
+                        'UX Audit',
+                        'Other'
+                      ]}
+                      value={formData.projectType}
+                      onChange={handleInputChange}
+                    />
+
+                    <FormTextarea
+                      label="Project Details"
+                      name="details"
+                      rows={3}
+                      placeholder="Tell us about your UX/UI design needs..."
+                      value={formData.details}
+                      onChange={handleInputChange}
+                    />
+                  </UnifiedForm>
 
                   <p className="text-xs text-gray-500 text-center mt-4">
                     Free consultation • No obligation • Expert insights

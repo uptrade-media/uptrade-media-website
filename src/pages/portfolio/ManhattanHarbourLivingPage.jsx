@@ -55,10 +55,12 @@ function ManhattanHarbourLivingPage() {
                   </Badge>
                 ))}
               </div>
-              <div className="flex items-center text-white/90">
-                <ExternalLink className="w-5 h-5 mr-2" />
-                <span>Visit: manhattanharbourliving.com</span>
-              </div>
+              <a href="https://manhattanharbourliving.com" target="_blank" rel="noopener noreferrer">
+                <Button size="lg" className="bg-white/20 backdrop-blur-sm border border-white/30 text-white hover:bg-white hover:text-[#4bbf39] px-8 py-3 transition-all duration-200">
+                  <ExternalLink className="mr-2 w-5 h-5" />
+                  View Live Website
+                </Button>
+              </a>
             </motion.div>
 
             <motion.div
@@ -296,12 +298,6 @@ function ManhattanHarbourLivingPage() {
           </p>
           
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-            <a href="https://manhattanharbourliving.com" target="_blank" rel="noopener noreferrer">
-              <Button size="lg" className="bg-white text-[#4bbf39] hover:bg-gray-100 px-8 py-3">
-                <ExternalLink className="mr-2 w-5 h-5" />
-                View Live Website
-              </Button>
-            </a>
             <Link to="/free-audit">
               <Button size="lg" className="bg-white/20 backdrop-blur-sm border border-white/30 text-white hover:bg-white/90 hover:text-[#4bbf39] px-8 py-3 transition-all duration-200 shadow-xs">
                 Get Your Free Audit

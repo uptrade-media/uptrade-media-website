@@ -20,9 +20,23 @@ import {
   Mail
 } from 'lucide-react'
 import { motion } from 'framer-motion'
+import { 
+  UnifiedForm, 
+  FormInput, 
+  FormSelect, 
+  FormTextarea, 
+  useFormState 
+} from '@/components/ui/unified-form.jsx'
 
 function FreeAuditPage() {
-  const [formData, setFormData] = useState({
+  const {
+    formData,
+    isSubmitting,
+    isSubmitted,
+    handleInputChange,
+    handleSubmit,
+    resetForm
+  } = useFormState({
     name: '',
     email: '',
     phone: '',
@@ -32,46 +46,7 @@ function FreeAuditPage() {
     currentChallenges: ''
   })
 
-  const handleInputChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value
-    })
-  }
-
-  const handleSubmit = async (e) => {
-    e.preventDefault()
-    
-    try {
-      const form = e.target
-      const formData = new FormData(form)
-      
-      const response = await fetch('/', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-        body: new URLSearchParams(formData).toString()
-      })
-      
-      if (response.ok) {
-        alert('Thank you! We\'ll send your free website audit within 24 hours.')
-        // Reset form
-        setFormData({
-          name: '',
-          email: '',
-          phone: '',
-          website: '',
-          company: '',
-          goals: '',
-          currentChallenges: ''
-        })
-      } else {
-        throw new Error('Form submission failed')
-      }
-    } catch (error) {
-      console.error('Error submitting form:', error)
-      alert('There was an error submitting the form. Please try again.')
-    }
-  }
+  const onFormSubmit = () => handleSubmit('free-audit')
 
   const auditBenefits = [
     {
@@ -186,131 +161,92 @@ function FreeAuditPage() {
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.6, delay: 0.2 }}
             >
-              <Card className="bg-white text-gray-900 shadow-2xl">
-                <CardHeader>
-                  <CardTitle className="text-2xl text-center">Request Your Free Audit</CardTitle>
-                  <CardDescription className="text-center">
-                    Get a comprehensive analysis of your website's performance
-                  </CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <form 
-                    name="free-audit" 
-                    method="POST" 
-                    data-netlify="true" 
-                    netlify-honeypot="bot-field"
-                    onSubmit={handleSubmit} 
-                    className="space-y-4"
-                  >
-                    <input type="hidden" name="form-name" value="free-audit" />
-                    <p style={{display: 'none'}}>
-                      <label>Don't fill this out if you're human: <input name="bot-field" /></label>
-                    </p>
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                      <div>
-                        <label className="block text-sm font-medium mb-2">Full Name</label>
-                        <input
-                          type="text"
-                          name="name"
-                          value={formData.name}
-                          onChange={handleInputChange}
-                          required
-                          className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#4bbf39]"
-                          placeholder="John Smith"
-                        />
-                      </div>
-                      <div>
-                        <label className="block text-sm font-medium mb-2">Email Address</label>
-                        <input
-                          type="email"
-                          name="email"
-                          value={formData.email}
-                          onChange={handleInputChange}
-                          required
-                          className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#4bbf39]"
-                          placeholder="john@company.com"
-                        />
-                      </div>
-                    </div>
-                    
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                      <div>
-                        <label className="block text-sm font-medium mb-2">Phone Number</label>
-                        <input
-                          type="tel"
-                          name="phone"
-                          value={formData.phone}
-                          onChange={handleInputChange}
-                          className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#4bbf39]"
-                          placeholder="(513) 555-0123"
-                        />
-                      </div>
-                      <div>
-                        <label className="block text-sm font-medium mb-2">Website URL</label>
-                        <input
-                          type="url"
-                          name="website"
-                          value={formData.website}
-                          onChange={handleInputChange}
-                          required
-                          className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#4bbf39]"
-                          placeholder="https://yourwebsite.com"
-                        />
-                      </div>
-                    </div>
+              <UnifiedForm
+                title="Request Your Free Audit"
+                description="Get a comprehensive analysis of your website's performance"
+                formName="free-audit"
+                onSubmit={onFormSubmit}
+                submitText="Get My Free Website Audit"
+                isSubmitting={isSubmitting}
+                isSubmitted={isSubmitted}
+                successMessage="Thank you! We'll send your free website audit within 24 hours."
+                className="bg-white text-gray-900 shadow-2xl"
+              >
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <FormInput
+                    label="Full Name"
+                    name="name"
+                    type="text"
+                    required
+                    placeholder="John Smith"
+                    value={formData.name}
+                    onChange={handleInputChange}
+                  />
+                  <FormInput
+                    label="Email Address"
+                    name="email"
+                    type="email"
+                    required
+                    placeholder="john@company.com"
+                    value={formData.email}
+                    onChange={handleInputChange}
+                  />
+                </div>
+                
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <FormInput
+                    label="Phone Number"
+                    name="phone"
+                    type="tel"
+                    placeholder="(513) 555-0123"
+                    value={formData.phone}
+                    onChange={handleInputChange}
+                  />
+                  <FormInput
+                    label="Website URL"
+                    name="website"
+                    type="url"
+                    required
+                    placeholder="https://yourwebsite.com"
+                    value={formData.website}
+                    onChange={handleInputChange}
+                  />
+                </div>
 
-                    <div>
-                      <label className="block text-sm font-medium mb-2">Company Name</label>
-                      <input
-                        type="text"
-                        name="company"
-                        value={formData.company}
-                        onChange={handleInputChange}
-                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#4bbf39]"
-                        placeholder="Your Company Name"
-                      />
-                    </div>
+                <FormInput
+                  label="Company Name"
+                  name="company"
+                  type="text"
+                  placeholder="Your Company Name"
+                  value={formData.company}
+                  onChange={handleInputChange}
+                />
 
-                    <div>
-                      <label className="block text-sm font-medium mb-2">Primary Goals</label>
-                      <select
-                        name="goals"
-                        value={formData.goals}
-                        onChange={handleInputChange}
-                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#4bbf39]"
-                      >
-                        <option value="">Select your main goal</option>
-                        <option value="increase-traffic">Increase Website Traffic</option>
-                        <option value="improve-rankings">Improve Search Rankings</option>
-                        <option value="generate-leads">Generate More Leads</option>
-                        <option value="boost-sales">Boost Online Sales</option>
-                        <option value="improve-ux">Improve User Experience</option>
-                        <option value="other">Other</option>
-                      </select>
-                    </div>
+                <FormSelect
+                  label="Primary Goals"
+                  name="goals"
+                  placeholder="Select your main goal"
+                  options={[
+                    'Increase Website Traffic',
+                    'Improve Search Rankings',
+                    'Generate More Leads',
+                    'Boost Online Sales',
+                    'Improve User Experience',
+                    'Other'
+                  ]}
+                  value={formData.goals}
+                  onChange={handleInputChange}
+                />
 
-                    <div>
-                      <label className="block text-sm font-medium mb-2">Current Challenges (Optional)</label>
-                      <textarea
-                        name="currentChallenges"
-                        value={formData.currentChallenges}
-                        onChange={handleInputChange}
-                        rows={3}
-                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#4bbf39]"
-                        placeholder="Tell us about any specific issues you're facing with your website..."
-                      />
-                    </div>
-
-                    <Button 
-                      type="submit" 
-                      className="w-full bg-gradient-to-r from-[#4bbf39] to-[#39bfb0] hover:from-[#39bfb0] hover:to-[#4bbf39] text-white py-3"
-                    >
-                      Get My Free Website Audit
-                      <ArrowRight className="ml-2 w-5 h-5" />
-                    </Button>
-                  </form>
-                </CardContent>
-              </Card>
+                <FormTextarea
+                  label="Current Challenges (Optional)"
+                  name="currentChallenges"
+                  rows={3}
+                  placeholder="Tell us about any specific issues you're facing with your website..."
+                  value={formData.currentChallenges}
+                  onChange={handleInputChange}
+                />
+              </UnifiedForm>
             </motion.div>
           </div>
         </div>
@@ -505,12 +441,16 @@ function FreeAuditPage() {
               Get Your Free Audit Now
               <ArrowRight className="ml-2 w-5 h-5" />
             </Button>
-            <a href="tel:+15133310555">
-              <Button className="bg-white/20 backdrop-blur-sm border border-white/30 text-white hover:bg-white/30 transition-all duration-200">
-                <Phone className="w-5 h-5 mr-2" />
-                Call (513) 331-0555
-              </Button>
-            </a>
+<Button
+  size="lg"
+  asChild
+  className="inline-flex items-center bg-white/20 backdrop-blur-sm border border-white/30 text-white hover:bg-white/90 hover:text-[#4bbf39] px-8 py-3 transition-all duration-200 shadow-xs"
+>
+  <a href="tel:+15133310555">
+    <Phone className="w-5 h-5 mr-2" />
+    (513) 331-0555
+  </a>
+</Button>
           </div>
           
           <div className="mt-8 flex justify-center items-center space-x-8 text-sm text-white/80">

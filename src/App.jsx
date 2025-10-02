@@ -423,6 +423,28 @@ function HomePage() {
     }
   ]
 
+ // Put this just above the return in your HomePage (or equivalent) component
+const logos = React.useMemo(
+  () => [
+    "3CDC_Logo.svg",
+    "4M_Lawn_Care_logo.svg",
+    "Adams_Real_Estate_Advisors_Logo.svg",
+    "Blue_Cattys_Bar_and_Grille_Logo.svg",
+    "Boulevard_flats_at_manhattan_harbour_logo.svg",
+    "Burnt_store_booking_logo.svg",
+    "Gateway_Flats_at_Manhattan_Harbour_logo.svg",
+    "GRSM50_logo.svg",
+    "Gunning_Homes_Logo.svg",
+    "Nikki_Hayden_Realtor_Logo.svg",
+    "Prost_Bellevue_Tavern_Logo.svg",
+    "Queen_City_Riverboats_Logo.svg",
+    "Sexton_Law_Logo.svg",
+    "Spade_Kreations_Logo.svg",
+    "The_Marina_at_Manhattan_Harbour_logo.svg",
+  ],
+  []
+);
+ 
   return (
     <div className="min-h-screen bg-white">
       <HomeSEO />
@@ -536,13 +558,12 @@ function HomePage() {
               <motion.a 
                 href="tel:+15133310555"
                 whileHover={{ 
-                  scale: 1.05,
-                  backgroundColor: "rgba(255, 255, 255, 0.9)"
+                  scale: 1.05
                 }}
                 whileTap={{ scale: 0.95 }}
                 transition={{ type: "spring", stiffness: 300, damping: 20 }}
               >
-                <Button size="lg" className="bg-white/20 backdrop-blur-sm border border-white/30 text-white hover:bg-white/90 hover:text-[#4bbf39] px-8 py-3 transition-all duration-200 group">
+                <Button size="lg" className="bg-white/20 backdrop-blur-sm border border-white/30 text-white hover:bg-white/90 hover:text-[#4bbf39] px-8 py-3 transition-all duration-200 group rounded-md">
                   <motion.div
                     whileHover={{ rotate: 10 }}
                     transition={{ type: "spring", stiffness: 300 }}
@@ -604,41 +625,51 @@ function HomePage() {
 
       {/* Proof Strip */}
       <section className="py-12 bg-white border-b border-gray-200">
-        <div className="w-full">
-          <div className="text-center mb-8">
-            <p className="text-gray-600 font-medium">Trusted by Leading Businesses in Cincinnati and Nationwide</p>
+  <div className="w-full">
+    <div className="text-center mb-8">
+      <p className="text-gray-600 font-medium">
+        Trusted by Leading Businesses in Cincinnati and Nationwide
+      </p>
+    </div>
+
+    {/* Infinite marquee */}
+    <div className="relative overflow-hidden w-full marquee-mask">
+      {/* Track: render two identical sets for a seamless loop */}
+      <div className="flex animate-infinite-scroll whitespace-nowrap min-w-max gap-x-8 md:gap-x-12">
+        {logos.map((logo, i) => (
+          <div
+            key={`set1-${i}`}
+            className="flex-shrink-0 w-32 md:w-48 h-16 flex items-center justify-center"
+          >
+            <img
+              src={`/Client_logos/${logo}`}
+              alt={logo.replace(".svg", "").replace(/Logo|logo/g, "").trim()}
+              className="max-h-12 max-w-full object-contain opacity-60 hover:opacity-100 transition-opacity duration-300"
+              loading="lazy"
+            />
           </div>
-          <div className="relative overflow-hidden w-full">
-            <div className="flex animate-scroll-mobile md:animate-scroll-fast whitespace-nowrap">
-              {Array(4).fill([
-                '3CDC_Logo.svg',
-                '4M_Lawn_Care_logo.svg',
-                'Adams_Real_Estate_Advisors_Logo.svg',
-                'Blue_Cattys_Bar_and_Grille_Logo.svg',
-                'Boulevard_flats_at_manhattan_harbour_logo.svg',
-                'Burnt_store_booking_logo.svg',
-                'Gateway_Flats_at_Manhattan_Harbour_logo.svg',
-                'GRSM50_logo.svg',
-                'Gunning_Homes_Logo.svg',
-                'Nikki_Hayden_Realtor_Logo.svg',
-                'Prost_Bellevue_Tavern_Logo.svg',
-                'Queen_City_Riverboats_Logo.svg',
-                'Sexton_Law_Logo.svg',
-                'Spade_Kreations_Logo.svg',
-                'The_Marina_at_Manhattan_Harbour_logo.svg'
-              ]).flat().map((logo, index) => (
-                <div key={index} className="flex-shrink-0 w-32 md:w-48 h-16 mx-4 md:mx-8 flex items-center justify-center">
-                  <img 
-                    src={`/Client_logos/${logo}`} 
-                    alt={logo.replace('.svg', '').replace(/Logo|logo/g, '').trim()}
-                    className="max-h-12 max-w-full object-contain opacity-60 hover:opacity-100 transition-opacity duration-300"
-                  />
-                </div>
-              ))}
-            </div>
+        ))}
+
+        {/* Duplicate set for seamless wrap */}
+        {logos.map((logo, i) => (
+          <div
+            key={`set2-${i}`}
+            className="flex-shrink-0 w-32 md:w-48 h-16 flex items-center justify-center"
+            aria-hidden="true"
+          >
+            <img
+              src={`/Client_logos/${logo}`}
+              alt=""
+              className="max-h-12 max-w-full object-contain opacity-60 hover:opacity-100 transition-opacity duration-300"
+              loading="lazy"
+            />
           </div>
-        </div>
-      </section>
+        ))}
+      </div>
+    </div>
+  </div>
+</section>
+
 
       {/* Services Section */}
       <section id="services" className="py-20 bg-gray-50">
@@ -1173,7 +1204,7 @@ function HomePage() {
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
             >
-              <Button size="lg" className="bg-white/20 backdrop-blur-sm border border-white/30 text-white hover:bg-white/90 hover:text-[#4bbf39] px-8 py-3 transition-all duration-200 shadow-xs">
+              <Button size="lg" className="bg-white/20 backdrop-blur-sm border border-white/30 text-white hover:bg-white/90 hover:text-[#4bbf39] px-8 py-3 transition-all duration-200 shadow-xs rounded-md">
                 <Phone className="mr-2 w-5 h-5" />
                 Call (513) 331-0555
               </Button>
@@ -1403,7 +1434,7 @@ function MarketingPage() {
                         </li>
                       ))}
                     </ul>
-                    <Link to={service.link}>
+                    <Link to={service.link} onClick={scrollToTop}>
                       <Button className="w-full bg-gradient-to-r from-[#4bbf39] to-[#39bfb0] text-white">
                         Learn More
                         <ArrowRight className="ml-2 w-4 h-4" />
@@ -1706,7 +1737,7 @@ function MarketingPage() {
               </Button>
             </Link>
             <a href="tel:+15133310555">
-              <Button size="lg" className="bg-white/20 backdrop-blur-sm border border-white/30 text-white hover:bg-white/90 hover:text-[#4bbf39] px-8 py-3 transition-all duration-200 shadow-xs">
+              <Button size="lg" className="bg-white/20 backdrop-blur-sm border border-white/30 text-white hover:bg-white/90 hover:text-[#4bbf39] px-8 py-3 transition-all duration-200 shadow-xs rounded-md">
                 <Phone className="mr-2 w-5 h-5" />
                 (513) 331-0555
               </Button>
@@ -1719,6 +1750,10 @@ function MarketingPage() {
 }
 
 function MediaPage() {
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' })
+  }
+
   const mediaServices = [
     {
       title: 'Video Production',
@@ -1746,7 +1781,7 @@ function MediaPage() {
       icon: <MessageSquare className="w-8 h-8" />,
       description: 'Build credibility with proof-driven content that showcases real results and satisfied customers.',
       features: ['Customer Interviews', 'Success Stories', 'Before/After Content', 'Results Documentation', 'Trust Building', 'Social Proof'],
-      link: '/media/testimonials'
+      link: '/media/build-credibility'
     }
   ]
 
@@ -1864,7 +1899,7 @@ function MediaPage() {
                         </li>
                       ))}
                     </ul>
-                    <Link to={service.link}>
+                    <Link to={service.link} onClick={scrollToTop}>
                       <Button className="w-full bg-gradient-to-r from-[#4bbf39] to-[#39bfb0] hover:from-[#39bfb0] hover:to-[#4bbf39] text-white">
                         Learn More
                         <ArrowRight className="ml-2 w-4 h-4" />
@@ -1954,7 +1989,7 @@ function MediaPage() {
               <ArrowRight className="ml-2 w-5 h-5" />
             </Button>
             <a href="tel:+15133310555">
-              <Button size="lg" className="bg-white/20 backdrop-blur-sm border border-white/30 text-white hover:bg-white/90 hover:text-[#4bbf39] px-8 py-3 transition-all duration-200 shadow-xs">
+              <Button size="lg" className="bg-white/20 backdrop-blur-sm border border-white/30 text-white hover:bg-white/90 hover:text-[#4bbf39] px-8 py-3 transition-all duration-200 shadow-xs rounded-md">
                 <Phone className="mr-2 w-5 h-5" />
                 Call (513) 331-0555
               </Button>
@@ -1967,6 +2002,10 @@ function MediaPage() {
 }
 
 function DesignPage() {
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' })
+  }
+
   const designServices = [
     {
       title: 'Web Design & Development',
@@ -2115,7 +2154,7 @@ function DesignPage() {
                         </li>
                       ))}
                     </ul>
-                    <Link to={service.link}>
+                    <Link to={service.link} onClick={scrollToTop}>
                       <Button className="w-full bg-gradient-to-r from-[#4bbf39] to-[#39bfb0] hover:from-[#39bfb0] hover:to-[#4bbf39] text-white">
                         Learn More
                         <ArrowRight className="ml-2 w-4 h-4" />
@@ -2207,7 +2246,7 @@ function DesignPage() {
               </Button>
             </Link>
             <a href="tel:+15133310555">
-              <Button size="lg" className="bg-white/20 backdrop-blur-sm border border-white/30 text-white hover:bg-white/90 hover:text-[#4bbf39] px-8 py-3 transition-all duration-200 shadow-xs">
+              <Button size="lg" className="bg-white/20 backdrop-blur-sm border border-white/30 text-white hover:bg-white/90 hover:text-[#4bbf39] px-8 py-3 transition-all duration-200 shadow-xs rounded-md">
                 <Phone className="mr-2 w-5 h-5" />
                 (513) 331-0555
               </Button>

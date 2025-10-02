@@ -207,7 +207,7 @@ function MediaAerialDronePage() {
                       <input
                         type="text"
                         placeholder="John Smith"
-                        className="w-full px-4 py-3 rounded-lg bg-gray-50 border border-gray-200 text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-#4bbf39 focus:border-transparent"
+                        className="w-full px-4 py-3 rounded-lg bg-gray-50 border border-gray-200 text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#4bbf39] focus:border-transparent"
                       />
                     </div>
                     <div>
@@ -217,7 +217,7 @@ function MediaAerialDronePage() {
                       <input
                         type="email"
                         placeholder="john@company.com"
-                        className="w-full px-4 py-3 rounded-lg bg-gray-50 border border-gray-200 text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-#4bbf39 focus:border-transparent"
+                        className="w-full px-4 py-3 rounded-lg bg-gray-50 border border-gray-200 text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#4bbf39] focus:border-transparent"
                       />
                     </div>
                   </div>
@@ -226,7 +226,7 @@ function MediaAerialDronePage() {
                     <label className="block text-sm font-medium text-gray-700 mb-2">
                       Project Type
                     </label>
-                    <select className="w-full px-4 py-3 rounded-lg bg-gray-50 border border-gray-200 text-gray-900 focus:outline-none focus:ring-2 focus:ring-#4bbf39 focus:border-transparent">
+                    <select className="w-full px-4 py-3 rounded-lg bg-gray-50 border border-gray-200 text-gray-900 focus:outline-none focus:ring-2 focus:ring-[#4bbf39] focus:border-transparent">
                       <option>Real Estate Photography</option>
                       <option>Video Production</option>
                       <option>Commercial Property</option>
@@ -243,7 +243,7 @@ function MediaAerialDronePage() {
                     <textarea
                       rows={3}
                       placeholder="Tell us about your aerial photography needs..."
-                      className="w-full px-4 py-3 rounded-lg bg-gray-50 border border-gray-200 text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-#4bbf39 focus:border-transparent resize-none"
+                      className="w-full px-4 py-3 rounded-lg bg-gray-50 border border-gray-200 text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#4bbf39] focus:border-transparent resize-none"
                     ></textarea>
                   </div>
 

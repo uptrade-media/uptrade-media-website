@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { Button } from '@/components/ui/button.jsx'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card.jsx'
-import { CheckCircle, ArrowRight, Mail, Share2, Lightbulb, TrendingUp, Users, BarChart3, Target, Calendar, MessageSquare, Heart, Eye, MousePointer } from 'lucide-react'
+import { CheckCircle, ArrowRight, Mail, Share2, Lightbulb, TrendingUp, Users, BarChart3, Target, Calendar, MessageSquare, Heart, Eye, MousePointer, ArrowLeft } from 'lucide-react'
 import { motion } from 'framer-motion'
 
 function MarketingEmailSocialPage() {
@@ -64,6 +64,16 @@ function MarketingEmailSocialPage() {
 
   return (
     <div className="min-h-screen bg-white">
+      {/* Navigation */}
+      <div className="bg-gray-50 py-4">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <Link to="/marketing" onClick={scrollToTop} className="inline-flex items-center text-[#4bbf39] hover:text-[#39bfb0] transition-colors">
+            <ArrowLeft className="w-4 h-4 mr-2" />
+            Back to Marketing Services
+          </Link>
+        </div>
+      </div>
+
       {/* Hero Section */}
       <section className="relative py-20 overflow-hidden">
         <div className="absolute inset-0 z-0">

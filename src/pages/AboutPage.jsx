@@ -55,7 +55,7 @@ const AboutPage = () => {
       description: "Our SEO strategies consistently deliver significant growth"
     },
     {
-      number: "50+",
+      number: "500+",
       label: "Successful Projects",
       description: "Completed projects across various industries and business sizes"
     },
@@ -473,7 +473,7 @@ const AboutPage = () => {
                 <ArrowRight className="ml-2 w-5 h-5" />
               </Link>
             </Button>
-            <Button size="lg" variant="outline" className="border-2 border-white text-white hover:bg-white hover:text-[#4bbf39] font-semibold px-8 py-4" asChild>
+            <Button size="lg" className="bg-white/20 backdrop-blur-sm border border-white/30 text-white hover:bg-white/90 hover:text-[#4bbf39] px-8 py-3 transition-all duration-200 shadow-xs">
               <Link to="/contact">
                 Contact Our Team
               </Link>

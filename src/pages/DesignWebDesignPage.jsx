@@ -306,7 +306,7 @@ function DesignWebDesignPage() {
                       <input
                         type="text"
                         placeholder="John Smith"
-                        className="w-full px-4 py-3 rounded-lg bg-gray-50 border border-gray-200 text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-#4bbf39 focus:border-transparent"
+                        className="w-full px-4 py-3 rounded-lg bg-gray-50 border border-gray-200 text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#4bbf39] focus:border-transparent"
                       />
                     </div>
                     <div>
@@ -316,7 +316,7 @@ function DesignWebDesignPage() {
                       <input
                         type="email"
                         placeholder="john@company.com"
-                        className="w-full px-4 py-3 rounded-lg bg-gray-50 border border-gray-200 text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-#4bbf39 focus:border-transparent"
+                        className="w-full px-4 py-3 rounded-lg bg-gray-50 border border-gray-200 text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#4bbf39] focus:border-transparent"
                       />
                     </div>
                   </div>
@@ -329,7 +329,7 @@ function DesignWebDesignPage() {
                       <input
                         type="tel"
                         placeholder="(513) 555-0123"
-                        className="w-full px-4 py-3 rounded-lg bg-gray-50 border border-gray-200 text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-#4bbf39 focus:border-transparent"
+                        className="w-full px-4 py-3 rounded-lg bg-gray-50 border border-gray-200 text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#4bbf39] focus:border-transparent"
                       />
                     </div>
                     <div>
@@ -339,7 +339,7 @@ function DesignWebDesignPage() {
                       <input
                         type="text"
                         placeholder="Your Company"
-                        className="w-full px-4 py-3 rounded-lg bg-gray-50 border border-gray-200 text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-#4bbf39 focus:border-transparent"
+                        className="w-full px-4 py-3 rounded-lg bg-gray-50 border border-gray-200 text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#4bbf39] focus:border-transparent"
                       />
                     </div>
                   </div>
@@ -348,7 +348,7 @@ function DesignWebDesignPage() {
                     <label className="block text-sm font-medium text-gray-700 mb-2">
                       Project Type
                     </label>
-                    <select className="w-full px-4 py-3 rounded-lg bg-gray-50 border border-gray-200 text-gray-900 focus:outline-none focus:ring-2 focus:ring-#4bbf39 focus:border-transparent">
+                    <select className="w-full px-4 py-3 rounded-lg bg-gray-50 border border-gray-200 text-gray-900 focus:outline-none focus:ring-2 focus:ring-[#4bbf39] focus:border-transparent">
                       <option value="">Select project type</option>
                       <option value="new-website">New Website Design</option>
                       <option value="website-redesign">Website Redesign</option>
@@ -366,7 +366,7 @@ function DesignWebDesignPage() {
                     <textarea
                       rows={3}
                       placeholder="What web design challenges are you facing? Tell us about your goals and current website issues."
-                      className="w-full px-4 py-3 rounded-lg bg-gray-50 border border-gray-200 text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-#4bbf39 focus:border-transparent resize-none"
+                      className="w-full px-4 py-3 rounded-lg bg-gray-50 border border-gray-200 text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#4bbf39] focus:border-transparent resize-none"
                     ></textarea>
                   </div>
 

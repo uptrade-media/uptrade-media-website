@@ -5,9 +5,23 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card.j
 import { CheckCircle, ArrowRight, Camera, Image, Users, Sun, Star, Lightbulb, ArrowLeft, Phone, Mail, Target, Award, Eye, Palette, Building, Utensils, Scale, Anchor } from 'lucide-react'
 import { motion } from 'framer-motion'
 import SEOHead from '../components/SEOHead'
+import { 
+  UnifiedForm, 
+  FormInput, 
+  FormSelect, 
+  FormTextarea, 
+  useFormState 
+} from '@/components/ui/unified-form.jsx'
 
 function MediaPhotographyPage() {
-  const [formData, setFormData] = useState({
+  const {
+    formData,
+    isSubmitting,
+    isSubmitted,
+    handleInputChange,
+    handleSubmit,
+    resetForm
+  } = useFormState({
     name: '',
     email: '',
     phone: '',
@@ -16,45 +30,7 @@ function MediaPhotographyPage() {
     details: ''
   })
 
-  const handleInputChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value
-    })
-  }
-
-  const handleSubmit = async (e) => {
-    e.preventDefault()
-    
-    try {
-      const form = e.target
-      const formData = new FormData(form)
-      
-      const response = await fetch('/', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-        body: new URLSearchParams(formData).toString()
-      })
-      
-      if (response.ok) {
-        alert('Thank you! We\'ll be in touch within 24 hours to discuss your photography project.')
-        // Reset form
-        setFormData({
-          name: '',
-          email: '',
-          phone: '',
-          company: '',
-          projectType: '',
-          details: ''
-        })
-      } else {
-        throw new Error('Form submission failed')
-      }
-    } catch (error) {
-      console.error('Error submitting form:', error)
-      alert('There was an error submitting the form. Please try again.')
-    }
-  }
+  const onFormSubmit = () => handleSubmit('photography-consultation')
 
   const photographyServices = [
     {
@@ -257,17 +233,24 @@ function MediaPhotographyPage() {
                     (513) 331-0555
                   </Button>
                 </a>
-                <Button size="lg" className="bg-white/20 backdrop-blur-sm border border-white/30 text-white hover:bg-white/30 px-8 py-3 transition-all duration-200">
-                  View Our Portfolio
-                  <ArrowRight className="w-5 h-5 ml-2" />
-                </Button>
+<Button
+  size="lg"
+  asChild
+  className="inline-flex items-center bg-white/20 backdrop-blur-sm border border-white/30 text-white hover:bg-white/90 hover:text-[#4bbf39] px-8 py-3 transition-all duration-200 shadow-xs"
+>
+  <a href="#portfolio">
+    View Our Portfolio
+    <ArrowRight className="w-5 h-5 ml-2" />
+  </a>
+</Button>
+
               </div>
 
               <div className="grid grid-cols-2 gap-8">
                 <div className="text-center">
                   <div className="flex items-center justify-center mb-2">
                     <Camera className="w-8 h-8 mr-2" />
-                    <div className="text-3xl font-bold">500+</div>
+                    <div className="text-3xl font-bold">300+</div>
                   </div>
                   <div className="text-sm opacity-80">Photo Sessions</div>
                 </div>
@@ -288,110 +271,80 @@ function MediaPhotographyPage() {
                   <p className="text-gray-600">Get expert insights on your photography needs and discover how professional images can transform your marketing.</p>
                 </div>
 
-                <form 
-                  name="photography-quote" 
-                  method="POST" 
-                  data-netlify="true" 
-                  netlify-honeypot="bot-field"
-                  onSubmit={handleSubmit} 
-                  className="space-y-4"
+                <UnifiedForm
+                  formName="photography-consultation"
+                  onSubmit={onFormSubmit}
+                  submitText="Get Free Photography Consultation"
+                  isSubmitting={isSubmitting}
+                  isSubmitted={isSubmitted}
+                  successMessage="Thank you! We'll be in touch within 24 hours to discuss your photography project."
+                  showCard={false}
                 >
-                  <input type="hidden" name="form-name" value="photography-quote" />
-                  <p style={{display: 'none'}}>
-                    <label>Don't fill this out if you're human: <input name="bot-field" /></label>
-                  </p>
                   <div className="grid grid-cols-2 gap-4">
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-1">Full Name *</label>
-                      <input
-                        type="text"
-                        name="name"
-                        value={formData.name}
-                        onChange={handleInputChange}
-                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-#4bbf39 focus:border-transparent"
-                        placeholder="John Smith"
-                        style={{ color: 'black' }}
-                        required
-                      />
-                    </div>
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-1">Email Address *</label>
-                      <input
-                        type="email"
-                        name="email"
-                        value={formData.email}
-                        onChange={handleInputChange}
-                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-#4bbf39 focus:border-transparent"
-                        placeholder="john@company.com"
-                        style={{ color: 'black' }}
-                        required
-                      />
-                    </div>
+                    <FormInput
+                      label="Full Name"
+                      name="name"
+                      type="text"
+                      required
+                      placeholder="John Smith"
+                      value={formData.name}
+                      onChange={handleInputChange}
+                    />
+                    <FormInput
+                      label="Email Address"
+                      name="email"
+                      type="email"
+                      required
+                      placeholder="john@company.com"
+                      value={formData.email}
+                      onChange={handleInputChange}
+                    />
                   </div>
 
                   <div className="grid grid-cols-2 gap-4">
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-1">Phone Number</label>
-                      <input
-                        type="tel"
-                        name="phone"
-                        value={formData.phone}
-                        onChange={handleInputChange}
-                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-#4bbf39 focus:border-transparent"
-                        placeholder="(513) 555-0123"
-                        style={{ color: 'black' }}
-                      />
-                    </div>
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-1">Company Name</label>
-                      <input
-                        type="text"
-                        name="company"
-                        value={formData.company}
-                        onChange={handleInputChange}
-                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-#4bbf39 focus:border-transparent"
-                        placeholder="Your Company"
-                        style={{ color: 'black' }}
-                      />
-                    </div>
-                  </div>
-
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">Photography Type</label>
-                    <select
-                      name="projectType"
-                      value={formData.projectType}
+                    <FormInput
+                      label="Phone Number"
+                      name="phone"
+                      type="tel"
+                      placeholder="(513) 555-0123"
+                      value={formData.phone}
                       onChange={handleInputChange}
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-#4bbf39 focus:border-transparent"
-                    >
-                      <option value="">Select photography type</option>
-                      <option value="corporate">Corporate & Headshots</option>
-                      <option value="product">Product Photography</option>
-                      <option value="food">Food & Restaurant</option>
-                      <option value="event">Event Coverage</option>
-                      <option value="branding">Branding Photography</option>
-                      <option value="other">Other</option>
-                    </select>
-                  </div>
-
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">Project Details</label>
-                    <textarea
-                      name="details"
-                      value={formData.details}
+                    />
+                    <FormInput
+                      label="Company Name"
+                      name="company"
+                      type="text"
+                      placeholder="Your Company"
+                      value={formData.company}
                       onChange={handleInputChange}
-                      rows={3}
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-#4bbf39 focus:border-transparent"
-                      placeholder="Tell us about your photography project..."
-                      style={{ color: 'black' }}
-                    ></textarea>
+                    />
                   </div>
 
-                  <Button type="submit" className="w-full bg-#4bbf39 hover:bg-#9333EA text-white py-3">
-                    Get Free Photography Consultation
-                    <ArrowRight className="w-5 h-5 ml-2" />
-                  </Button>
-                </form>
+                  <FormSelect
+                    label="Photography Type"
+                    name="projectType"
+                    placeholder="Select photography type"
+                    options={[
+                      'Corporate & Headshots',
+                      'Product Photography',
+                      'Food & Restaurant',
+                      'Event Coverage',
+                      'Branding Photography',
+                      'Other'
+                    ]}
+                    value={formData.projectType}
+                    onChange={handleInputChange}
+                  />
+
+                  <FormTextarea
+                    label="Project Details"
+                    name="details"
+                    rows={3}
+                    placeholder="Tell us about your photography project..."
+                    value={formData.details}
+                    onChange={handleInputChange}
+                  />
+                </UnifiedForm>
 
                 <p className="text-xs text-gray-500 text-center mt-4">
                   Free consultation • No obligation • Expert insights
@@ -403,7 +356,7 @@ function MediaPhotographyPage() {
       </section>
 
       {/* Featured Work Portfolio */}
-      <section className="py-20 bg-gray-50">
+      <section id="portfolio" className="py-20 bg-gray-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="text-3xl lg:text-4xl font-bold mb-6">

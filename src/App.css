@@ -119,48 +119,37 @@
   }
 }
 
-/* Scrolling logo animation - endless loop */
-@keyframes scroll {
-  from {
-    transform: translateX(0);
-  }
-  to {
-    transform: translateX(-25%);
-  }
+/* Infinite scrolling logo animation */
+/* Animation keyframes */
+@keyframes infinite-scroll {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); } /* Halfway because we render two sets of logos */
 }
 
-@keyframes scroll-fast {
-  from {
-    transform: translateX(0);
-  }
-  to {
-    transform: translateX(-25%);
-  }
+.animate-infinite-scroll {
+  animation: infinite-scroll 30s linear infinite; /* adjust 15s -> 12s for faster */
+  will-change: transform; /* GPU hint for smoother scrolling */
 }
 
-@keyframes scroll-mobile {
-  from {
-    transform: translateX(0);
-  }
-  to {
-    transform: translateX(-25%);
-  }
+.animate-infinite-scroll:hover {
+  animation-play-state: paused; /* optional hover pause */
 }
 
-.animate-scroll {
-  animation: scroll 30s linear infinite;
-}
-
-.animate-scroll-fast {
-  animation: scroll-fast 15s linear infinite;
-}
-
-.animate-scroll-mobile {
-  animation: scroll-mobile 8s linear infinite;
-}
-
-.animate-scroll:hover,
-.animate-scroll-fast:hover,
-.animate-scroll-mobile:hover {
-  animation-play-state: paused;
+/* Optional: subtle edge fade so loop feels continuous */
+.marquee-mask {
+  --fade: 6%;
+  -webkit-mask-image: linear-gradient(
+    to right,
+    transparent,
+    black var(--fade),
+    black calc(100% - var(--fade)),
+    transparent
+  );
+  mask-image: linear-gradient(
+    to right,
+    transparent,
+    black var(--fade),
+    black calc(100% - var(--fade)),
+    transparent
+  );
 }

@@ -20,9 +20,23 @@ import {
 } from 'lucide-react'
 import { ContactSEO } from '../components/SEO'
 import { motion } from 'framer-motion'
+import { 
+  UnifiedForm, 
+  FormInput, 
+  FormSelect, 
+  FormTextarea, 
+  useFormState 
+} from '../components/ui/unified-form'
 
 const ContactPage = () => {
-  const [formData, setFormData] = useState({
+  const {
+    formData,
+    isSubmitting,
+    isSubmitted,
+    handleInputChange,
+    handleSubmit,
+    resetForm
+  } = useFormState({
     name: '',
     email: '',
     phone: '',
@@ -31,43 +45,8 @@ const ContactPage = () => {
     message: '',
     budget: ''
   })
-  const [isSubmitting, setIsSubmitting] = useState(false)
-  const [isSubmitted, setIsSubmitted] = useState(false)
 
-
-  const handleInputChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value
-    })
-  }
-
-  const handleSubmit = async (e) => {
-    e.preventDefault()
-    setIsSubmitting(true)
-    
-    try {
-      const form = e.target
-      const formData = new FormData(form)
-      
-      const response = await fetch('/', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-        body: new URLSearchParams(formData).toString()
-      })
-      
-      if (response.ok) {
-        setIsSubmitted(true)
-      } else {
-        throw new Error('Form submission failed')
-      }
-    } catch (error) {
-      console.error('Error submitting form:', error)
-      alert('There was an error submitting the form. Please try again.')
-    } finally {
-      setIsSubmitting(false)
-    }
-  }
+  const onFormSubmit = () => handleSubmit('contact')
 
   const services = [
     'SEO & Digital Marketing',
@@ -207,181 +186,90 @@ const ContactPage = () => {
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.6, delay: 0.6 }}
             >
-              <Card className="shadow-xl">
-                <CardHeader>
-                  <CardTitle className="text-2xl font-bold flex items-center">
+              <UnifiedForm
+                title={
+                  <div className="flex items-center">
                     <MessageSquare className="w-6 h-6 mr-3 text-[#4bbf39]" />
                     Send Us a Message
-                  </CardTitle>
-                  <p className="text-gray-600">
-                    Fill out the form below and we'll get back to you within 24 hours.
-                  </p>
-                </CardHeader>
-                <CardContent>
-                  {isSubmitted ? (
-                    <div className="text-center py-8">
-                      <CheckCircle className="w-16 h-16 text-green-500 mx-auto mb-4" />
-                      <h3 className="text-xl font-bold text-gray-900 mb-2">Message Sent!</h3>
-                      <p className="text-gray-600 mb-6">
-                        Thank you for reaching out. We'll be in touch within 24 hours.
-                      </p>
-                      <Button 
-                        onClick={() => {
-                          setIsSubmitted(false)
-                          setFormData({
-                            name: '', email: '', phone: '', company: '', 
-                            service: '', message: '', budget: ''
-                          })
-                        }}
-                        variant="outline"
-                      >
-                        Send Another Message
-                      </Button>
-                    </div>
-                  ) : (
-                    <form 
-                      name="contact" 
-                      method="POST" 
-                      data-netlify="true" 
-                      netlify-honeypot="bot-field"
-                      onSubmit={handleSubmit} 
-                      className="space-y-6"
-                    >
-                      <input type="hidden" name="form-name" value="contact" />
-                      <p style={{display: 'none'}}>
-                        <label>Don't fill this out if you're human: <input name="bot-field" /></label>
-                      </p>
-                      <div className="grid md:grid-cols-2 gap-4">
-                        <div>
-                          <label className="block text-sm font-medium text-gray-700 mb-2">
-                            Full Name *
-                          </label>
-                          <input
-                            type="text"
-                            name="name"
-                            value={formData.name}
-                            onChange={handleInputChange}
-                            required
-                            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#4bbf39] focus:border-transparent"
-                            placeholder="John Smith"
-                          />
-                        </div>
-                        <div>
-                          <label className="block text-sm font-medium text-gray-700 mb-2">
-                            Email Address *
-                          </label>
-                          <input
-                            type="email"
-                            name="email"
-                            value={formData.email}
-                            onChange={handleInputChange}
-                            required
-                            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#4bbf39] focus:border-transparent"
-                            placeholder="john@company.com"
-                          />
-                        </div>
-                      </div>
+                  </div>
+                }
+                description="Fill out the form below and we'll get back to you within 24 hours."
+                formName="contact"
+                onSubmit={onFormSubmit}
+                submitText="Send Message"
+                isSubmitting={isSubmitting}
+                isSubmitted={isSubmitted}
+                successMessage="Thank you for reaching out. We'll be in touch within 24 hours."
+              >
+                <div className="grid md:grid-cols-2 gap-4">
+                  <FormInput
+                    label="Full Name"
+                    name="name"
+                    type="text"
+                    required
+                    placeholder="John Smith"
+                    value={formData.name}
+                    onChange={handleInputChange}
+                  />
+                  <FormInput
+                    label="Email Address"
+                    name="email"
+                    type="email"
+                    required
+                    placeholder="john@company.com"
+                    value={formData.email}
+                    onChange={handleInputChange}
+                  />
+                </div>
 
-                      <div className="grid md:grid-cols-2 gap-4">
-                        <div>
-                          <label className="block text-sm font-medium text-gray-700 mb-2">
-                            Phone Number
-                          </label>
-                          <input
-                            type="tel"
-                            name="phone"
-                            value={formData.phone}
-                            onChange={handleInputChange}
-                            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#4bbf39] focus:border-transparent"
-                            placeholder="(513) 555-0123"
-                          />
-                        </div>
-                        <div>
-                          <label className="block text-sm font-medium text-gray-700 mb-2">
-                            Company Name
-                          </label>
-                          <input
-                            type="text"
-                            name="company"
-                            value={formData.company}
-                            onChange={handleInputChange}
-                            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#4bbf39] focus:border-transparent"
-                            placeholder="Your Company"
-                          />
-                        </div>
-                      </div>
+                <div className="grid md:grid-cols-2 gap-4">
+                  <FormInput
+                    label="Phone Number"
+                    name="phone"
+                    type="tel"
+                    placeholder="(513) 555-0123"
+                    value={formData.phone}
+                    onChange={handleInputChange}
+                  />
+                  <FormInput
+                    label="Company Name"
+                    name="company"
+                    type="text"
+                    placeholder="Your Company"
+                    value={formData.company}
+                    onChange={handleInputChange}
+                  />
+                </div>
 
-                      <div className="grid md:grid-cols-2 gap-4">
-                        <div>
-                          <label className="block text-sm font-medium text-gray-700 mb-2">
-                            Service Interest
-                          </label>
-                          <select
-                            name="service"
-                            value={formData.service}
-                            onChange={handleInputChange}
-                            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#4bbf39] focus:border-transparent"
-                          >
-                            <option value="">Select a service</option>
-                            {services.map((service) => (
-                              <option key={service} value={service}>{service}</option>
-                            ))}
-                          </select>
-                        </div>
-                        <div>
-                          <label className="block text-sm font-medium text-gray-700 mb-2">
-                            Project Budget
-                          </label>
-                          <select
-                            name="budget"
-                            value={formData.budget}
-                            onChange={handleInputChange}
-                            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#4bbf39] focus:border-transparent"
-                          >
-                            <option value="">Select budget range</option>
-                            {budgetRanges.map((range) => (
-                              <option key={range} value={range}>{range}</option>
-                            ))}
-                          </select>
-                        </div>
-                      </div>
+                <div className="grid md:grid-cols-2 gap-4">
+                  <FormSelect
+                    label="Service Interest"
+                    name="service"
+                    placeholder="Select a service"
+                    options={services}
+                    value={formData.service}
+                    onChange={handleInputChange}
+                  />
+                  <FormSelect
+                    label="Project Budget"
+                    name="budget"
+                    placeholder="Select budget range"
+                    options={budgetRanges}
+                    value={formData.budget}
+                    onChange={handleInputChange}
+                  />
+                </div>
 
-                      <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-2">
-                          Project Details *
-                        </label>
-                        <textarea
-                          name="message"
-                          value={formData.message}
-                          onChange={handleInputChange}
-                          required
-                          rows={5}
-                          className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#4bbf39] focus:border-transparent"
-                          placeholder="Tell us about your project goals, timeline, and any specific requirements..."
-                        />
-                      </div>
-
-                      <Button
-                        type="submit"
-                        disabled={isSubmitting}
-                        className="w-full bg-gradient-to-r from-[#4bbf39] to-[#39bfb0] text-white py-3 text-lg"
-                      >
-                        {isSubmitting ? (
-                          <>
-                            <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white mr-2"></div>
-                            Sending Message...
-                          </>
-                        ) : (
-                          <>
-                            Send Message
-                            <Send className="ml-2 w-5 h-5" />
-                          </>
-                        )}
-                      </Button>
-                    </form>
-                  )}
-                </CardContent>
-              </Card>
+                <FormTextarea
+                  label="Project Details"
+                  name="message"
+                  required
+                  rows={5}
+                  placeholder="Tell us about your project goals, timeline, and any specific requirements..."
+                  value={formData.message}
+                  onChange={handleInputChange}
+                />
+              </UnifiedForm>
 
               {/* Business Hours */}
               <motion.div
@@ -536,12 +424,16 @@ const ContactPage = () => {
                 <ArrowRight className="ml-2 w-5 h-5" />
               </Link>
             </Button>
-            <Button size="lg" variant="outline" className="border-2 border-white text-white hover:bg-white hover:text-[#4bbf39] font-semibold px-8 py-4" asChild>
-              <a href="tel:+15133310555">
-                <Phone className="mr-2 w-5 h-5" />
-                Call Now: (513) 331-0555
-              </a>
-            </Button>
+<Button
+  size="lg"
+  asChild
+  className="inline-flex items-center bg-white/20 backdrop-blur-sm border border-white/30 text-white hover:bg-white/90 hover:text-[#4bbf39] px-8 py-3 transition-all duration-200 shadow-xs"
+>
+  <a href="tel:+15133310555">
+    <Phone className="mr-2 w-5 h-5" />
+    Call Now: (513) 331-0555
+  </a>
+</Button>
           </div>
         </div>
       </section>

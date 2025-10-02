@@ -221,17 +221,22 @@ function MediaTestimonialPage() {
                 className="flex flex-col sm:flex-row gap-4 mb-12"
               >
                 <Link to="/contact" onClick={scrollToTop}>
-                  <Button className="bg-white/20 backdrop-blur-sm border border-white/30 text-white hover:bg-white/30 transition-all duration-200">
+                  <Button size="lg" className="bg-white text-[#4bbf39] hover:bg-gray-100 px-8 py-3">
                     Start Your Testimonial Project
                     <ArrowRight className="ml-2 w-5 h-5" />
                   </Button>
                 </Link>
-                <a href="tel:+15133310555">
-                  <Button className="bg-white/20 backdrop-blur-sm border border-white/30 text-white hover:bg-white/30 transition-all duration-200">
-                    <Phone className="w-5 h-5 mr-2" />
-                    (513) 331-0555
-                  </Button>
-                </a>
+<Button
+  size="lg"
+  asChild
+  className="inline-flex items-center bg-white/20 backdrop-blur-sm border border-white/30 text-white hover:bg-white/90 hover:text-[#4bbf39] px-8 py-3 transition-all duration-200 shadow-xs"
+>
+  <a href="tel:+15133310555">
+    <Phone className="w-5 h-5 mr-2" />
+    (513) 331-0555
+  </a>
+</Button>
+
               </motion.div>
 
               <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -277,7 +282,7 @@ function MediaTestimonialPage() {
                   <input 
                     type="text" 
                     name="name"
-                    className="w-full px-4 py-3 rounded-lg bg-gray-50 border border-gray-300 text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-#4bbf39 focus:border-transparent"
+                    className="w-full px-4 py-3 rounded-lg bg-gray-50 border border-gray-300 text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#4bbf39] focus:border-transparent"
                     placeholder="John Smith"
                     required
                   />
@@ -287,7 +292,7 @@ function MediaTestimonialPage() {
                   <input 
                     type="email" 
                     name="email"
-                    className="w-full px-4 py-3 rounded-lg bg-gray-50 border border-gray-300 text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-#4bbf39 focus:border-transparent"
+                    className="w-full px-4 py-3 rounded-lg bg-gray-50 border border-gray-300 text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#4bbf39] focus:border-transparent"
                     placeholder="john@company.com"
                     required
                   />
@@ -297,7 +302,7 @@ function MediaTestimonialPage() {
                   <input 
                     type="text" 
                     name="company"
-                    className="w-full px-4 py-3 rounded-lg bg-gray-50 border border-gray-300 text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-#4bbf39 focus:border-transparent"
+                    className="w-full px-4 py-3 rounded-lg bg-gray-50 border border-gray-300 text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#4bbf39] focus:border-transparent"
                     placeholder="Your Company"
                   />
                 </div>
@@ -306,7 +311,7 @@ function MediaTestimonialPage() {
                   <input 
                     type="tel" 
                     name="phone"
-                    className="w-full px-4 py-3 rounded-lg bg-gray-50 border border-gray-300 text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-#4bbf39 focus:border-transparent"
+                    className="w-full px-4 py-3 rounded-lg bg-gray-50 border border-gray-300 text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#4bbf39] focus:border-transparent"
                     placeholder="(555) 123-4567"
                   />
                 </div>
@@ -315,7 +320,7 @@ function MediaTestimonialPage() {
                   <textarea 
                     rows="4"
                     name="details"
-                    className="w-full px-4 py-3 rounded-lg bg-gray-50 border border-gray-300 text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-#4bbf39 focus:border-transparent resize-none"
+                    className="w-full px-4 py-3 rounded-lg bg-gray-50 border border-gray-300 text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#4bbf39] focus:border-transparent resize-none"
                     placeholder="Tell us about your testimonial video needs..."
                   ></textarea>
                 </div>

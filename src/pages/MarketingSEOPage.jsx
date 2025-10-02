@@ -310,12 +310,12 @@ function MarketingSEOPage() {
       <div className="bg-gray-50 py-4">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <Link 
-            to="/" 
+            to="/marketing" 
             onClick={scrollToTop}
             className="inline-flex items-center text-[#4bbf39] hover:text-[#39bfb0] transition-colors"
           >
             <ArrowLeft className="w-4 h-4 mr-2" />
-            Back to Home
+            Back to Marketing Services
           </Link>
         </div>
       </div>
