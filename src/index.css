@@ -10,3 +10,8 @@
   --breakpoint-lg: 1280px;
   --breakpoint-xl: 1536px;
 }
+
+@layer utilities {
+  .btn-mobile { @apply w-full sm:w-auto; }
+  .btn-zoom   { @apply transform-gpu transition-transform duration-200 ease-out hover:scale-105 active:scale-95; }
+}

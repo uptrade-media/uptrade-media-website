@@ -99,200 +99,215 @@ const handleSubmit = async (e) => {
       </div>
       </div>
 
-      {/* Hero Section */}
-      <section className="relative py-20 bg-gradient-to-br from-[#4bbf39] to-[#39bfb0] text-white overflow-hidden">
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid lg:grid-cols-2 gap-12 items-center">
-            <div>
-              <motion.h1
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6 }}
-                className="text-4xl md:text-6xl font-bold mb-6"
-              >
-                Review & Reputation Management
-              </motion.h1>
-              <motion.p
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: 0.2 }}
-                className="text-xl mb-8 opacity-90"
-              >
-                Generate, respond, and showcase reviews to build trust and enhance your online presence. Protect and grow your business reputation with strategic review management.
-              </motion.p>
-              
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: 0.4 }}
-                className="flex flex-col sm:flex-row gap-4 mb-8"
-              >
-                <Link to="/contact" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>
-                  <Button size="lg" className="bg-white text-[#4bbf39] hover:bg-gray-100 font-semibold px-8 py-3">
-                    Schedule a Consultation
+{/* Hero Section */}
+<section className="relative py-20 bg-gradient-to-br from-[#4bbf39] to-[#39bfb0] text-white">
+  <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div className="grid lg:grid-cols-2 gap-12 items-center">
+      <div>
+        <motion.h1
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+          className="text-4xl lg:text-6xl font-bold mb-6"
+        >
+          Review & Reputation Management
+        </motion.h1>
+
+        <motion.p
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.2 }}
+          className="text-xl mb-8 text-white/90"
+        >
+          Generate, respond, and showcase reviews to build trust and enhance your online presence.
+          Protect and grow your business reputation with strategic review management.
+        </motion.p>
+
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.4 }}
+          className="flex flex-col sm:flex-row gap-4 mb-8"
+        >
+          <Link
+            to="/contact"
+            onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+            className="w-full sm:w-auto"
+          >
+            <Button
+              size="lg"
+              className="w-full sm:w-auto bg-white text-[#4bbf39] hover:bg-gray-100 font-semibold px-8 py-3"
+            >
+              Schedule a Consultation
+              <ArrowRight className="ml-2 w-5 h-5" />
+            </Button>
+          </Link>
+
+          <a href="tel:+15133310555" className="w-full sm:w-auto">
+            <Button
+              size="lg"
+              className="w-full sm:w-auto bg-white/20 backdrop-blur-sm border border-white/30 text-white hover:bg-white/90 hover:text-[#4bbf39] px-8 py-3 transition-all duration-200 shadow-xs"
+            >
+              <Phone className="mr-2 w-5 h-5" />
+              Call (513) 331-0555
+            </Button>
+          </a>
+        </motion.div>
+
+        {/* Feature line that wraps on mobile */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.6 }}
+          className="flex flex-wrap items-center gap-x-6 gap-y-3 text-sm"
+        >
+          <div className="flex items-center gap-2">
+            <CheckCircle className="w-5 h-5 text-white" />
+            <span>Free Reputation Audit</span>
+          </div>
+          <div className="flex items-center gap-2">
+            <CheckCircle className="w-5 h-5 text-white" />
+            <span>24/7 Monitoring</span>
+          </div>
+          <div className="flex items-center gap-2">
+            <CheckCircle className="w-5 h-5 text-white" />
+            <span>Review Response Management</span>
+          </div>
+        </motion.div>
+      </div>
+
+      <motion.div
+        initial={{ opacity: 0, x: 50 }}
+        animate={{ opacity: 1, x: 0 }}
+        transition={{ duration: 0.6, delay: 0.2 }}
+        className="relative"
+      >
+        {/* Constrain the card on phones so it doesn't span edge-to-edge */}
+        <div className="w-full max-w-md mx-auto lg:max-w-none">
+          <Card className="bg-white border-white/20 shadow-2xl">
+            <CardHeader>
+              <CardTitle className="text-2xl font-bold text-gray-900 flex items-center">
+                <ShieldCheck className="w-6 h-6 mr-3 text-[#4bbf39]" />
+                Free Reputation Audit
+              </CardTitle>
+              <p className="text-gray-600">
+                Discover how your online reputation impacts your business and get actionable insights to improve it.
+              </p>
+            </CardHeader>
+
+            <CardContent className="space-y-4">
+              {submitted ? (
+                <div className="text-center py-6">
+                  <CheckCircle className="mx-auto text-green-600 mb-4" size={40} />
+                  <h3 className="text-xl font-bold mb-2">Thank you</h3>
+                  <p className="text-gray-600">We received your request and will follow up shortly.</p>
+                </div>
+              ) : (
+                <form
+                  name="reputation-management"
+                  method="POST"
+                  data-netlify="true"
+                  netlify-honeypot="bot-field"
+                  onSubmit={handleSubmit}
+                  className="space-y-4"
+                >
+                  <input type="hidden" name="form-name" value="reputation-management" />
+                  <p className="hidden">
+                    <label>Don’t fill this out: <input name="bot-field" /></label>
+                  </p>
+
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2" htmlFor="rep-name">
+                        Full Name *
+                      </label>
+                      <input
+                        id="rep-name"
+                        type="text"
+                        name="name"
+                        autoComplete="name"
+                        placeholder="John Smith"
+                        required
+                        className="w-full px-4 py-3 rounded-lg bg-gray-50 border border-gray-200 text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#4bbf39] focus:border-transparent"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2" htmlFor="rep-email">
+                        Email Address *
+                      </label>
+                      <input
+                        id="rep-email"
+                        type="email"
+                        name="email"
+                        autoComplete="email"
+                        placeholder="john@company.com"
+                        required
+                        className="w-full px-4 py-3 rounded-lg bg-gray-50 border border-gray-200 text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#4bbf39] focus:border-transparent"
+                      />
+                    </div>
+                  </div>
+
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2" htmlFor="rep-phone">
+                        Phone Number
+                      </label>
+                      <input
+                        id="rep-phone"
+                        type="tel"
+                        name="phone"
+                        autoComplete="tel"
+                        placeholder="(513) 555-0123"
+                        className="w-full px-4 py-3 rounded-lg bg-gray-50 border border-gray-200 text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#4bbf39] focus:border-transparent"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2" htmlFor="rep-business">
+                        Business Name
+                      </label>
+                      <input
+                        id="rep-business"
+                        type="text"
+                        name="business"
+                        autoComplete="organization"
+                        placeholder="Your Business"
+                        className="w-full px-4 py-3 rounded-lg bg-gray-50 border border-gray-200 text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#4bbf39] focus:border-transparent"
+                      />
+                    </div>
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2" htmlFor="rep-concerns">
+                      Current Reputation Concerns
+                    </label>
+                    <textarea
+                      id="rep-concerns"
+                      name="concerns"
+                      rows={3}
+                      placeholder="Tell us about your reputation management needs..."
+                      className="w-full px-4 py-3 rounded-lg bg-gray-50 border border-gray-200 text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#4bbf39] focus:border-transparent resize-none"
+                    ></textarea>
+                  </div>
+
+                  <Button
+                    type="submit"
+                    className="w-full bg-gradient-to-r from-[#4bbf39] to-[#39bfb0] text-white py-3 text-lg hover:from-[#39bfb0] hover:to-[#4bbf39]"
+                  >
+                    Get Free Reputation Audit
                     <ArrowRight className="ml-2 w-5 h-5" />
                   </Button>
-                </Link>
-                <Button size="lg" className="bg-white/20 backdrop-blur-sm border border-white/30 text-white hover:bg-white/90 hover:text-[#4bbf39] px-8 py-3 transition-all duration-200 shadow-xs">
-                  <Phone className="mr-2 w-5 h-5" />
-                  Call (513) 331-0555
-                </Button>
-              </motion.div>
 
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: 0.6 }}
-                className="flex items-center gap-6 text-sm"
-              >
-                <div className="flex items-center gap-2">
-                  <CheckCircle className="w-5 h-5 text-white" />
-                  <span>Free Reputation Audit</span>
-      </div>
-                <div className="flex items-center gap-2">
-                  <CheckCircle className="w-5 h-5 text-white" />
-                  <span>24/7 Monitoring</span>
-      </div>
-                <div className="flex items-center gap-2">
-                  <CheckCircle className="w-5 h-5 text-white" />
-                  <span>Review Response Management</span>
-      </div>
-              </motion.div>
-      </div>
-
-            <motion.div
-              initial={{ opacity: 0, scale: 0.8 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.8, delay: 0.3 }}
-              className="relative"
-            >
-<Card className="bg-white border-white/20 shadow-2xl">
-  <CardHeader>
-    <CardTitle className="text-2xl font-bold text-gray-900 flex items-center">
-      <ShieldCheck className="w-6 h-6 mr-3 text-[#4bbf39]" />
-      Free Reputation Audit
-    </CardTitle>
-    <p className="text-gray-600">
-      Discover how your online reputation impacts your business and get actionable insights to improve it.
-    </p>
-  </CardHeader>
-
-  <CardContent className="space-y-4">
-    {submitted ? (
-      <div className="text-center py-6">
-        <CheckCircle className="mx-auto text-green-600 mb-4" size={40} />
-        <h3 className="text-xl font-bold mb-2">Thank you</h3>
-        <p className="text-gray-600">We received your request and will follow up shortly.</p>
-      </div>
-    ) : (
-      <form
-        name="reputation-management"
-        method="POST"
-        data-netlify="true"
-        data-netlify-honeypot="bot-field"
-        onSubmit={handleSubmit}
-        className="space-y-4"
-      >
-        <input type="hidden" name="form-name" value="reputation-management" />
-        <p hidden>
-          <label>Don’t fill this out: <input name="bot-field" /></label>
-        </p>
-
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2" htmlFor="rep-name">
-              Full Name *
-            </label>
-            <input
-              id="rep-name"
-              type="text"
-              name="name"
-              autoComplete="name"
-              placeholder="John Smith"
-              required
-              className="w-full px-4 py-3 rounded-lg bg-gray-50 border border-gray-200 text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#4bbf39] focus:border-transparent"
-            />
-          </div>
-
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2" htmlFor="rep-email">
-              Email Address *
-            </label>
-            <input
-              id="rep-email"
-              type="email"
-              name="email"
-              autoComplete="email"
-              placeholder="john@company.com"
-              required
-              className="w-full px-4 py-3 rounded-lg bg-gray-50 border border-gray-200 text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#4bbf39] focus:border-transparent"
-            />
-          </div>
+                  <p className="text-xs text-gray-500 text-center">Free audit • No obligation • Expert insights</p>
+                </form>
+              )}
+            </CardContent>
+          </Card>
         </div>
+      </motion.div>
+    </div>
+  </div>
+</section>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2" htmlFor="rep-phone">
-              Phone Number
-            </label>
-            <input
-              id="rep-phone"
-              type="tel"
-              name="phone"
-              autoComplete="tel"
-              placeholder="(513) 555-0123"
-              className="w-full px-4 py-3 rounded-lg bg-gray-50 border border-gray-200 text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#4bbf39] focus:border-transparent"
-            />
-          </div>
-
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2" htmlFor="rep-business">
-              Business Name
-            </label>
-            <input
-              id="rep-business"
-              type="text"
-              name="business"
-              autoComplete="organization"
-              placeholder="Your Business"
-              className="w-full px-4 py-3 rounded-lg bg-gray-50 border border-gray-200 text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#4bbf39] focus:border-transparent"
-            />
-          </div>
-        </div>
-
-        <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2" htmlFor="rep-concerns">
-            Current Reputation Concerns
-          </label>
-          <textarea
-            id="rep-concerns"
-            name="concerns"
-            rows={3}
-            placeholder="Tell us about your reputation management needs..."
-            className="w-full px-4 py-3 rounded-lg bg-gray-50 border border-gray-200 text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#4bbf39] focus:border-transparent resize-none"
-          ></textarea>
-        </div>
-
-        <Button
-          type="submit"
-          className="w-full bg-gradient-to-r from-[#4bbf39] to-[#39bfb0] text-white py-3 text-lg hover:from-[#39bfb0] hover:to-[#4bbf39]"
-        >
-          Get Free Reputation Audit
-          <ArrowRight className="ml-2 w-5 h-5" />
-        </Button>
-
-        <p className="text-xs text-gray-500 text-center">
-          Free audit • No obligation • Expert insights
-        </p>
-      </form>
-    )}
-  </CardContent>
-</Card>
-
-            </motion.div>
-      </div>
-      </div>
-      </section>
 
       {/* What We Do Section */}
       <section className="py-20 bg-gray-50">

@@ -606,16 +606,18 @@ function FeaturedInsights() {
         </div>
 
         <div className="text-center">
-          <Link to="/insights">
-            <Button
-              size="lg"
-              variant="outline"
-              className="border-[#4bbf39] text-[#4bbf39] hover:bg-[#4bbf39] hover:text-white"
-            >
-              View All Insights
-              <ArrowRight className="ml-2 w-5 h-5" />
-            </Button>
-          </Link>
+<Button
+  asChild
+  size="lg"
+  variant="outline"
+  className="btn-mobile btn-zoom border-[#4bbf39] text-[#4bbf39] hover:bg-[#4bbf39] hover:text-white px-8 py-3"
+>
+  <Link to="/insights" onClick={scrollToTop}>
+    View All Insights
+    <ArrowRight className="ml-2 w-5 h-5" />
+  </Link>
+</Button>
+
         </div>
       </div>
     </section>
@@ -809,58 +811,43 @@ const logos = React.useMemo(
               </div>
             </motion.div>
 
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.4 }}
-              className="flex flex-col sm:flex-row gap-4 justify-center items-center"
-            >
-              <motion.div
-                whileHover={{ 
-                  scale: 1.05,
-                  boxShadow: "0 10px 30px rgba(75, 191, 57, 0.3)"
-                }}
-                whileTap={{ scale: 0.95 }}
-                transition={{ type: "spring", stiffness: 300, damping: 20 }}
-              >
-                <Button size="lg" className="bg-gradient-to-r from-[#4bbf39] to-[#39bfb0] hover:from-[#39bfb0] hover:to-[#4bbf39] text-white px-8 py-3 relative overflow-hidden group" asChild>
-                  <Link to="/free-audit">
-                    <motion.div
-                      className="absolute inset-0 bg-gradient-to-r from-transparent via-white to-transparent opacity-0 group-hover:opacity-20"
-                      animate={{ x: ['-100%', '100%'] }}
-                      transition={{ duration: 1.5, repeat: Infinity, repeatDelay: 2 }}
-                    />
-                    <span className="relative z-10">Get Free Website Audit</span>
-                    <motion.div
-                      className="relative z-10 ml-2"
-                      animate={{ x: [0, 5, 0] }}
-                      transition={{ duration: 1.5, repeat: Infinity, repeatDelay: 1 }}
-                    >
-                      <ArrowRight className="w-5 h-5" />
-                    </motion.div>
-                  </Link>
-                </Button>
-              </motion.div>
-              <motion.a 
-                href="tel:+15133310555"
-                whileHover={{ 
-                  scale: 1.05
-                }}
-                whileTap={{ scale: 0.95 }}
-                transition={{ type: "spring", stiffness: 300, damping: 20 }}
-              >
-                <Button size="lg" className="bg-white/20 backdrop-blur-sm border border-white/30 text-white hover:bg-white/90 hover:text-[#4bbf39] px-8 py-3 transition-all duration-200 group rounded-md">
-                  <motion.div
-                    whileHover={{ rotate: 10 }}
-                    transition={{ type: "spring", stiffness: 300 }}
-                    className="mr-2"
-                  >
-                    <Phone className="w-5 h-5" />
-                  </motion.div>
-                  (513) 331-0555
-                </Button>
-              </motion.a>
-            </motion.div>
+<div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
+  <Button
+    size="lg"
+    className="btn-mobile btn-zoom bg-gradient-to-r from-[#4bbf39] to-[#39bfb0] hover:from-[#39bfb0] hover:to-[#4bbf39] text-white px-8 py-3 relative overflow-hidden group"
+    asChild
+  >
+    <Link to="/free-audit">
+      <motion.div
+        className="absolute inset-0 bg-gradient-to-r from-transparent via-white to-transparent opacity-0 group-hover:opacity-20"
+        animate={{ x: ['-100%', '100%'] }}
+        transition={{ duration: 1.5, repeat: Infinity, repeatDelay: 2 }}
+      />
+      <span className="relative z-10">Get Free Website Audit</span>
+      <motion.div
+        className="relative z-10 ml-2"
+        animate={{ x: [0, 5, 0] }}
+        transition={{ duration: 1.5, repeat: Infinity, repeatDelay: 1 }}
+      >
+        <ArrowRight className="w-5 h-5" />
+      </motion.div>
+    </Link>
+  </Button>
+
+  <Button
+    size="lg"
+    className="btn-mobile btn-zoom bg-white/20 backdrop-blur-sm border border-white/30 text-white hover:bg-white/90 hover:text-[#4bbf39] px-8 py-3 transition-all duration-200 group rounded-md"
+    asChild
+  >
+    <a href="tel:+15133310555">
+      <span className="mr-2">
+        <Phone className="w-5 h-5" />
+      </span>
+      (513) 331-0555
+    </a>
+  </Button>
+</div>
+
 
             {/* Trust indicators */}
             <motion.div
@@ -1005,10 +992,11 @@ const logos = React.useMemo(
             ))}
           </ul>
 
-          <Button className="w-full mt-6 text-white bg-gradient-to-r from-[#4bbf39] to-[#39bfb0] hover:from-[#39bfb0] hover:to-[#4bbf39]">
-            Learn More
-            <ArrowRight className="ml-2 w-4 h-4" />
-          </Button>
+<Button className="btn-mobile btn-zoom w-full mt-6 text-white bg-gradient-to-r from-[#4bbf39] to-[#39bfb0] hover:from-[#39bfb0] hover:to-[#4bbf39]">
+  Learn More
+  <ArrowRight className="ml-2 w-4 h-4" />
+</Button>
+
         </CardContent>
       </div>
     </Card>
@@ -1047,12 +1035,16 @@ const logos = React.useMemo(
                   <div className="text-sm text-gray-600">Timeline</div>
                 </div>
               </div>
-              <Link to="/portfolio/queen-city-riverboats" >
-                <Button className="bg-gradient-to-r from-[#4bbf39] to-[#39bfb0] text-white">
-                  View Full Case Study
-                  <ExternalLink className="ml-2 w-4 h-4" />
-                </Button>
-              </Link>
+<Button
+  className="btn-mobile btn-zoom bg-gradient-to-r from-[#4bbf39] to-[#39bfb0] text-white"
+  asChild
+>
+  <Link to="/portfolio/queen-city-riverboats">
+    View Full Case Study
+    <ExternalLink className="ml-2 w-4 h-4" />
+  </Link>
+</Button>
+
             </div>
             <div className="relative">
               <div className="aspect-video bg-gray-100 rounded-lg overflow-hidden shadow-xl">
@@ -1123,16 +1115,22 @@ const logos = React.useMemo(
           </div>
           
           <div className="text-center mt-12">
-            <a 
-              href="https://share.google/o7ZNKsYGbl4hOXbdx" 
-              target="_blank" 
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 bg-gradient-to-r from-[#4bbf39] to-[#39bfb0] hover:from-[#39bfb0] hover:to-[#4bbf39] text-white px-6 py-3 rounded-lg font-medium transition-all duration-200"
-            >
-              <Star className="w-5 h-5" />
-              View More Reviews on Google
-              <ExternalLink className="w-4 h-4" />
-            </a>
+<Button
+  size="lg"
+  className="btn-mobile btn-zoom bg-gradient-to-r from-[#4bbf39] to-[#39bfb0] hover:from-[#39bfb0] hover:to-[#4bbf39] text-white px-6 py-3 rounded-lg font-medium transition-all duration-200"
+  asChild
+>
+  <a
+    href="https://share.google/o7ZNKsYGbl4hOXbdx"
+    target="_blank"
+    rel="noopener noreferrer"
+  >
+    <Star className="w-5 h-5 mr-2" />
+    View More Reviews on Google
+    <ExternalLink className="w-4 h-4 ml-2" />
+  </a>
+</Button>
+
           </div>
         </div>
       </section>
@@ -1315,48 +1313,43 @@ const logos = React.useMemo(
           </motion.p>
 
           {/* Enhanced CTA buttons */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.2 }}
-            className="flex flex-col sm:flex-row gap-4 justify-center mb-8"
-          >
-            <motion.div
-              whileHover={{ scale: 1.05, boxShadow: "0 10px 30px rgba(255,255,255,0.2)" }}
-              whileTap={{ scale: 0.95 }}
-            >
-              <Link to="/free-audit">
-                <Button size="lg" className="bg-white text-[#4bbf39] hover:bg-gray-100 px-8 py-3 relative overflow-hidden group">
-                  <motion.div
-                    className="absolute inset-0 bg-gradient-to-r from-transparent via-gray-200 to-transparent opacity-0 group-hover:opacity-30"
-                    animate={{ x: ['-100%', '100%'] }}
-                    transition={{ duration: 1.5, repeat: Infinity, repeatDelay: 2 }}
-                  />
-                  <span className="relative z-10 flex items-center gap-2">
-                    <Zap className="w-5 h-5" />
-                    Get Your Free Audit
-                    <motion.div
-                      animate={{ x: [0, 5, 0] }}
-                      transition={{ duration: 1.5, repeat: Infinity, repeatDelay: 1 }}
-                    >
-                      <ArrowRight className="w-5 h-5" />
-                    </motion.div>
-                  </span>
-                </Button>
-              </Link>
-            </motion.div>
-            <motion.a 
-              href="tel:+15133310555"
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-            >
-              <Button size="lg" className="bg-white/20 backdrop-blur-sm border border-white/30 text-white hover:bg-white/90 hover:text-[#4bbf39] px-8 py-3 transition-all duration-200 shadow-xs rounded-md">
-                <Phone className="mr-2 w-5 h-5" />
-                Call (513) 331-0555
-              </Button>
-            </motion.a>
-          </motion.div>
+<div className="flex flex-col sm:flex-row gap-4 justify-center mb-8">
+  <Button
+    size="lg"
+    className="btn-mobile btn-zoom bg-white text-[#4bbf39] hover:bg-gray-100 px-8 py-3 relative overflow-hidden group"
+    asChild
+  >
+    <Link to="/free-audit">
+      <motion.div
+        className="absolute inset-0 bg-gradient-to-r from-transparent via-gray-200 to-transparent opacity-0 group-hover:opacity-30"
+        animate={{ x: ['-100%', '100%'] }}
+        transition={{ duration: 1.5, repeat: Infinity, repeatDelay: 2 }}
+      />
+      <span className="relative z-10 flex items-center gap-2">
+        <Zap className="w-5 h-5" />
+        Get Your Free Audit
+        <motion.div
+          animate={{ x: [0, 5, 0] }}
+          transition={{ duration: 1.5, repeat: Infinity, repeatDelay: 1 }}
+        >
+          <ArrowRight className="w-5 h-5" />
+        </motion.div>
+      </span>
+    </Link>
+  </Button>
+
+  <Button
+    size="lg"
+    className="btn-mobile btn-zoom bg-white/20 backdrop-blur-sm border border-white/30 text-white hover:bg-white/90 hover:text-[#4bbf39] px-8 py-3 transition-all duration-200 shadow-xs rounded-md"
+    asChild
+  >
+    <a href="tel:+15133310555">
+      <Phone className="mr-2 w-5 h-5" />
+      Call (513) 331-0555
+    </a>
+  </Button>
+</div>
+
 
           {/* Trust indicators */}
           <motion.div

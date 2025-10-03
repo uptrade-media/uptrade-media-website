@@ -13,6 +13,144 @@ import {
   CheckCircle,
   ArrowRight,
 } from "lucide-react";
+import { getPostsByTag, } from "@/utils/blogManager.js";
+
+export function MarketingInsightsSection() {
+  const [posts, setPosts] = React.useState([]);
+  const [loading, setLoading] = React.useState(true);
+
+  React.useEffect(() => {
+    let cancelled = false;
+    (async () => {
+      try {
+        setLoading(true);
+        const data = await getPostsByTag("marketing", { limit: 3, includeCategory: true });
+        if (!cancelled) setPosts(data || []);
+      } catch {
+        if (!cancelled) setPosts([]);
+      } finally {
+        if (!cancelled) setLoading(false);
+      }
+    })();
+    return () => { cancelled = true; };
+  }, []);
+
+  if (loading) {
+    return (
+      <section className="py-20 bg-gray-50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+              Marketing Insights
+            </h2>
+            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+              Fresh strategies and breakdowns from our marketing team.
+            </p>
+          </div>
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {[0, 1, 2].map((i) => (
+              <div key={i} className="animate-pulse">
+                <div className="h-48 w-full bg-gray-200 rounded-lg mb-4" />
+                <div className="h-4 bg-gray-200 rounded w-3/4 mb-2" />
+                <div className="h-4 bg-gray-200 rounded w-5/6 mb-2" />
+                <div className="h-4 bg-gray-200 rounded w-2/3" />
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+    );
+  }
+
+  if (!posts.length) return null;
+
+  return (
+    <section className="py-20 bg-gray-50">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="text-center mb-16">
+          <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+            Marketing Insights
+          </h2>
+          <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+            Stay ahead with proven acquisition, retention, and CRO tactics.
+          </p>
+        </div>
+
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
+          {posts.map((post, index) => {
+            const category = Array.isArray(post.category)
+              ? post.category[0]
+              : post.category || "";
+            const slug = typeof post.slug === "string" ? post.slug : "";
+            const href = slug.startsWith("insights/") ? `/${slug}` : `/insights/${slug}`;
+
+            return (
+              <motion.div
+                key={slug || index}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: index * 0.1 }}
+                viewport={{ once: true }}
+              >
+                <Card className="h-full hover:shadow-xs transition-shadow duration-300 bg-white border-0 overflow-hidden p-0">
+                  <div className="relative">
+                    <img
+                      src={post.image || "/insights/placeholder.webp"}
+                      alt={post.title}
+                      loading="lazy"
+                      decoding="async"
+                      className="w-full h-48 object-cover"
+                      onError={(e) => { e.currentTarget.src = "/insights/placeholder.webp"; }}
+                    />
+                    {!!category && (
+                      <div className="absolute top-4 right-4">
+                        <span className="bg-white/90 backdrop-blur-sm text-gray-700 border border-white/30 px-3 py-1 rounded-full text-sm font-medium capitalize">
+                          {category}
+                        </span>
+                      </div>
+                    )}
+                  </div>
+
+                  <CardContent className="p-6">
+                    <div className="flex items-center justify-between mb-3">
+                      <span className="text-sm text-gray-500">{post.readTime}</span>
+                    </div>
+                    <h3 className="text-xl font-semibold mb-3 line-clamp-2">{post.title}</h3>
+                    <p className="text-gray-600 mb-4 line-clamp-3">{post.excerpt}</p>
+
+                    <Link
+                      to={href}
+                      className="inline-flex items-center text-[#4bbf39] hover:text-[#39bfb0] font-medium transition-colors"
+                      onClick={scrollToTop}
+                    >
+                      Read More
+                      <ArrowRight className="ml-2 w-4 h-4" />
+                    </Link>
+                  </CardContent>
+                </Card>
+              </motion.div>
+            );
+          })}
+        </div>
+
+        <div className="text-center">
+          <Button
+            asChild
+            size="lg"
+            variant="outline"
+            className="w-full sm:w-auto border-[#4bbf39] text-[#4bbf39] hover:bg-[#4bbf39] hover:text-white px-8 py-3 transition-transform duration-200 hover:scale-[1.02] active:scale-[0.98]"
+          >
+            <Link to="/insights?category=marketing" onClick={scrollToTop}>
+              View All Marketing Insights
+              <ArrowRight className="ml-2 w-5 h-5" />
+            </Link>
+          </Button>
+        </div>
+      </div>
+    </section>
+  );
+}
+
 
 const scrollToTop = () => window.scrollTo({ top: 0, behavior: "smooth" });
 
@@ -110,50 +248,72 @@ export default function MarketingPage() {
     },
   ];
 
-  const benefits = [
-    { title: "Maximized ROI", icon: <BarChart3 className="w-8 h-8" />, desc: "Spend smarter with data-backed decisions." },
-    { title: "Higher Conversions", icon: <Target className="w-8 h-8" />, desc: "Clear CTAs and funnel flow increase action." },
-    { title: "Stronger Brand Presence", icon: <Star className="w-8 h-8" />, desc: "Be seen—and chosen—more often." },
-    { title: "Scalable Growth", icon: <CheckCircle className="w-8 h-8" />, desc: "Systems that scale without chaos." },
-  ];
+const benefits = [
+  { title: "Maximized ROI", icon: <BarChart3 className="w-8 h-8" />, desc: "Spend smarter with data-backed decisions." },
+  { title: "Higher Conversions", icon: <Target className="w-8 h-8" />, desc: "Clear CTAs and funnel flow increase action." },
+  { title: "Stronger Brand Presence", icon: <Star className="w-8 h-8" />, desc: "Be seen—and chosen—more often." },
+  { title: "Scalable Growth", icon: <CheckCircle className="w-8 h-8" />, desc: "Systems that scale without chaos." },
+  { title: "Search Visibility", icon: <Search className="w-8 h-8" />, desc: "Rank for intent and capture demand." },
+  { title: "Retention & LTV", icon: <Mail className="w-8 h-8" />, desc: "Automations that keep customers coming back." },
+];
+
 
   return (
     <div className="min-h-screen bg-white">
       {/* Hero */}
-      <section className="relative py-20 overflow-hidden">
-        <div className="absolute inset-0">
-          <video
-            autoPlay
-            loop
-            muted
-            playsInline
-            preload="metadata"
-            poster="/marketing_hero.webp"
-            className="absolute inset-0 w-full h-full object-cover"
-          >
-            <source src="/videos/marketing_page_hero_video.webm" type="video/webm" />
-            <source src="/videos/marketing_hero.mp4" type="video/mp4" />
-          </video>
-          <div className="absolute inset-0 bg-black/70" />
-        </div>
+{/* Hero */}
+<section className="relative overflow-hidden py-20">
+  {/* Background video + overlay */}
+  <div className="absolute inset-0">
+    <video
+      autoPlay
+      loop
+      muted
+      playsInline
+      preload="metadata"
+      poster="/marketing_hero.webp"
+      className="absolute inset-0 w-full h-full object-cover"
+    >
+      <source src="/videos/marketing_page_hero_video.webm" type="video/webm" />
+      <source src="/videos/marketing_hero.mp4" type="video/mp4" />
+    </video>
+    <div className="absolute inset-0 bg-black/70" />
+  </div>
 
-        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-white">
-          <motion.h1 initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}
-            className="text-4xl md:text-6xl font-bold mb-6">
-            Marketing Solutions
-          </motion.h1>
-          <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.2 }}
-            className="text-xl mb-8 max-w-3xl mx-auto text-white/90">
-            Smart. Strategic. Results-driven. Outpace competitors with campaigns engineered to convert.
-          </motion.p>
-          <Link to="/contact" onClick={scrollToTop}>
-            <Button className="bg-white/20 backdrop-blur-sm border border-white/30 text-white hover:bg-white/30 px-8 py-3 text-lg">
-              Schedule a Consultation
-              <ArrowRight className="ml-2 w-5 h-5" />
-            </Button>
-          </Link>
-        </div>
-      </section>
+  {/* Content (matches Media hero structure/height) */}
+  <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center min-h-[60vh]">
+    <div className="w-full text-center text-white">
+      <motion.h1
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6 }}
+        className="text-4xl md:text-6xl font-bold mb-6"
+      >
+        Marketing Solutions
+      </motion.h1>
+
+      <motion.p
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6, delay: 0.2 }}
+        className="text-xl mb-8 max-w-3xl mx-auto text-white/90"
+      >
+        Smart. Strategic. Results-driven. Outpace competitors with campaigns engineered to convert.
+      </motion.p>
+
+      <Button
+        asChild
+        className="w-full sm:w-auto bg-white/20 backdrop-blur-sm border border-white/30 text-white hover:bg-white/90 hover:text-[#4bbf39] px-8 py-3 transition-all duration-200 shadow-xs hover:scale-[1.02] active:scale-[0.98]"
+      >
+        <Link to="/contact" onClick={scrollToTop}>
+          Schedule a Consultation
+          <ArrowRight className="ml-2 w-5 h-5" />
+        </Link>
+      </Button>
+    </div>
+  </div>
+</section>
+
 
       {/* Services */}
       <section className="py-20 bg-gray-50">
@@ -161,14 +321,19 @@ export default function MarketingPage() {
           <div className="text-center mb-16">
             <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">Comprehensive Marketing Services</h2>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              We build campaigns that convert—not just campaigns that look good.
+              We build campaigns that convert, not just campaigns that look good.
             </p>
           </div>
 
           <div className="grid md:grid-cols-2 gap-8">
             {services.map((s, i) => (
-              <motion.div key={s.title} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: i * 0.1 }} viewport={{ once: true }}>
+              <motion.div
+                key={s.title}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: i * 0.1 }}
+                viewport={{ once: true }}
+              >
                 <Card className="h-full hover:shadow-xl transition-all duration-300 border-0 bg-white">
                   <CardHeader>
                     <div className="w-16 h-16 mb-4 rounded-full bg-gradient-to-r from-[#4bbf39] to-[#39bfb0] text-white flex items-center justify-center">
@@ -179,18 +344,23 @@ export default function MarketingPage() {
                   </CardHeader>
                   <CardContent>
                     <ul className="space-y-2 mb-6">
-                      {s.features.map(f => (
+                      {s.features.map((f) => (
                         <li key={f} className="flex items-center text-sm text-gray-600">
                           <CheckCircle className="w-4 h-4 text-[#4bbf39] mr-2" /> {f}
                         </li>
                       ))}
                     </ul>
-                    <Link to={s.link} onClick={scrollToTop}>
-                      <Button className="w-full bg-gradient-to-r from-[#4bbf39] to-[#39bfb0] text-white">
+
+                    {/* STRETCH ON ALL BREAKPOINTS + expand on hover */}
+                    <Button
+                      asChild
+                      className="w-full bg-gradient-to-r from-[#4bbf39] to-[#39bfb0] text-white transition-transform duration-200 hover:scale-[1.02] active:scale-[0.98]"
+                    >
+                      <Link to={s.link} onClick={scrollToTop}>
                         Learn More
                         <ArrowRight className="ml-2 w-4 h-4" />
-                      </Button>
-                    </Link>
+                      </Link>
+                    </Button>
                   </CardContent>
                 </Card>
               </motion.div>
@@ -199,45 +369,63 @@ export default function MarketingPage() {
         </div>
       </section>
 
-      {/* Benefits */}
-      <section className="py-20 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">How We Drive Growth</h2>
-          </div>
+{/* Benefits */}
+<section className="py-20 bg-white">
+  <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div className="text-center mb-16">
+      <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">How We Drive Growth</h2>
+    </div>
 
-          <div className="grid md:grid-cols-2 gap-8">
-            {benefits.map((b, i) => (
-              <motion.div key={b.title} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: i * 0.1 }} viewport={{ once: true }} className="text-center">
-                <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-gradient-to-r from-[#4bbf39] to-[#39bfb0] text-white flex items-center justify-center">
-                  {b.icon}
-                </div>
-                <h3 className="text-xl font-bold text-gray-900 mb-2">{b.title}</h3>
-                <p className="text-gray-600">{b.desc}</p>
-              </motion.div>
-            ))}
+    {/* 3x2 at lg (1 col on mobile, 2 on sm, 3 on lg) */}
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+      {benefits.map((b, i) => (
+        <motion.div
+          key={b.title}
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: i * 0.1 }}
+          viewport={{ once: true }}
+          className="text-center"
+        >
+          <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-gradient-to-r from-[#4bbf39] to-[#39bfb0] text-white flex items-center justify-center">
+            {b.icon}
           </div>
-        </div>
-      </section>
+          <h3 className="text-xl font-bold text-gray-900 mb-2">{b.title}</h3>
+          <p className="text-gray-600">{b.desc}</p>
+        </motion.div>
+      ))}
+    </div>
+  </div>
+</section>
+
+
+<MarketingInsightsSection />
 
       {/* CTA */}
       <section className="py-20 bg-gradient-to-r from-[#4bbf39] to-[#39bfb0] text-white">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h2 className="text-3xl md:text-4xl font-bold mb-6">Ready to get started?</h2>
           <p className="text-xl mb-8 opacity-90">Book a quick consult or grab a free audit—your call.</p>
+
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link to="/free-audit">
-              <Button size="lg" className="bg-white text-[#4bbf39] hover:bg-gray-100 px-8 py-3">
+            <Button
+              asChild
+              size="lg"
+              className="w-full sm:w-auto bg-white text-[#4bbf39] hover:bg-gray-100 px-8 py-3 transition-transform duration-200 hover:scale-[1.02] active:scale-[0.98]"
+            >
+              <Link to="/free-audit" onClick={scrollToTop}>
                 Get Your Free Audit
                 <ArrowRight className="ml-2 w-5 h-5" />
-              </Button>
-            </Link>
-            <a href="tel:+15133310555">
-              <Button size="lg" className="bg-white/20 border border-white/30 text-white hover:bg-white/90 hover:text-[#4bbf39] px-8 py-3">
-                (513) 331-0555
-              </Button>
-            </a>
+              </Link>
+            </Button>
+
+            <Button
+              asChild
+              size="lg"
+              className="w-full sm:w-auto bg-white/20 border border-white/30 text-white hover:bg-white/90 hover:text-[#4bbf39] px-8 py-3 transition-transform duration-200 hover:scale-[1.02] active:scale-[0.98]"
+            >
+              <a href="tel:+15133310555">(513) 331-0555</a>
+            </Button>
           </div>
         </div>
       </section>

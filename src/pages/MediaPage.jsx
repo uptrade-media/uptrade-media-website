@@ -4,51 +4,182 @@ import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button.jsx";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card.jsx";
 import { Video, Image as ImageIcon, Plane, MessageSquare, Award, TrendingUp, Target, CheckCircle, ArrowRight } from "lucide-react";
+import { getPostsByTag } from "@/utils/blogManager.js";
 
 const scrollToTop = () => window.scrollTo({ top: 0, behavior: "smooth" });
+
+/* -------- Media Insights (latest 3 tagged "media") -------- */
+function MediaInsightsSection() {
+  const [posts, setPosts] = React.useState([]);
+  const [loading, setLoading] = React.useState(true);
+
+  React.useEffect(() => {
+    let cancelled = false;
+    (async () => {
+      try {
+        setLoading(true);
+        const data = await getPostsByTag("media", { limit: 3, includeCategory: true });
+        if (!cancelled) setPosts(data || []);
+      } catch {
+        if (!cancelled) setPosts([]);
+      } finally {
+        if (!cancelled) setLoading(false);
+      }
+    })();
+    return () => { cancelled = true; };
+  }, []);
+
+  if (loading) {
+    return (
+      <section className="py-20 bg-gray-50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">Media Insights</h2>
+            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+              Tips, breakdowns, and behind-the-scenes from our media team.
+            </p>
+          </div>
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {[0, 1, 2].map((i) => (
+              <div key={i} className="animate-pulse">
+                <div className="h-48 w-full bg-gray-200 rounded-lg mb-4" />
+                <div className="h-4 bg-gray-200 rounded w-3/4 mb-2" />
+                <div className="h-4 bg-gray-200 rounded w-5/6 mb-2" />
+                <div className="h-4 bg-gray-200 rounded w-2/3" />
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+    );
+  }
+
+  if (!posts.length) return null;
+
+  return (
+    <section className="py-20 bg-gray-50">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="text-center mb-16">
+          <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">Media Insights</h2>
+          <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+            Practical production, photography, and storytelling tactics.
+          </p>
+        </div>
+
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
+          {posts.map((post, index) => {
+            const category = Array.isArray(post.category) ? post.category[0] : post.category || "";
+            const slug = typeof post.slug === "string" ? post.slug : "";
+            const href = slug.startsWith("insights/") ? `/${slug}` : `/insights/${slug}`;
+
+            return (
+              <motion.div
+                key={slug || index}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: index * 0.1 }}
+                viewport={{ once: true }}
+              >
+                <Card className="h-full hover:shadow-xs transition-shadow duration-300 bg-white border-0 overflow-hidden p-0">
+                  <div className="relative">
+                    <img
+                      src={post.image || "/insights/placeholder.webp"}
+                      alt={post.title}
+                      loading="lazy"
+                      decoding="async"
+                      className="w-full h-48 object-cover"
+                      onError={(e) => { e.currentTarget.src = "/insights/placeholder.webp"; }}
+                    />
+                    {!!category && (
+                      <div className="absolute top-4 right-4">
+                        <span className="bg-white/90 backdrop-blur-sm text-gray-700 border border-white/30 px-3 py-1 rounded-full text-sm font-medium capitalize">
+                          {category}
+                        </span>
+                      </div>
+                    )}
+                  </div>
+
+                  <CardContent className="p-6">
+                    <div className="flex items-center justify-between mb-3">
+                      <span className="text-sm text-gray-500">{post.readTime}</span>
+                    </div>
+                    <h3 className="text-xl font-semibold mb-3 line-clamp-2">{post.title}</h3>
+                    <p className="text-gray-600 mb-4 line-clamp-3">{post.excerpt}</p>
+
+                    <Link
+                      to={href}
+                      className="inline-flex items-center text-[#4bbf39] hover:text-[#39bfb0] font-medium transition-colors"
+                      onClick={scrollToTop}
+                    >
+                      Read More
+                      <ArrowRight className="ml-2 w-4 h-4" />
+                    </Link>
+                  </CardContent>
+                </Card>
+              </motion.div>
+            );
+          })}
+        </div>
+
+        <div className="text-center">
+          <Button
+            asChild
+            size="lg"
+            variant="outline"
+            className="w-full sm:w-auto border-[#4bbf39] text-[#4bbf39] hover:bg-[#4bbf39] hover:text-white px-8 py-3 transition-transform duration-200 hover:scale-[1.02] active:scale-[0.98]"
+          >
+            <Link to="/insights?category=media" onClick={scrollToTop}>
+              View All Media Insights
+              <ArrowRight className="ml-2 w-5 h-5" />
+            </Link>
+          </Button>
+        </div>
+      </div>
+    </section>
+  );
+}
 
 export default function MediaPage() {
   const services = [
     {
       title: "Video Production",
       icon: <Video className="w-8 h-8" />,
-      description:
-        "Cinematic storytelling that sells. From brand films to short ads.",
+      description: "Cinematic storytelling that sells. From brand films to short ads.",
       features: ["Cinematic Visuals", "Direct Interviews", "Fast Edits", "Brand Films", "15s Ads", "Story-Driven"],
       link: "/media/video-production",
     },
     {
       title: "Photography Services",
       icon: <ImageIcon className="w-8 h-8" />,
-      description:
-        "Crisp, on-brand images for people, products, and spaces.",
+      description: "Crisp, on-brand images for people, products, and spaces.",
       features: ["Headshots", "Lifestyle", "Product", "Branded Content", "Events", "Commercial"],
       link: "/media/photography",
     },
     {
       title: "Drone & Aerial",
       icon: <Plane className="w-8 h-8" />,
-      description:
-        "Aerial perspective for scale, place, and motion.",
+      description: "Aerial perspective for scale, place, and motion.",
       features: ["Aerial Photo", "Drone Video", "Real Estate", "Construction", "Events", "B-Roll"],
       link: "/media/aerial-drone",
     },
     {
       title: "Testimonial & Case Study Videos",
       icon: <MessageSquare className="w-8 h-8" />,
-      description:
-        "Proof-driven stories from real customers to build trust.",
+      description: "Proof-driven stories from real customers to build trust.",
       features: ["Customer Interviews", "Success Stories", "Before/After", "Results", "Trust Building", "Social Proof"],
       link: "/media/build-credibility",
     },
   ];
 
-  const benefits = [
-    { title: "Enhance Brand Image", icon: <Award className="w-8 h-8" />, desc: "Professional visuals = professional perception." },
-    { title: "Boost Engagement", icon: <TrendingUp className="w-8 h-8" />, desc: "Visual content gets more attention and shares." },
-    { title: "Showcase USPs", icon: <Target className="w-8 h-8" />, desc: "Highlight what makes you different in seconds." },
-    { title: "Competitive Edge", icon: <CheckCircle className="w-8 h-8" />, desc: "Stand out with consistent, high-quality media." },
-  ];
+const benefits = [
+  { title: "Enhance Brand Image", icon: <Award className="w-8 h-8" />, desc: "Professional visuals build professional perception." },
+  { title: "Boost Engagement", icon: <TrendingUp className="w-8 h-8" />, desc: "Visual content gets more attention and shares." },
+  { title: "Showcase USPs", icon: <Target className="w-8 h-8" />, desc: "Highlight what makes you different in seconds." },
+  { title: "Competitive Edge", icon: <CheckCircle className="w-8 h-8" />, desc: "Stand out with consistent, high-quality media." },
+  { title: "Clearer Storytelling", icon: <MessageSquare className="w-8 h-8" />, desc: "Show, don't tell: explain complex value in seconds." },
+  { title: "Multi-channel Ready", icon: <ImageIcon className="w-8 h-8" />, desc: "One shoot, many cuts for web, social, ads, and email." },
+];
+
 
   return (
     <div className="min-h-screen bg-white">
@@ -63,8 +194,8 @@ export default function MediaPage() {
           poster="/design_hero.webp"
           className="absolute inset-0 w-full h-full object-cover"
         >
-          <source src="/videos/design_page_hero_video.webm" type="video/webm" />
-          <source src="/videos/design_hero.mp4" type="video/mp4" />
+          <source src="/videos/media_page_hero_video.webm" type="video/webm" />
+          <source src="/videos/media_hero.mp4" type="video/mp4" />
         </video>
         <div className="absolute inset-0 bg-black/50" />
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center min-h-[60vh]">
@@ -75,12 +206,17 @@ export default function MediaPage() {
               className="text-xl mb-8 max-w-3xl mx-auto text-white/90">
               Bring your brand to life with visuals that connect and convert.
             </motion.p>
-            <Link to="/contact" onClick={scrollToTop}>
-              <Button className="bg-white/20 border border-white/30 text-white hover:bg-white/30 px-8 py-3 text-lg">
+
+            {/* Full-width on mobile + hover expand */}
+            <Button
+                    asChild
+                    className="w-full sm:w-auto bg-white/20 backdrop-blur-sm border border-white/30 text-white hover:bg-white/90 hover:text-[#4bbf39] px-8 py-3 transition-all duration-200 shadow-xs hover:scale-[1.02] active:scale-[0.98]"
+                  >
+              <Link to="/contact" onClick={scrollToTop}>
                 Start Your Media Project
                 <ArrowRight className="ml-2 w-5 h-5" />
-              </Button>
-            </Link>
+              </Link>
+            </Button>
           </div>
         </div>
       </section>
@@ -91,7 +227,7 @@ export default function MediaPage() {
           <div className="text-center mb-16">
             <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">Media that Moves People</h2>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              From cinematic b-roll to clean product shots—make your first impression count.
+              From cinematic b-roll to clean product shots, make your first impression count.
             </p>
           </div>
 
@@ -109,18 +245,23 @@ export default function MediaPage() {
                   </CardHeader>
                   <CardContent>
                     <ul className="space-y-2 mb-6">
-                      {s.features.map(f => (
+                      {s.features.map((f) => (
                         <li key={f} className="flex items-center text-sm text-gray-600">
                           <CheckCircle className="w-4 h-4 text-[#4bbf39] mr-2" /> {f}
                         </li>
                       ))}
                     </ul>
-                    <Link to={s.link} onClick={scrollToTop}>
-                      <Button className="w-full bg-gradient-to-r from-[#4bbf39] to-[#39bfb0] text-white">
+
+                    {/* Stretch on all breakpoints + hover expand */}
+                    <Button
+                      asChild
+                      className="w-full bg-gradient-to-r from-[#4bbf39] to-[#39bfb0] text-white transition-transform duration-200 hover:scale-[1.02] active:scale-[0.98]"
+                    >
+                      <Link to={s.link} onClick={scrollToTop}>
                         Learn More
                         <ArrowRight className="ml-2 w-4 h-4" />
-                      </Button>
-                    </Link>
+                      </Link>
+                    </Button>
                   </CardContent>
                 </Card>
               </motion.div>
@@ -136,38 +277,55 @@ export default function MediaPage() {
             <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">Why Invest in Media</h2>
           </div>
 
-          <div className="grid md:grid-cols-2 gap-8">
-            {benefits.map((b, i) => (
-              <motion.div key={b.title} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: i * 0.1 }} viewport={{ once: true }} className="text-center">
-                <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-gradient-to-r from-[#4bbf39] to-[#39bfb0] text-white flex items-center justify-center">
-                  {b.icon}
-                </div>
-                <h3 className="text-xl font-bold text-gray-900 mb-2">{b.title}</h3>
-                <p className="text-gray-600">{b.desc}</p>
-              </motion.div>
-            ))}
+    {/* 3x2 at lg (1 col on mobile, 2 on sm, 3 on lg) */}
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+      {benefits.map((b, i) => (
+        <motion.div
+          key={b.title}
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: i * 0.1 }}
+          viewport={{ once: true }}
+          className="text-center"
+        >
+          <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-gradient-to-r from-[#4bbf39] to-[#39bfb0] text-white flex items-center justify-center">
+            {b.icon}
           </div>
-        </div>
-      </section>
+          <h3 className="text-xl font-bold text-gray-900 mb-2">{b.title}</h3>
+          <p className="text-gray-600">{b.desc}</p>
+        </motion.div>
+      ))}
+    </div>
+  </div>
+</section>
+
+      {/* Media Insights */}
+      <MediaInsightsSection />
 
       {/* CTA */}
       <section className="py-20 bg-gradient-to-r from-[#4bbf39] to-[#39bfb0] text-white">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h2 className="text-3xl md:text-4xl font-bold mb-6">Stand Out and Succeed with Professional Media</h2>
-          <p className="text-xl mb-8 opacity-90">Great visuals aren’t a luxury—they’re leverage.</p>
+          <p className="text-xl mb-8 opacity-90">Great visuals aren’t a luxury, they’re leverage.</p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link to="/free-audit">
-              <Button size="lg" className="bg-white text-[#4bbf39] hover:bg-gray-100 px-8 py-3">
+            <Button
+              asChild
+              size="lg"
+              className="w-full sm:w-auto bg-white text-[#4bbf39] hover:bg-gray-100 px-8 py-3 transition-transform duration-200 hover:scale-[1.02] active:scale-[0.98]"
+            >
+              <Link to="/free-audit" onClick={scrollToTop}>
                 Get Started Today
                 <ArrowRight className="ml-2 w-5 h-5" />
-              </Button>
-            </Link>
-            <a href="tel:+15133310555">
-              <Button size="lg" className="bg-white/20 border border-white/30 text-white hover:bg-white/90 hover:text-[#4bbf39] px-8 py-3">
-                (513) 331-0555
-              </Button>
-            </a>
+              </Link>
+            </Button>
+
+            <Button
+              asChild
+              size="lg"
+              className="w-full sm:w-auto bg-white/20 border border-white/30 text-white hover:bg-white/90 hover:text-[#4bbf39] px-8 py-3 transition-transform duration-200 hover:scale-[1.02] active:scale-[0.98]"
+            >
+              <a href="tel:+15133310555">(513) 331-0555</a>
+            </Button>
           </div>
         </div>
       </section>

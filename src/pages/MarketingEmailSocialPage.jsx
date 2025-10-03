@@ -101,182 +101,194 @@ const emailSocialServices = [
         </div>
       </div>
 
-      {/* Hero Section */}
-      <section className="relative py-20 overflow-hidden">
-        <div className="absolute inset-0 z-0">
-          <video 
-            autoPlay 
-            muted 
-            loop 
-            playsInline
-            className="w-full h-full object-cover"
-          >
-            <source src="/videos/email_social_campaigns_hero.webm" type="video/webm" />
-            <source src="https://video.wixstatic.com/video/b59d6f_e0686571977c4b8d948c3f9358b8ae45/1080p/mp4/file.mp4" type="video/mp4" />
-          </video>
-          <div className="absolute inset-0 bg-black/60"></div>
-        </div>
+{/* Hero Section */}
+<section className="relative py-20 overflow-hidden">
+  {/* Background video */}
+  <div className="absolute inset-0 z-0">
+    <video
+      autoPlay
+      muted
+      loop
+      playsInline
+      aria-hidden="true"
+      className="w-full h-full object-cover pointer-events-none"
+    >
+      <source src="/videos/email_social_campaigns_hero.webm" type="video/webm" />
+    </video>
+    <div className="absolute inset-0 bg-black/60" />
+  </div>
 
-        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid lg:grid-cols-2 gap-12 items-center">
-            <motion.div
-              initial={{ opacity: 0, x: -50 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.6 }}
-            >
-              <h1 className="text-4xl lg:text-6xl font-bold text-white mb-6">
-                Email & Social Media Marketing That Converts
-              </h1>
-              <p className="text-xl text-white/90 mb-8">
-                Build lasting relationships with your audience through strategic email campaigns and engaging social media content that drives real business results.
-              </p>
-              <div className="flex flex-col sm:flex-row gap-4">
-                <Link to="/contact" onClick={scrollToTop}>
-                  <Button size="lg" className="bg-white text-[#4bbf39] hover:bg-gray-100 px-8 py-3">
-                    Start Your Campaign
-                    <ArrowRight className="ml-2 w-5 h-5" />
-                  </Button>
-                </Link>
-              </div>
-            </motion.div>
-
-            <motion.div
-              initial={{ opacity: 0, x: 50 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.6, delay: 0.2 }}
-              className="relative"
-            >
-<Card className="bg-white border-white/20 shadow-2xl">
-  <CardHeader>
-    <CardTitle className="text-2xl font-bold text-gray-900 flex items-center">
-      <Mail className="w-6 h-6 mr-3 text-[#4bbf39]" />
-      Free Marketing Consultation
-    </CardTitle>
-    <p className="text-gray-600">
-      Get expert insights on your email and social media strategy and discover how to maximize your marketing ROI.
-    </p>
-  </CardHeader>
-
-  <CardContent className="space-y-4">
-    {submitted ? (
-      <div className="text-center py-6">
-        <CheckCircle className="mx-auto text-green-600 mb-4" size={40} />
-        <h3 className="text-xl font-bold mb-2">Thank you</h3>
-        <p className="text-gray-600">We received your request and will follow up shortly.</p>
-      </div>
-    ) : (
-      <form
-        name="marketing-email-social"
-        method="POST"
-        data-netlify="true"
-        data-netlify-honeypot="bot-field"
-        onSubmit={handleSubmit}
-        className="space-y-4"
+  <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div className="grid lg:grid-cols-2 gap-12 items-center">
+      <motion.div
+        initial={{ opacity: 0, x: -50 }}
+        animate={{ opacity: 1, x: 0 }}
+        transition={{ duration: 0.6 }}
       >
-        <input type="hidden" name="form-name" value="marketing-email-social" />
-        <p hidden>
-          <label>Don’t fill this out: <input name="bot-field" /></label>
+        <h1 className="text-4xl md:text-6xl font-bold text-white mb-6">
+          Email & Social Media Marketing That Converts
+        </h1>
+        <p className="text-xl text-white/90 mb-8">
+          Build lasting relationships with your audience through strategic email campaigns and engaging social media content that drives real business results.
         </p>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2" htmlFor="fullName">
-              Full Name
-            </label>
-            <input
-              id="fullName"
-              name="name"
-              autoComplete="name"
-              type="text"
-              placeholder="John Smith"
-              required
-              className="w-full px-4 py-3 rounded-lg bg-gray-50 border border-gray-200 text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#4bbf39] focus:border-transparent"
-            />
-          </div>
-
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2" htmlFor="email">
-              Email Address
-            </label>
-            <input
-              id="email"
-              name="email"
-              type="email"
-              autoComplete="email"
-              placeholder="john@company.com"
-              required
-              className="w-full px-4 py-3 rounded-lg bg-gray-50 border border-gray-200 text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#4bbf39] focus:border-transparent"
-            />
-          </div>
-        </div>
-
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2" htmlFor="phone">
-              Phone
-            </label>
-            <input
-              id="phone"
-              name="phone"
-              type="tel"
-              inputMode="tel"
-              autoComplete="tel"
-              placeholder="(513) 555-0123"
-              pattern="[\d\s\-\+\(\)]{7,}"
-              className="w-full px-4 py-3 rounded-lg bg-gray-50 border border-gray-200 text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#4bbf39] focus:border-transparent"
-            />
-          </div>
-
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2" htmlFor="helpWith">
-              What do you need help with?
-            </label>
-            <select
-              id="helpWith"
-              name="help_with"
-              required
-              defaultValue=""
-              className="w-full px-4 py-3 rounded-lg bg-gray-50 border border-gray-200 text-gray-900 focus:outline-none focus:ring-2 focus:ring-[#4bbf39] focus:border-transparent"
+        {/* Full-width CTA on mobile, auto on sm+ */}
+        <div className="flex flex-col sm:flex-row gap-4">
+          <Link to="/contact" onClick={scrollToTop} className="w-full sm:w-auto">
+            <Button
+              size="lg"
+              className="w-full sm:w-auto bg-white text-[#4bbf39] hover:bg-gray-100 px-8 py-3"
             >
-              <option value="" disabled>Select an option</option>
-              <option value="Email marketing">Email marketing</option>
-              <option value="Social media content">Social media content</option>
-              <option value="Content calendar">Content calendar</option>
-              <option value="Ad copy & creative">Ad copy & creative</option>
-              <option value="List growth & lead magnets">List growth & lead magnets</option>
-              <option value="Campaign setup & automation">Campaign setup & automation</option>
-              <option value="Reporting & analytics">Reporting & analytics</option>
-              <option value="Other">Other</option>
-            </select>
-          </div>
+              Start Your Campaign
+              <ArrowRight className="ml-2 w-5 h-5" />
+            </Button>
+          </Link>
         </div>
+      </motion.div>
 
-        <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2" htmlFor="challenge">
-            Current Challenge
-          </label>
-          <textarea
-            id="challenge"
-            name="message"
-            rows={3}
-            placeholder="What marketing challenges are you facing?"
-            className="w-full px-4 py-3 rounded-lg bg-gray-50 border border-gray-200 text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#4bbf39] focus:border-transparent resize-none"
-          ></textarea>
-        </div>
+      {/* allow shrink at tiny widths */}
+      <motion.div
+        initial={{ opacity: 0, x: 50 }}
+        animate={{ opacity: 1, x: 0 }}
+        transition={{ duration: 0.6, delay: 0.2 }}
+        className="relative min-w-0"
+      >
+        {/* keep ~16px gutters on very small screens */}
+        <Card className="w-full max-w-[calc(100vw-2rem)] sm:max-w-none bg-white border-white/20 shadow-2xl">
+          <CardHeader>
+            <CardTitle className="text-2xl font-bold text-gray-900 flex items-center">
+              <Mail className="w-6 h-6 mr-3 text-[#4bbf39]" />
+              Free Marketing Consultation
+            </CardTitle>
+            <p className="text-gray-600">
+              Get expert insights on your email and social media strategy and discover how to maximize your marketing ROI.
+            </p>
+          </CardHeader>
 
-        <Button type="submit" className="w-full bg-gradient-to-r from-[#4bbf39] to-[#39bfb0] text-white py-3 text-lg hover:from-[#39bfb0] hover:to-[#4bbf39]">
-          Get Free Marketing Consultation
-          <ArrowRight className="ml-2 w-5 h-5" />
-        </Button>
-      </form>
-    )}
-  </CardContent>
-</Card>
+          <CardContent className="space-y-4 min-w-0">
+            {submitted ? (
+              <div className="text-center py-6">
+                <CheckCircle className="mx-auto text-green-600 mb-4" size={40} />
+                <h3 className="text-xl font-bold mb-2">Thank you</h3>
+                <p className="text-gray-600">We received your request and will follow up shortly.</p>
+              </div>
+            ) : (
+              <form
+                name="marketing-email-social"
+                method="POST"
+                data-netlify="true"
+                data-netlify-honeypot="bot-field"
+                onSubmit={handleSubmit}
+                className="space-y-4"
+              >
+                <input type="hidden" name="form-name" value="marketing-email-social" />
+                <p hidden>
+                  <label>Don’t fill this out: <input name="bot-field" /></label>
+                </p>
 
-            </motion.div>
-          </div>
-        </div>
-      </section>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2" htmlFor="fullName">
+                      Full Name
+                    </label>
+                    <input
+                      id="fullName"
+                      name="name"
+                      autoComplete="name"
+                      type="text"
+                      placeholder="John Smith"
+                      required
+                      className="w-full px-4 py-3 rounded-lg bg-gray-50 border border-gray-200 text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#4bbf39] focus:border-transparent"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2" htmlFor="email">
+                      Email Address
+                    </label>
+                    <input
+                      id="email"
+                      name="email"
+                      type="email"
+                      autoComplete="email"
+                      placeholder="john@company.com"
+                      required
+                      className="w-full px-4 py-3 rounded-lg bg-gray-50 border border-gray-200 text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#4bbf39] focus:border-transparent"
+                    />
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2" htmlFor="phone">
+                      Phone
+                    </label>
+                    <input
+                      id="phone"
+                      name="phone"
+                      type="tel"
+                      inputMode="tel"
+                      autoComplete="tel"
+                      placeholder="(513) 555-0123"
+                      pattern="[\d\s\-\+\(\)]{7,}"
+                      className="w-full px-4 py-3 rounded-lg bg-gray-50 border border-gray-200 text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#4bbf39] focus:border-transparent"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2" htmlFor="helpWith">
+                      What do you need help with?
+                    </label>
+                    <select
+                      id="helpWith"
+                      name="help_with"
+                      required
+                      defaultValue=""
+                      className="w-full px-4 py-3 rounded-lg bg-gray-50 border border-gray-200 text-gray-900 focus:outline-none focus:ring-2 focus:ring-[#4bbf39] focus:border-transparent"
+                    >
+                      <option value="" disabled>Select an option</option>
+                      <option value="Email marketing">Email marketing</option>
+                      <option value="Social media content">Social media content</option>
+                      <option value="Content calendar">Content calendar</option>
+                      <option value="Ad copy & creative">Ad copy & creative</option>
+                      <option value="List growth & lead magnets">List growth & lead magnets</option>
+                      <option value="Campaign setup & automation">Campaign setup & automation</option>
+                      <option value="Reporting & analytics">Reporting & analytics</option>
+                      <option value="Other">Other</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2" htmlFor="challenge">
+                    Current Challenge
+                  </label>
+                  <textarea
+                    id="challenge"
+                    name="message"
+                    rows={3}
+                    placeholder="What marketing challenges are you facing?"
+                    className="w-full px-4 py-3 rounded-lg bg-gray-50 border border-gray-200 text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#4bbf39] focus:border-transparent resize-none"
+                  />
+                </div>
+
+                <Button
+                  type="submit"
+                  className="w-full bg-gradient-to-r from-[#4bbf39] to-[#39bfb0] text-white py-3 text-lg hover:from-[#39bfb0] hover:to-[#4bbf39]"
+                >
+                  Get Free Marketing Consultation
+                  <ArrowRight className="ml-2 w-5 h-5" />
+                </Button>
+              </form>
+            )}
+          </CardContent>
+        </Card>
+      </motion.div>
+    </div>
+  </div>
+</section>
+
+
 
       {/* Services Section */}
       <section className="py-20">

@@ -159,3 +159,17 @@ export async function getPostBySlug(slug) {
   const hit = all.find((p) => stripPrefix(p.slug) === clean);
   return hit || null;
 }
+
+// Return latest N posts matching a tag (or category)
+export async function getPostsByTag(tag, { limit = 3, includeCategory = true } = {}) {
+  const all = await getBlogPosts();
+  const needle = String(tag || "").toLowerCase();
+
+  const filtered = all.filter((p) => {
+    const tags = (p?.tags || []).map((t) => String(t).toLowerCase());
+    const cat = String(p?.category || "").toLowerCase();
+    return tags.includes(needle) || (includeCategory && cat.includes(needle));
+  });
+
+  return filtered.slice(0, limit);
+}

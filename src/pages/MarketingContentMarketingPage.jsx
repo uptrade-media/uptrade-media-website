@@ -210,190 +210,192 @@ function MarketingContentMarketingPage() {
         </div>
       </div>
 
-      {/* Hero Section */}
-      <section className="relative py-20 bg-gradient-to-br from-[#4bbf39] to-[#39bfb0] text-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid lg:grid-cols-2 gap-12 items-center">
-            <motion.div
-              initial={{ opacity: 0, x: -50 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.6 }}
-              className="text-white"
-            >
-              <span className="inline-flex items-center justify-center rounded-md border px-2 py-0.5 text-xs font-medium w-fit whitespace-nowrap shrink-0 gap-1 focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive transition-[color,box-shadow] overflow-hidden bg-white/20 backdrop-blur-sm border-white/30 text-white mb-4">
-                Content Marketing Services
-              </span>
-              <h1 className="text-4xl md:text-6xl font-bold mb-6">
-                Content Marketing
-              </h1>
-              <p className="text-xl mb-8 text-white/90">
-                Strategic content that engages your audience, builds authority, and drives measurable business growth through compelling storytelling and SEO optimization.
-              </p>
-              
-              <div className="flex flex-col sm:flex-row gap-4 mb-8">
-                <Link to="/contact" onClick={scrollToTop}>
-                  <Button size="lg" className="bg-white text-[#4bbf39] hover:bg-gray-100 px-8 py-3">
-                    Get Your Content Strategy
-                    <ArrowRight className="ml-2 w-5 h-5" />
-                  </Button>
-                </Link>
-                <a href="tel:+15133310555">
-                  <Button size="lg" className="bg-white/20 backdrop-blur-sm border border-white/30 text-white hover:bg-white/90 hover:text-[#4bbf39] px-8 py-3 transition-all duration-200 shadow-xs">
-                    <Phone className="w-5 h-5 mr-2" />
-                    Call (513) 331-0555
-                  </Button>
-                </a>
-              </div>
-
-              <div className="grid grid-cols-2 gap-6 text-center">
-                <div className="flex flex-col items-center">
-                  <TrendingUp className="w-8 h-8 text-white/90 mb-2" />
-                  <div className="text-3xl font-bold">272%</div>
-                  <div className="text-white/80">Average Traffic Increase</div>
-                </div>
-                <div className="flex flex-col items-center">
-                  <Award className="w-8 h-8 text-white/90 mb-2" />
-                  <div className="text-3xl font-bold">95%</div>
-                  <div className="text-white/80">Client Satisfaction Rate</div>
-                </div>
-              </div>
-            </motion.div>
-
-            <motion.div
-              initial={{ opacity: 0, x: 50 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.6, delay: 0.2 }}
-              className="relative"
-            >
-<Card className="bg-white border-white/20 shadow-2xl">
-  <CardHeader>
-    <CardTitle className="text-2xl font-bold text-gray-900 flex items-center">
-      <PenTool className="w-6 h-6 mr-3 text-[#4bbf39]" />
-      Get Your Content Strategy
-    </CardTitle>
-    <p className="text-gray-600">
-      Discover how strategic content marketing can transform your business growth.
-    </p>
-  </CardHeader>
-
-  <CardContent className="space-y-4">
-    <form
-      name="content-strategy"
-      method="POST"
-      data-netlify="true"
-      netlify-honeypot="bot-field"
-      onSubmit={handleSubmit}
-      className="space-y-4"
-    >
-      {/* Netlify helpers (must be inside the form) */}
-      <input type="hidden" name="form-name" value="content-strategy" />
-      <input type="hidden" name="subject" value="New Content Strategy Request" />
-      <input
-        type="hidden"
-        name="page"
-        value={typeof window !== "undefined" ? window.location.href : ""}
-      />
-
-      {/* Honeypot */}
-      <p className="hidden">
-        <label>Don't fill this out if you're human: <input name="bot-field" /></label>
-      </p>
-
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-        <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">
-            Full Name *
-          </label>
-          <input
-            type="text"
-            name="name"
-            autoComplete="name"
-            placeholder="John Smith"
-            required
-            className="w-full px-4 py-3 rounded-lg bg-gray-50 border border-gray-200 text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#4bbf39] focus:border-transparent"
-          />
-        </div>
-        <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">
-            Email Address *
-          </label>
-          <input
-            type="email"
-            name="email"
-            autoComplete="email"
-            placeholder="john@company.com"
-            required
-            className="w-full px-4 py-3 rounded-lg bg-gray-50 border border-gray-200 text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#4bbf39] focus:border-transparent"
-          />
-        </div>
-      </div>
-
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-        <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">
-            Phone Number
-          </label>
-          <input
-            type="tel"
-            name="phone"
-            autoComplete="tel"
-            placeholder="(513) 555-0123"
-            className="w-full px-4 py-3 rounded-lg bg-gray-50 border border-gray-200 text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#4bbf39] focus:border-transparent"
-          />
-        </div>
-        <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">
-            Industry
-          </label>
-          <select
-            name="industry"
-            defaultValue=""
-            className="w-full px-4 py-3 rounded-lg bg-gray-50 border border-gray-200 text-gray-900 focus:outline-none focus:ring-2 focus:ring-[#4bbf39] focus:border-transparent"
-          >
-            <option value="" disabled>Select Industry</option>
-            <option value="legal">Legal Services</option>
-            <option value="healthcare">Healthcare</option>
-            <option value="realestate">Real Estate</option>
-            <option value="professional">Professional Services</option>
-            <option value="ecommerce">E-commerce</option>
-            <option value="technology">Technology</option>
-            <option value="other">Other</option>
-          </select>
-        </div>
-      </div>
-
-      <div>
-        <label className="block text-sm font-medium text-gray-700 mb-2">
-          Content Goals *
-        </label>
-        <textarea
-          name="goals"
-          rows={3}
-          placeholder="What are your main content marketing goals? (e.g., increase website traffic, generate leads, build brand authority)"
-          required
-          className="w-full px-4 py-3 rounded-lg bg-gray-50 border border-gray-200 text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#4bbf39] focus:border-transparent resize-none"
-        />
-      </div>
-
-      <Button
-        type="submit"
-        className="w-full bg-gradient-to-r from-[#4bbf39] to-[#39bfb0] text-white hover:from-[#39bfb0] hover:to-[#4bbf39] py-3 text-lg font-semibold"
+{/* Hero Section */}
+<section className="relative py-20 bg-gradient-to-br from-[#4bbf39] to-[#39bfb0] text-white">
+  <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div className="grid lg:grid-cols-2 gap-12 items-center">
+      <motion.div
+        initial={{ opacity: 0, x: -50 }}
+        animate={{ opacity: 1, x: 0 }}
+        transition={{ duration: 0.6 }}
+        className="text-white"
       >
-        Get My Content Strategy
-        <ArrowRight className="ml-2 w-5 h-5" />
-      </Button>
-    </form>
+        <span className="inline-flex items-center justify-center rounded-md border px-2 py-0.5 text-xs font-medium w-fit whitespace-nowrap shrink-0 gap-1 focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive transition-[color,box-shadow] overflow-hidden bg-white/20 backdrop-blur-sm border-white/30 text-white mb-4">
+          Content Marketing Services
+        </span>
 
-    <p className="text-center text-gray-500 text-sm">
-      We'll create a custom content strategy for your business
-    </p>
-  </CardContent>
-</Card>
+        <h1 className="text-4xl md:text-6xl font-bold mb-6">
+          Content Marketing
+        </h1>
 
-            </motion.div>
+        <p className="text-xl mb-8 text-white/90">
+          Strategic content that engages your audience, builds authority, and drives measurable business growth through compelling storytelling and SEO optimization.
+        </p>
+
+        {/* Full-width CTAs on mobile, auto on sm+ */}
+        <div className="flex flex-col sm:flex-row gap-4 mb-8">
+          <Link to="/contact" onClick={scrollToTop} className="w-full sm:w-auto">
+            <Button size="lg" className="w-full sm:w-auto bg-white text-[#4bbf39] hover:bg-gray-100 px-8 py-3">
+              Get Your Content Strategy
+              <ArrowRight className="ml-2 w-5 h-5" />
+            </Button>
+          </Link>
+          <a href="tel:+15133310555" className="w-full sm:w-auto">
+            <Button size="lg" className="w-full sm:w-auto bg-white/20 backdrop-blur-sm border border-white/30 text-white hover:bg-white/90 hover:text-[#4bbf39] px-8 py-3 transition-all duration-200 shadow-xs">
+              <Phone className="w-5 h-5 mr-2" />
+              Call (513) 331-0555
+            </Button>
+          </a>
+        </div>
+
+        <div className="grid grid-cols-2 gap-6 text-center">
+          <div className="flex flex-col items-center">
+            <TrendingUp className="w-8 h-8 text-white/90 mb-2" />
+            <div className="text-3xl font-bold">272%</div>
+            <div className="text-white/80">Average Traffic Increase</div>
+          </div>
+          <div className="flex flex-col items-center">
+            <Award className="w-8 h-8 text-white/90 mb-2" />
+            <div className="text-3xl font-bold">95%</div>
+            <div className="text-white/80">Client Satisfaction Rate</div>
           </div>
         </div>
-      </section>
+      </motion.div>
+
+      {/* Right column — allow shrink at tiny widths */}
+      <motion.div
+        initial={{ opacity: 0, x: 50 }}
+        animate={{ opacity: 1, x: 0 }}
+        transition={{ duration: 0.6, delay: 0.2 }}
+        className="relative min-w-0"
+      >
+        {/* Keep ~16px gutters on very small screens; relax at sm+ */}
+        <Card className="w-full max-w-[calc(100vw-2rem)] sm:max-w-none bg-white border-white/20 shadow-2xl">
+          <CardHeader>
+            <CardTitle className="text-2xl font-bold text-gray-900 flex items-center">
+              <PenTool className="w-6 h-6 mr-3 text-[#4bbf39]" />
+              Get Your Content Strategy
+            </CardTitle>
+            <p className="text-gray-600">
+              Discover how strategic content marketing can transform your business growth.
+            </p>
+          </CardHeader>
+
+          <CardContent className="space-y-4 min-w-0">
+            <form
+              name="content-strategy"
+              method="POST"
+              data-netlify="true"
+              netlify-honeypot="bot-field"
+              onSubmit={handleSubmit}
+              className="space-y-4"
+            >
+              <input type="hidden" name="form-name" value="content-strategy" />
+              <input type="hidden" name="subject" value="New Content Strategy Request" />
+              <input
+                type="hidden"
+                name="page"
+                value={typeof window !== "undefined" ? window.location.href : ""}
+              />
+              <p className="hidden">
+                <label>Don't fill this out if you're human: <input name="bot-field" /></label>
+              </p>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Full Name *
+                  </label>
+                  <input
+                    type="text"
+                    name="name"
+                    autoComplete="name"
+                    placeholder="John Smith"
+                    required
+                    className="w-full px-4 py-3 rounded-lg bg-gray-50 border border-gray-200 text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#4bbf39] focus:border-transparent"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Email Address *
+                  </label>
+                  <input
+                    type="email"
+                    name="email"
+                    autoComplete="email"
+                    placeholder="john@company.com"
+                    required
+                    className="w-full px-4 py-3 rounded-lg bg-gray-50 border border-gray-200 text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#4bbf39] focus:border-transparent"
+                  />
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Phone Number
+                  </label>
+                  <input
+                    type="tel"
+                    name="phone"
+                    autoComplete="tel"
+                    placeholder="(513) 555-0123"
+                    className="w-full px-4 py-3 rounded-lg bg-gray-50 border border-gray-200 text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#4bbf39] focus:border-transparent"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Industry
+                  </label>
+                  <select
+                    name="industry"
+                    defaultValue=""
+                    className="w-full px-4 py-3 rounded-lg bg-gray-50 border border-gray-200 text-gray-900 focus:outline-none focus:ring-2 focus:ring-[#4bbf39] focus:border-transparent"
+                  >
+                    <option value="" disabled>Select Industry</option>
+                    <option value="legal">Legal Services</option>
+                    <option value="healthcare">Healthcare</option>
+                    <option value="realestate">Real Estate</option>
+                    <option value="professional">Professional Services</option>
+                    <option value="ecommerce">E-commerce</option>
+                    <option value="technology">Technology</option>
+                    <option value="other">Other</option>
+                  </select>
+                </div>
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Content Goals *
+                </label>
+                <textarea
+                  name="goals"
+                  rows={3}
+                  placeholder="What are your main content marketing goals? (e.g., increase website traffic, generate leads, build brand authority)"
+                  required
+                  className="w-full px-4 py-3 rounded-lg bg-gray-50 border border-gray-200 text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#4bbf39] focus:border-transparent resize-none"
+                />
+              </div>
+
+              <Button
+                type="submit"
+                className="w-full bg-gradient-to-r from-[#4bbf39] to-[#39bfb0] text-white hover:from-[#39bfb0] hover:to-[#4bbf39] py-3 text-lg font-semibold"
+              >
+                Get My Content Strategy
+                <ArrowRight className="ml-2 w-5 h-5" />
+              </Button>
+            </form>
+
+            <p className="text-center text-gray-500 text-sm">
+              We'll create a custom content strategy for your business
+            </p>
+          </CardContent>
+        </Card>
+      </motion.div>
+    </div>
+  </div>
+</section>
+
 
       {/* Services Section */}
       <section className="py-20 bg-gray-50">

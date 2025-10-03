@@ -309,209 +309,215 @@ function DesignWebDesignPage() {
         </div>
       </div>
 
-      {/* Hero Section */}
-      <section className="relative py-20 bg-gradient-to-br from-[#4bbf39] to-[#39bfb0] text-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid lg:grid-cols-2 gap-12 items-center">
-            <motion.div
-              initial={{ opacity: 0, x: -50 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.6 }}
+{/* Hero Section */}
+<section className="relative py-20 bg-gradient-to-br from-[#4bbf39] to-[#39bfb0] text-white">
+  <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div className="grid lg:grid-cols-2 gap-12 items-center">
+      <motion.div
+        initial={{ opacity: 0, x: -50 }}
+        animate={{ opacity: 1, x: 0 }}
+        transition={{ duration: 0.6 }}
+      >
+        <Badge className="bg-white/20 backdrop-blur-sm text-white border-white/30 mb-4">
+          <Globe className="w-4 h-4 mr-2" />
+          Web Design Services
+        </Badge>
+
+        <h1 className="text-4xl lg:text-6xl font-bold mb-6">
+          Professional Web Design in Cincinnati
+        </h1>
+
+        <p className="text-xl mb-8 text-white/90">
+          Create stunning, high-performing websites that drive results for your business. Our web
+          design process combines beautiful aesthetics, user-friendly functionality, and SEO
+          optimization to deliver websites that convert visitors into customers.
+        </p>
+
+        <div className="flex flex-col sm:flex-row gap-4 mb-8">
+          <Link to="/contact" className="w-full sm:w-auto">
+            <Button size="lg" className="w-full sm:w-auto bg-white text-[#4bbf39] hover:bg-gray-100 px-8 py-3">
+              Start Your Web Design Project
+              <ArrowRight className="ml-2 w-5 h-5" />
+            </Button>
+          </Link>
+          <a href="tel:+15133310555" className="w-full sm:w-auto">
+            <Button
+              size="lg"
+              className="w-full sm:w-auto inline-flex items-center bg-white/20 backdrop-blur-sm border border-white/30 text-white hover:bg-white/90 hover:text-[#4bbf39] px-8 py-3 transition-all duration-200 shadow-xs"
             >
-              <Badge className="bg-white/20 backdrop-blur-sm text-white border-white/30 mb-4">
-                <Globe className="w-4 h-4 mr-2" />
-                Web Design Services
-              </Badge>
+              <Phone className="w-5 h-5 mr-2" />
+              (513) 331-0555
+            </Button>
+          </a>
+        </div>
 
-              <h1 className="text-4xl lg:text-6xl font-bold mb-6">
-                Professional Web Design in Cincinnati
-              </h1>
-
-              <p className="text-xl mb-8 text-white/90">
-                Create stunning, high-performing websites that drive results for your business. Our web
-                design process combines beautiful aesthetics, user-friendly functionality, and SEO
-                optimization to deliver websites that convert visitors into customers.
-              </p>
-
-              <div className="flex flex-col sm:flex-row gap-4 mb-8">
-                <Link to="/contact">
-                  <Button size="lg" className="bg-white text-[#4bbf39] hover:bg-gray-100 px-8 py-3">
-                    Start Your Web Design Project
-                    <ArrowRight className="ml-2 w-5 h-5" />
-                  </Button>
-                </Link>
-                <a href="tel:+15133310555">
-                  <Button size="lg" className="inline-flex items-center bg-white/20 backdrop-blur-sm border border-white/30 text-white hover:bg-white/90 hover:text-[#4bbf39] px-8 py-3 transition-all duration-200 shadow-xs">
-                    <Phone className="w-5 h-5 mr-2" />
-                    (513) 331-0555
-                  </Button>
-                </a>
-              </div>
-
-              <div className="grid grid-cols-2 gap-6 text-center">
-                <div className="flex flex-col items-center">
-                  <Globe className="w-8 h-8 text-white/90 mb-2" />
-                  <div className="text-3xl font-bold">50+</div>
-                  <div className="text-white/80">Websites Designed</div>
-                </div>
-                <div className="flex flex-col items-center">
-                  <TrendingUp className="w-8 h-8 text-white/90 mb-2" />
-                  <div className="text-3xl font-bold">231%</div>
-                  <div className="text-white/80">Avg Traffic Increase</div>
-                </div>
-              </div>
-            </motion.div>
-
-            {/* Form — Card + motion pattern with submitted state */}
-            <motion.div
-              initial={{ opacity: 0, x: 50 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.6, delay: 0.2 }}
-              className="relative"
-            >
-              <Card className="bg-white border-white/20 shadow-2xl">
-                <CardHeader>
-                  <CardTitle className="text-2xl font-bold text-gray-900 flex items-center">
-                    <Globe className="w-6 h-6 mr-3 text-[#4bbf39]" />
-                    Free Web Design Consultation
-                  </CardTitle>
-                  <p className="text-gray-600">
-                    Get expert insights on your website design and discover how professional web design
-                    can transform your online presence and drive more conversions.
-                  </p>
-                </CardHeader>
-
-                <CardContent className="space-y-4">
-                  {submitted ? (
-                    <div className="text-center py-6">
-                      <CheckCircle className="mx-auto text-green-600 mb-4" size={40} />
-                      <h3 className="text-xl font-bold mb-2">Thank you</h3>
-                      <p className="text-gray-600">
-                        We have received your request and will follow up within 24 hours.
-                      </p>
-                    </div>
-                  ) : (
-                    <form
-                      name="web-design-consultation"
-                      method="POST"
-                      data-netlify="true"
-                      netlify-honeypot="bot-field"
-                      onSubmit={handleSubmit}
-                      className="space-y-4"
-                    >
-                      <input type="hidden" name="form-name" value="web-design-consultation" />
-                      <p className="hidden">
-                        <label>
-                          Do not fill this out if you are human: <input name="bot-field" />
-                        </label>
-                      </p>
-
-                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                        <div>
-                          <label className="block text-sm font-medium text-gray-700 mb-2">
-                            Full Name *
-                          </label>
-                          <input
-                            type="text"
-                            name="name"
-                            autoComplete="name"
-                            placeholder="John Smith"
-                            required
-                            className="w-full px-4 py-3 rounded-lg bg-gray-50 border border-gray-200 text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#4bbf39] focus:border-transparent"
-                          />
-                        </div>
-                        <div>
-                          <label className="block text-sm font-medium text-gray-700 mb-2">
-                            Email Address *
-                          </label>
-                          <input
-                            type="email"
-                            autoComplete="email"
-                            name="email"
-                            placeholder="john@company.com"
-                            required
-                            className="w-full px-4 py-3 rounded-lg bg-gray-50 border border-gray-200 text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#4bbf39] focus:border-transparent"
-                          />
-                        </div>
-                      </div>
-
-                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                        <div>
-                          <label className="block text-sm font-medium text-gray-700 mb-2">
-                            Phone Number
-                          </label>
-                          <input
-                            type="tel"
-                            name="phone"
-                            autoComplete="tel"
-                            placeholder="(513) 555-0123"
-                            className="w-full px-4 py-3 rounded-lg bg-gray-50 border border-gray-200 text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#4bbf39] focus:border-transparent"
-                          />
-                        </div>
-                        <div>
-                          <label className="block text-sm font-medium text-gray-700 mb-2">
-                            Company Name
-                          </label>
-                          <input
-                            type="text"
-                            name="company"
-                            autoComplete="organization"
-                            placeholder="Your Company"
-                            className="w-full px-4 py-3 rounded-lg bg-gray-50 border border-gray-200 text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#4bbf39] focus:border-transparent"
-                          />
-                        </div>
-                      </div>
-
-                      <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-2">
-                          Project Type
-                        </label>
-                        <select
-                          name="projectType"
-                          className="w-full px-4 py-3 rounded-lg bg-gray-50 border border-gray-200 text-gray-900 focus:outline-none focus:ring-2 focus:ring-[#4bbf39] focus:border-transparent"
-                        >
-                          <option value="">Select project type</option>
-                          <option value="new-website">New Website Design</option>
-                          <option value="website-redesign">Website Redesign</option>
-                          <option value="ecommerce">E-commerce Website</option>
-                          <option value="landing-page">Landing Page Design</option>
-                          <option value="website-audit">Website Audit</option>
-                          <option value="other">Other</option>
-                        </select>
-                      </div>
-
-                      <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-2">
-                          Current Challenge
-                        </label>
-                        <textarea
-                          name="challenge"
-                          rows={3}
-                          placeholder="What web design challenges are you facing? Tell us about your goals and current website issues."
-                          className="w-full px-4 py-3 rounded-lg bg-gray-50 border border-gray-200 text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#4bbf39] focus:border-transparent resize-none"
-                        ></textarea>
-                      </div>
-
-                      <Button
-                        type="submit"
-                        disabled={isSubmitting}
-                        className="w-full bg-gradient-to-r from-[#4bbf39] to-[#39bfb0] text-white py-3 text-lg hover:from-[#39bfb0] hover:to-[#4bbf39] disabled:opacity-50 disabled:cursor-not-allowed"
-                      >
-                        {isSubmitting ? 'Submitting...' : 'Get Free Web Design Consultation'}
-                        {!isSubmitting && <ArrowRight className="ml-2 w-5 h-5" />}
-                      </Button>
-
-                      <p className="text-center text-gray-500 text-sm">
-                        Free consultation • No obligation • Expert insights
-                      </p>
-                    </form>
-                  )}
-                </CardContent>
-              </Card>
-            </motion.div>
+        <div className="grid grid-cols-2 gap-6 text-center">
+          <div className="flex flex-col items-center">
+            <Globe className="w-8 h-8 text-white/90 mb-2" />
+            <div className="text-3xl font-bold">50+</div>
+            <div className="text-white/80">Websites Designed</div>
+          </div>
+          <div className="flex flex-col items-center">
+            <TrendingUp className="w-8 h-8 text-white/90 mb-2" />
+            <div className="text-3xl font-bold">231%</div>
+            <div className="text-white/80">Avg Traffic Increase</div>
           </div>
         </div>
-      </section>
+      </motion.div>
+
+      {/* Form — Card + motion pattern with submitted state */}
+      <motion.div
+        initial={{ opacity: 0, x: 50 }}
+        animate={{ opacity: 1, x: 0 }}
+        transition={{ duration: 0.6, delay: 0.2 }}
+        className="relative"
+      >
+        {/* Constrain card on mobile, full on desktop */}
+        <div className="w-full max-w-md mx-auto lg:max-w-none">
+          <Card className="bg-white border-white/20 shadow-2xl">
+            <CardHeader>
+              <CardTitle className="text-2xl font-bold text-gray-900 flex items-center">
+                <Globe className="w-6 h-6 mr-3 text-[#4bbf39]" />
+                Free Web Design Consultation
+              </CardTitle>
+              <p className="text-gray-600">
+                Get expert insights on your website design and discover how professional web design
+                can transform your online presence and drive more conversions.
+              </p>
+            </CardHeader>
+
+            <CardContent className="space-y-4">
+              {submitted ? (
+                <div className="text-center py-6">
+                  <CheckCircle className="mx-auto text-green-600 mb-4" size={40} />
+                  <h3 className="text-xl font-bold mb-2">Thank you</h3>
+                  <p className="text-gray-600">
+                    We have received your request and will follow up within 24 hours.
+                  </p>
+                </div>
+              ) : (
+                <form
+                  name="web-design-consultation"
+                  method="POST"
+                  data-netlify="true"
+                  netlify-honeypot="bot-field"
+                  onSubmit={handleSubmit}
+                  className="space-y-4"
+                >
+                  <input type="hidden" name="form-name" value="web-design-consultation" />
+                  <p className="hidden">
+                    <label>
+                      Do not fill this out if you are human: <input name="bot-field" />
+                    </label>
+                  </p>
+
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                        Full Name *
+                      </label>
+                      <input
+                        type="text"
+                        name="name"
+                        autoComplete="name"
+                        placeholder="John Smith"
+                        required
+                        className="w-full px-4 py-3 rounded-lg bg-gray-50 border border-gray-200 text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#4bbf39] focus:border-transparent"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                        Email Address *
+                      </label>
+                      <input
+                        type="email"
+                        autoComplete="email"
+                        name="email"
+                        placeholder="john@company.com"
+                        required
+                        className="w-full px-4 py-3 rounded-lg bg-gray-50 border border-gray-200 text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#4bbf39] focus:border-transparent"
+                      />
+                    </div>
+                  </div>
+
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                        Phone Number
+                      </label>
+                      <input
+                        type="tel"
+                        name="phone"
+                        autoComplete="tel"
+                        placeholder="(513) 555-0123"
+                        className="w-full px-4 py-3 rounded-lg bg-gray-50 border border-gray-200 text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#4bbf39] focus:border-transparent"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                        Company Name
+                      </label>
+                      <input
+                        type="text"
+                        name="company"
+                        autoComplete="organization"
+                        placeholder="Your Company"
+                        className="w-full px-4 py-3 rounded-lg bg-gray-50 border border-gray-200 text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#4bbf39] focus:border-transparent"
+                      />
+                    </div>
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                      Project Type
+                    </label>
+                    <select
+                      name="projectType"
+                      className="w-full px-4 py-3 rounded-lg bg-gray-50 border border-gray-200 text-gray-900 focus:outline-none focus:ring-2 focus:ring-[#4bbf39] focus:border-transparent"
+                    >
+                      <option value="">Select project type</option>
+                      <option value="new-website">New Website Design</option>
+                      <option value="website-redesign">Website Redesign</option>
+                      <option value="ecommerce">E-commerce Website</option>
+                      <option value="landing-page">Landing Page Design</option>
+                      <option value="website-audit">Website Audit</option>
+                      <option value="other">Other</option>
+                    </select>
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                      Current Challenge
+                    </label>
+                    <textarea
+                      name="challenge"
+                      rows={3}
+                      placeholder="What web design challenges are you facing? Tell us about your goals and current website issues."
+                      className="w-full px-4 py-3 rounded-lg bg-gray-50 border border-gray-200 text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#4bbf39] focus:border-transparent resize-none"
+                    ></textarea>
+                  </div>
+
+                  <Button
+                    type="submit"
+                    disabled={isSubmitting}
+                    className="w-full bg-gradient-to-r from-[#4bbf39] to-[#39bfb0] text-white py-3 text-lg hover:from-[#39bfb0] hover:to-[#4bbf39] disabled:opacity-50 disabled:cursor-not-allowed"
+                  >
+                    {isSubmitting ? 'Submitting...' : 'Web Design Consultation'}
+                    {!isSubmitting && <ArrowRight className="ml-2 w-5 h-5" />}
+                  </Button>
+
+                  <p className="text-center text-gray-500 text-sm">
+                    Free consultation • No obligation • Expert insights
+                  </p>
+                </form>
+              )}
+            </CardContent>
+          </Card>
+        </div>
+      </motion.div>
+    </div>
+  </div>
+</section>
 
       {/* Portfolio Showcase */}
       <section className="py-20 bg-gray-50">

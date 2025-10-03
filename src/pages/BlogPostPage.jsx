@@ -9,12 +9,9 @@ import {
   Clock,
   Tag,
   CheckCircle,
-  Facebook,
-  Twitter,
-  Linkedin
 } from 'lucide-react'
 import { motion } from 'framer-motion'
-import { getPostBySlug, getBlogPosts } from '../utils/blogManager' // <- updated imports
+import { getPostBySlug, getBlogPosts } from '../utils/blogManager'
 import '../mobile-blog-fixes.css'
 import SEO from '../components/SEO'
 
@@ -27,6 +24,19 @@ const BlogPostPage = () => {
   const [post, setPost] = useState(null)
   const [loading, setLoading] = useState(true)
   const [relatedPosts, setRelatedPosts] = useState([])
+
+  // --- NEW: desktop detection (lg = 1024px) ---
+  const [isDesktop, setIsDesktop] = useState(() => {
+    if (typeof window === 'undefined') return true
+    return window.matchMedia('(min-width: 1024px)').matches
+  })
+  useEffect(() => {
+    if (typeof window === 'undefined') return
+    const mql = window.matchMedia('(min-width: 1024px)')
+    const onChange = e => setIsDesktop(e.matches)
+    mql.addEventListener('change', onChange)
+    return () => mql.removeEventListener('change', onChange)
+  }, [])
 
   const handleSubscribe = async (e) => {
     e.preventDefault()
@@ -63,6 +73,14 @@ const BlogPostPage = () => {
   const [placeholderHeight, setPlaceholderHeight] = useState(0)
 
   useLayoutEffect(() => {
+    // NEW: disable sticky logic entirely on mobile/tablet
+    if (!isDesktop) {
+      setAffixState('static')
+      setPlaceholderHeight(0)
+      setSidebarWidth(0)
+      return
+    }
+
     const update = () => {
       const wrap = stickyWrapRef.current
       const inner = stickyInnerRef.current
@@ -100,35 +118,27 @@ const BlogPostPage = () => {
       window.removeEventListener('scroll', update)
       window.removeEventListener('resize', update)
     }
-  }, [])
+  }, [isDesktop])
 
   useEffect(() => {
     let alive = true
     ;(async () => {
       try {
         setLoading(true)
-
-        // Load the current post (includes compiled component)
         const p = await getPostBySlug(slug)
         if (!alive) return
-
         if (!p) {
           setPost(null)
           setRelatedPosts([])
           return
         }
-
         setPost(p)
 
-        // Derive related posts (same category first, then any others)
         const all = await getBlogPosts()
         if (!alive) return
 
-        const sameCategory = all
-          .filter(x => x.slug !== p.slug && x.category === p.category)
-
-        const others = all
-          .filter(x => x.slug !== p.slug && x.category !== p.category)
+        const sameCategory = all.filter(x => x.slug !== p.slug && x.category === p.category)
+        const others = all.filter(x => x.slug !== p.slug && x.category !== p.category)
 
         const byTags = (arr) => {
           const tags = new Set((p.tags || []).map(t => String(t).toLowerCase()))
@@ -138,7 +148,6 @@ const BlogPostPage = () => {
             return overlapB - overlapA
           })
         }
-
         const related = [...byTags(sameCategory), ...byTags(others)].slice(0, 3)
         setRelatedPosts(related)
       } catch (err) {
@@ -180,13 +189,7 @@ const BlogPostPage = () => {
     )
   }
 
-  // MD/MDX component compiled by Vite (@mdx-js/rollup).
   const Content = post.component || null
-
-  const shareUrl = typeof window !== 'undefined' ? window.location.href : ''
-  const shareTitle = post.title
-
-  // Safe date string
   const dateStr = post.date
     ? new Date(post.date).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })
     : ''
@@ -289,7 +292,6 @@ const BlogPostPage = () => {
                   </div>
                 )}
 
-                {/* Render MD/MDX content */}
                 <div className="prose prose-lg max-w-none" style={{ wordWrap: 'break-word', overflowWrap: 'break-word' }}>
                   {Content ? <Content /> : <p className="text-gray-600">Content not available.</p>}
                 </div>
@@ -310,15 +312,17 @@ const BlogPostPage = () => {
             {/* SIDEBAR */}
             <aside className="lg:col-span-1 min-w-0">
               <div ref={stickyWrapRef} className="relative">
-                <div style={{ height: affixState === 'static' ? 'auto' : placeholderHeight }} />
+                {/* NEW: no placeholder height on mobile */}
+                <div style={{ height: isDesktop && affixState !== 'static' ? placeholderHeight : 0 }} />
                 <div
                   ref={stickyInnerRef}
                   style={{
-                    position:
-                      affixState === 'fixed' ? 'fixed' : affixState === 'stopped' ? 'absolute' : 'static',
-                    top: affixState === 'fixed' ? STICKY_TOP_PX : 'auto',
-                    width: affixState === 'static' ? 'auto' : sidebarWidth,
-                    ...(affixState === 'stopped' && (() => {
+                    position: isDesktop
+                      ? (affixState === 'fixed' ? 'fixed' : affixState === 'stopped' ? 'absolute' : 'static')
+                      : 'static',
+                    top: isDesktop && affixState === 'fixed' ? STICKY_TOP_PX : 'auto',
+                    width: isDesktop && affixState !== 'static' ? sidebarWidth : 'auto',
+                    ...(isDesktop && affixState === 'stopped' && (() => {
                       const wrap = stickyWrapRef.current
                       const stopEl = subscribeRef.current
                       if (!wrap || !stopEl) return {}
@@ -329,22 +333,21 @@ const BlogPostPage = () => {
                       const absoluteTop = stopAbsTop - wrapAbsTop - innerHeight - 16
                       return { top: absoluteTop }
                     })()),
-                    paddingTop: affixState === 'fixed' ? 20 : 0,
-                    paddingBottom: affixState === 'fixed' ? 40 : 0,
+                    paddingTop: isDesktop && affixState === 'fixed' ? SIDEBAR_PAD_TOP : 0,
+                    paddingBottom: isDesktop && affixState === 'fixed' ? SIDEBAR_PAD_BOTTOM * 2 : 0,
                   }}
                 >
                   <div
                     ref={scrollAreaRef}
                     className="sidebar-scroll hide-scrollbar"
                     style={{
-                      maxHeight:
-                        affixState === 'fixed'
-                          ? `calc(100vh - ${STICKY_TOP_PX + SIDEBAR_PAD_TOP + SIDEBAR_PAD_BOTTOM}px)`
-                          : 'none',
-                      overflowY: affixState === 'fixed' ? 'auto' : 'visible'
+                      maxHeight: isDesktop && affixState === 'fixed'
+                        ? `calc(100vh - ${STICKY_TOP_PX + SIDEBAR_PAD_TOP + SIDEBAR_PAD_BOTTOM}px)`
+                        : 'none',
+                      overflowY: isDesktop && affixState === 'fixed' ? 'auto' : 'visible'
                     }}
                     onWheel={(e) => {
-                      if (affixState !== 'fixed') return
+                      if (!(isDesktop && affixState === 'fixed')) return
                       const el = e.currentTarget
                       const atTop = el.scrollTop <= 0
                       const atBottom = Math.ceil(el.scrollTop + el.clientHeight) >= el.scrollHeight

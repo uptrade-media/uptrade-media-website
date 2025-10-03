@@ -123,3 +123,7 @@ body {
   overscroll-behavior: contain;
   -webkit-overflow-scrolling: touch;
 }
+
+@media (max-width: 1023.98px) {
+  .sidebar-scroll { max-height: none !important; overflow: visible !important; }
+}

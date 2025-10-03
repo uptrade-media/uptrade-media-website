@@ -292,144 +292,158 @@ function MediaVideoProductionPage() {
         </div>
       </div>
 
-      {/* Hero Section */}
-      <section className="relative py-20 bg-gradient-to-br from-[#4bbf39] to-[#39bfb0] text-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center">
-            <motion.h1
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6 }}
-              className="text-4xl md:text-6xl font-bold mb-6"
-            >
-              Video Production
-            </motion.h1>
-            <motion.p
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.2 }}
-              className="text-xl mb-8 max-w-3xl mx-auto text-white/90"
-            >
-              Professional video production that tells your story, engages your audience, and drives real business results. From concept to final cut, we create videos that work.
-            </motion.p>
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.4 }}
-              className="flex flex-col sm:flex-row gap-4 justify-center mb-12"
-            >
-              <Link to="/contact" onClick={scrollToTop}>
-                <Button size="lg" className="bg-white text-[#4bbf39] hover:bg-gray-100 px-8 py-3">
-                  Start Your Video Project
-                  <ArrowRight className="ml-2 w-5 h-5" />
-                </Button>
-              </Link>
-              <a href="tel:+15133310555">
-                <Button size="lg" className="bg-white/20 backdrop-blur-sm border border-white/30 text-white hover:bg-white/90 hover:text-[#4bbf39] px-8 py-3 transition-all duration-200 shadow-xs">
-                  <Phone className="w-5 h-5 mr-2" />
-                  (513) 331-0555
-                </Button>
-              </a>
-            </motion.div>
+{/* Hero Section */}
+<section className="relative py-20 bg-gradient-to-br from-[#4bbf39] to-[#39bfb0] text-white">
+  <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div className="text-center">
+      <motion.h1
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6 }}
+        className="text-4xl md:text-6xl font-bold mb-6"
+      >
+        Video Production
+      </motion.h1>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
-              <div className="flex flex-col items-center">
-                <Star className="w-8 h-8 text-white/90 mb-2" />
-                <div className="text-3xl font-bold">50+</div>
-                <div className="text-white/80">Videos Produced</div>
+      <motion.p
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6, delay: 0.2 }}
+        className="text-xl mb-8 max-w-3xl mx-auto text-white/90"
+      >
+        Professional video production that tells your story, engages your audience, and drives real business results.
+        From concept to final cut, we create videos that work.
+      </motion.p>
+
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6, delay: 0.4 }}
+        className="flex flex-col sm:flex-row gap-4 justify-center mb-12"
+      >
+        <Link to="/contact" onClick={scrollToTop} className="w-full sm:w-auto">
+          <Button size="lg" className="w-full sm:w-auto bg-white text-[#4bbf39] hover:bg-gray-100 px-8 py-3">
+            Start Your Video Project
+            <ArrowRight className="ml-2 w-5 h-5" />
+          </Button>
+        </Link>
+        <a href="tel:+15133310555" className="w-full sm:w-auto">
+          <Button
+            size="lg"
+            className="w-full sm:w-auto bg-white/20 backdrop-blur-sm border border-white/30 text-white hover:bg-white/90 hover:text-[#4bbf39] px-8 py-3 transition-all duration-200 shadow-xs"
+          >
+            <Phone className="w-5 h-5 mr-2" />
+            (513) 331-0555
+          </Button>
+        </a>
+      </motion.div>
+
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
+        <div className="flex flex-col items-center">
+          <Star className="w-8 h-8 text-white/90 mb-2" />
+          <div className="text-3xl font-bold">50+</div>
+          <div className="text-white/80">Videos Produced</div>
+        </div>
+        <div className="flex flex-col items-center">
+          <Award className="w-8 h-8 text-white/90 mb-2" />
+          <div className="text-3xl font-bold">TV</div>
+          <div className="text-white/80">Production Experience</div>
+        </div>
+        <div className="flex flex-col items-center">
+          <TrendingUp className="w-8 h-8 text-white/90 mb-2" />
+          <div className="text-3xl font-bold">80%</div>
+          <div className="text-white/80">Conversion Increase</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+{/* Featured Videos Section */}
+<section className="py-20 bg-gray-50">
+  <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div className="text-center mb-16">
+      <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+        Featured Video Productions
+      </h2>
+      <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+        Showcasing our diverse portfolio of professional video productions, from major brand commercials to TV show
+        content and restaurant marketing videos.
+      </p>
+    </div>
+
+    <div className="space-y-12">
+      {featuredVideos.map((video, index) => (
+        <motion.div
+          key={index}
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: index * 0.1 }}
+          viewport={{ once: true }}
+          className={`grid lg:grid-cols-2 gap-8 items-center ${index % 2 === 1 ? 'lg:grid-flow-col-dense' : ''}`}
+        >
+          {/* Media */}
+          <div className={`${index % 2 === 1 ? 'lg:col-start-2' : ''} relative min-w-0`}>
+            <VideoPlayer video={video} />
+            {video.featured && (
+              <div className="absolute top-4 left-4 z-10">
+                <span className="bg-gradient-to-r from-[#4bbf39] to-[#39bfb0] text-white px-3 py-1 rounded-full text-sm font-semibold">
+                  Featured Production
+                </span>
               </div>
-              <div className="flex flex-col items-center">
-                <Award className="w-8 h-8 text-white/90 mb-2" />
-                <div className="text-3xl font-bold">TV</div>
-                <div className="text-white/80">Production Experience</div>
+            )}
+          </div>
+
+          {/* Details */}
+          <div className={`${index % 2 === 1 ? 'lg:col-start-1' : ''} min-w-0`}>
+            <div className="space-y-4">
+              <div className="flex items-center gap-2">
+                <span className="bg-[#4bbf39]/10 text-[#4bbf39] px-3 py-1 rounded-full text-sm font-medium">
+                  {video.category}
+                </span>
+                {video.featured && (
+                  <span className="bg-gradient-to-r from-[#4bbf39] to-[#39bfb0] text-white px-3 py-1 rounded-full text-sm font-semibold">
+                    Featured Work
+                  </span>
+                )}
               </div>
-              <div className="flex flex-col items-center">
-                <TrendingUp className="w-8 h-8 text-white/90 mb-2" />
-                <div className="text-3xl font-bold">80%</div>
-                <div className="text-white/80">Conversion Increase</div>
+
+              <h3 className="text-2xl md:text-3xl font-bold text-gray-900">
+                {video.title}
+              </h3>
+
+              <p className="text-lg text-gray-600 leading-relaxed">
+                {video.description}
+              </p>
+
+              <div className="space-y-2">
+                <div className="flex items-center gap-3">
+                  <p className="font-semibold text-gray-900">Client: {video.client}</p>
+                  {video.logo && (
+                    <img
+                      src={video.logo}
+                      alt={`${video.client} logo`}
+                      className="h-8 w-auto object-contain"
+                    />
+                  )}
+                </div>
+
+                <div className="flex flex-wrap gap-2">
+                  {video.services.map((service, idx) => (
+                    <span key={idx} className="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm">
+                      {service}
+                    </span>
+                  ))}
+                </div>
               </div>
             </div>
           </div>
-        </div>
-      </section>
+        </motion.div>
+      ))}
+    </div>
+  </div>
+</section>
 
-      {/* Featured Videos Section */}
-      <section className="py-20 bg-gray-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-              Featured Video Productions
-            </h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Showcasing our diverse portfolio of professional video productions, from major brand commercials to TV show content and restaurant marketing videos.
-            </p>
-          </div>
-
-          <div className="space-y-12">
-            {featuredVideos.map((video, index) => (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: index * 0.1 }}
-                viewport={{ once: true }}
-                className={`grid lg:grid-cols-2 gap-8 items-center ${index % 2 === 1 ? 'lg:grid-flow-col-dense' : ''}`}
-              >
-                <div className={`${index % 2 === 1 ? 'lg:col-start-2' : ''} relative`}>
-                  <VideoPlayer video={video} />
-                  {video.featured && (
-                    <div className="absolute top-4 left-4 z-10">
-                      <span className="bg-gradient-to-r from-[#4bbf39] to-[#39bfb0] text-white px-3 py-1 rounded-full text-sm font-semibold">
-                        Featured Production
-                      </span>
-                    </div>
-                  )}
-                </div>
-                
-                <div className={`${index % 2 === 1 ? 'lg:col-start-1' : ''}`}>
-                  <div className="space-y-4">
-                    <div className="flex items-center gap-2">
-                      <span className="bg-#4bbf39/10 text-[#4bbf39] px-3 py-1 rounded-full text-sm font-medium">
-                        {video.category}
-                      </span>
-                      {video.featured && (
-                        <span className="bg-gradient-to-r from-[#4bbf39] to-[#39bfb0] text-white px-3 py-1 rounded-full text-sm font-semibold">
-                          Featured Work
-                        </span>
-                      )}
-                    </div>
-                    <h3 className="text-2xl md:text-3xl font-bold text-gray-900">
-                      {video.title}
-                    </h3>
-                    <p className="text-lg text-gray-600 leading-relaxed">
-                      {video.description}
-                    </p>
-                    <div className="space-y-2">
-                      <div className="flex items-center gap-3">
-                        <p className="font-semibold text-gray-900">Client: {video.client}</p>
-                        {video.logo && (
-                          <img 
-                            src={video.logo} 
-                            alt={`${video.client} logo`}
-                            className="h-8 w-auto object-contain"
-                          />
-                        )}
-                      </div>
-                      <div className="flex flex-wrap gap-2">
-                        {video.services.map((service, idx) => (
-                          <span key={idx} className="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm">
-                            {service}
-                          </span>
-                        ))}
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
 
       {/* Services Section */}
       <section className="py-20 bg-white">

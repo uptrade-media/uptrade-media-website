@@ -231,6 +231,7 @@ const EnhancedTestimonials = ({ testimonials }) => {
                 className={`w-3 h-3 rounded-full transition-all duration-300 ${
                   index === currentIndex ? 'bg-[#4bbf39]' : 'bg-gray-300'
                 }`}
+                aria-label={`Go to slide ${index + 1}`}
                 whileHover={{ scale: 1.2 }}
                 whileTap={{ scale: 0.8 }}
               />

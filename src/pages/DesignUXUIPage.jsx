@@ -336,188 +336,200 @@ function DesignUXUIPage() {
         </div>
       </div>
 
-      {/* Hero Section */}
-      <section className="relative py-20 bg-gradient-to-br from-[#4bbf39] to-[#39bfb0] text-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid lg:grid-cols-2 gap-12 items-center">
-            <motion.div initial={{ opacity: 0, x: -50 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.6 }}>
-              <Badge className="bg-white/20 backdrop-blur-sm text-white border-white/30 mb-4">
-                <Layout className="w-4 h-4 mr-2" />
-                UX/UI Design Services
-              </Badge>
-              <h1 className="text-4xl lg:text-6xl font-bold mb-6">UX/UI Design That Converts Users Into Customers</h1>
-              <p className="text-xl mb-8 text-white/90">
-                Create exceptional user experiences that drive engagement and conversions. Our data-driven
-                design approach combines user research, intuitive interfaces, and conversion optimization to
-                deliver results that matter to your business.
-              </p>
+{/* Hero Section */}
+<section className="relative py-20 bg-gradient-to-br from-[#4bbf39] to-[#39bfb0] text-white">
+  <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div className="grid lg:grid-cols-2 gap-12 items-center">
+      <motion.div initial={{ opacity: 0, x: -50 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.6 }}>
+        <Badge className="bg-white/20 backdrop-blur-sm text-white border-white/30 mb-4">
+          <Layout className="w-4 h-4 mr-2" />
+          UX/UI Design Services
+        </Badge>
 
-              <div className="flex flex-col sm:flex-row gap-4 mb-8">
-                <Link to="/portfolio" onClick={scrollToTop}>
-                  <Button size="lg" className="bg-white text-[#4bbf39] hover:bg-gray-100 px-8 py-3">
-                    View Our Design Portfolio
-                    <ArrowRight className="w-5 h-5 ml-2" />
-                  </Button>
-                </Link>
-                <a href="tel:+15133310555">
-                  <Button
-                    size="lg"
-                    className="inline-flex items-center bg-white/20 backdrop-blur-sm border border-white/30 text-white hover:bg-white/90 hover:text-[#4bbf39] px-8 py-3 transition-all duration-200 shadow-sm"
-                  >
-                    (513) 331-0555
-                    <Phone className="w-5 h-5 ml-2" />
-                  </Button>
-                </a>
-              </div>
+        <h1 className="text-4xl lg:text-6xl font-bold mb-6">
+          UX/UI Design That Converts Users Into Customers
+        </h1>
 
-              <div className="grid grid-cols-2 gap-6 text-center">
-                <div className="flex flex-col items-center">
-                  <TrendingUp className="w-8 h-8 text-white/90 mb-2" />
-                  <div className="text-3xl font-bold">200%</div>
-                  <div className="text-white/80">Average Conversion Increase</div>
-                </div>
-                <div className="flex flex-col items-center">
-                  <Users className="w-8 h-8 text-white/90 mb-2" />
-                  <div className="text-3xl font-bold">95%</div>
-                  <div className="text-white/80">User Satisfaction Rate</div>
-                </div>
-              </div>
-            </motion.div>
+        <p className="text-xl mb-8 text-white/90">
+          Create exceptional user experiences that drive engagement and conversions. Our data-driven
+          design approach combines user research, intuitive interfaces, and conversion optimization to
+          deliver results that matter to your business.
+        </p>
 
-            <motion.div
-              initial={{ opacity: 0, x: 50 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.6, delay: 0.2 }}
-              className="relative"
+        {/* Full-width CTAs on mobile, auto on sm+ */}
+        <div className="flex flex-col sm:flex-row gap-4 mb-8">
+          <Link to="/portfolio" onClick={scrollToTop} className="w-full sm:w-auto">
+            <Button size="lg" className="w-full sm:w-auto bg-white text-[#4bbf39] hover:bg-gray-100 px-8 py-3">
+              View Our Design Portfolio
+              <ArrowRight className="w-5 h-5 ml-2" />
+            </Button>
+          </Link>
+
+          <a href="tel:+15133310555" className="w-full sm:w-auto">
+            <Button
+              size="lg"
+              className="w-full sm:w-auto inline-flex items-center bg-white/20 backdrop-blur-sm border border-white/30 text-white hover:bg-white/90 hover:text-[#4bbf39] px-8 py-3 transition-all duration-200 shadow-sm"
             >
-              <Card id="ux-form" className="bg-white border-white/20 shadow-2xl">
-                <CardHeader>
-                  <CardTitle className="text-2xl font-bold text-gray-900 flex items-center">
-                    <Eye className="w-6 h-6 mr-3 text-[#4bbf39]" />
-                    Free UX Consultation
-                  </CardTitle>
-                  <p className="text-gray-600">
-                    Get expert insights on your current user experience and discover opportunities for
-                    improvement.
-                  </p>
-                </CardHeader>
-                <CardContent>
-                  {submitted ? (
-                    <div className="text-center py-6">
-                      <CheckCircle className="mx-auto text-green-600 mb-4" size={40} />
-                      <h3 className="text-xl font-bold mb-2">Thank you</h3>
-                      <p className="text-gray-600">
-                        We have received your request and will follow up within 24 hours.
-                      </p>
-                    </div>
-                  ) : (                  
-                  <form
-                    name="ux-ui-consultation"
-                    method="POST"
-                    data-netlify="true"
-                    netlify-honeypot="bot-field"
-                    onSubmit={handleSubmit}
-                    className="space-y-4"
-                  >
-                    <input type="hidden" name="form-name" value="ux-ui-consultation" />
-                    <p style={{ display: 'none' }}>
-                      <label>
-                        Don't fill this out if you're human: <input name="bot-field" />
-                      </label>
-                    </p>
+              (513) 331-0555
+              <Phone className="w-5 h-5 ml-2" />
+            </Button>
+          </a>
+        </div>
 
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                      <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-2">Full Name *</label>
-                        <input
-                          type="text"
-                          name="name"
-                          autoComplete="name"
-                          placeholder="John Smith"
-                          required
-                          className="w-full px-4 py-3 rounded-lg bg-gray-50 border border-gray-200 text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#4bbf39] focus:border-transparent"
-                        />
-                      </div>
-                      <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-2">Email Address *</label>
-                        <input
-                          type="email"
-                          name="email"
-                          autoComplete="email"
-                          placeholder="john@company.com"
-                          required
-                          className="w-full px-4 py-3 rounded-lg bg-gray-50 border border-gray-200 text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#4bbf39] focus:border-transparent"
-                        />
-                      </div>
-                    </div>
-
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                      <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-2">Phone Number</label>
-                        <input
-                          type="tel"
-                          name="phone"
-                          autoComplete="tel"
-                          placeholder="(513) 555-0123"
-                          className="w-full px-4 py-3 rounded-lg bg-gray-50 border border-gray-200 text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#4bbf39] focus:border-transparent"
-                        />
-                      </div>
-                      <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-2">Company Name</label>
-                        <input
-                          type="text"
-                          name="company"
-                          autoComplete="organization"
-                          placeholder="Your Company"
-                          className="w-full px-4 py-3 rounded-lg bg-gray-50 border border-gray-200 text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#4bbf39] focus:border-transparent"
-                        />
-                      </div>
-                    </div>
-
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">Project Type</label>
-                      <select
-                        name="projectType"
-                        className="w-full px-4 py-3 rounded-lg bg-gray-50 border border-gray-200 text-gray-900 focus:outline-none focus:ring-2 focus:ring-[#4bbf39] focus:border-transparent"
-                      >
-                        <option value="">Select project type</option>
-                        <option>Website Redesign</option>
-                        <option>Mobile App Design</option>
-                        <option>Web Application</option>
-                        <option>Design System</option>
-                        <option>UX Audit</option>
-                        <option>Other</option>
-                      </select>
-                    </div>
-
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">Project Details</label>
-                      <textarea
-                        name="details"
-                        rows={3}
-                        placeholder="Tell us about your UX/UI design needs..."
-                        className="w-full px-4 py-3 rounded-lg bg-gray-50 border border-gray-200 text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#4bbf39] focus:border-transparent resize-none"
-                      ></textarea>
-                    </div>
-
-                    <Button
-                      type="submit"
-                      disabled={isSubmitting}
-                      className="w-full bg-gradient-to-r from-[#4bbf39] to-[#39bfb0] text-white py-3 text-lg hover:from-[#39bfb0] hover:to-[#4bbf39] disabled:opacity-50 disabled:cursor-not-allowed"
-                    >
-                      {isSubmitting ? 'Submitting...' : 'Get Free UX Consultation'}
-                      {!isSubmitting && <ArrowRight className="ml-2 w-5 h-5" />}
-                    </Button>
-                  </form>
-                  )}
-
-                  <p className="text-xs text-gray-500 text-center mt-4">Free consultation • No obligation • Expert insights</p>
-                </CardContent>
-              </Card>
-            </motion.div>
+        <div className="grid grid-cols-2 gap-6 text-center">
+          <div className="flex flex-col items-center">
+            <TrendingUp className="w-8 h-8 text-white/90 mb-2" />
+            <div className="text-3xl font-bold">200%</div>
+            <div className="text-white/80">Average Conversion Increase</div>
+          </div>
+          <div className="flex flex-col items-center">
+            <Users className="w-8 h-8 text-white/90 mb-2" />
+            <div className="text-3xl font-bold">95%</div>
+            <div className="text-white/80">User Satisfaction Rate</div>
           </div>
         </div>
-      </section>
+      </motion.div>
+
+      {/* Right column — allow shrink at tiny widths */}
+      <motion.div
+        initial={{ opacity: 0, x: 50 }}
+        animate={{ opacity: 1, x: 0 }}
+        transition={{ duration: 0.6, delay: 0.2 }}
+        className="relative min-w-0"
+      >
+        {/* Keep ~16px gutters on very small screens; relax at sm+ */}
+        <Card id="ux-form" className="w-full max-w-[calc(100vw-2rem)] sm:max-w-none bg-white border-white/20 shadow-2xl">
+          <CardHeader>
+            <CardTitle className="text-2xl font-bold text-gray-900 flex items-center">
+              <Eye className="w-6 h-6 mr-3 text-[#4bbf39]" />
+              Free UX Consultation
+            </CardTitle>
+            <p className="text-gray-600">
+              Get expert insights on your current user experience and discover opportunities for
+              improvement.
+            </p>
+          </CardHeader>
+
+          <CardContent className="space-y-4 min-w-0">
+            {submitted ? (
+              <div className="text-center py-6">
+                <CheckCircle className="mx-auto text-green-600 mb-4" size={40} />
+                <h3 className="text-xl font-bold mb-2">Thank you</h3>
+                <p className="text-gray-600">
+                  We have received your request and will follow up within 24 hours.
+                </p>
+              </div>
+            ) : (
+              <form
+                name="ux-ui-consultation"
+                method="POST"
+                data-netlify="true"
+                netlify-honeypot="bot-field"
+                onSubmit={handleSubmit}
+                className="space-y-4"
+              >
+                <input type="hidden" name="form-name" value="ux-ui-consultation" />
+                <p style={{ display: 'none' }}>
+                  <label>
+                    Don't fill this out if you're human: <input name="bot-field" />
+                  </label>
+                </p>
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">Full Name *</label>
+                    <input
+                      type="text"
+                      name="name"
+                      autoComplete="name"
+                      placeholder="John Smith"
+                      required
+                      className="w-full px-4 py-3 rounded-lg bg-gray-50 border border-gray-200 text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#4bbf39] focus:border-transparent"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">Email Address *</label>
+                    <input
+                      type="email"
+                      name="email"
+                      autoComplete="email"
+                      placeholder="john@company.com"
+                      required
+                      className="w-full px-4 py-3 rounded-lg bg-gray-50 border border-gray-200 text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#4bbf39] focus:border-transparent"
+                    />
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">Phone Number</label>
+                    <input
+                      type="tel"
+                      name="phone"
+                      autoComplete="tel"
+                      placeholder="(513) 555-0123"
+                      className="w-full px-4 py-3 rounded-lg bg-gray-50 border border-gray-200 text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#4bbf39] focus:border-transparent"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">Company Name</label>
+                    <input
+                      type="text"
+                      name="company"
+                      autoComplete="organization"
+                      placeholder="Your Company"
+                      className="w-full px-4 py-3 rounded-lg bg-gray-50 border border-gray-200 text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#4bbf39] focus:border-transparent"
+                    />
+                  </div>
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">Project Type</label>
+                  <select
+                    name="projectType"
+                    className="w-full px-4 py-3 rounded-lg bg-gray-50 border border-gray-200 text-gray-900 focus:outline-none focus:ring-2 focus:ring-[#4bbf39] focus:border-transparent"
+                  >
+                    <option value="">Select project type</option>
+                    <option>Website Redesign</option>
+                    <option>Mobile App Design</option>
+                    <option>Web Application</option>
+                    <option>Design System</option>
+                    <option>UX Audit</option>
+                    <option>Other</option>
+                  </select>
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">Project Details</label>
+                  <textarea
+                    name="details"
+                    rows={3}
+                    placeholder="Tell us about your UX/UI design needs..."
+                    className="w-full px-4 py-3 rounded-lg bg-gray-50 border border-gray-200 text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#4bbf39] focus:border-transparent resize-none"
+                  ></textarea>
+                </div>
+
+                <Button
+                  type="submit"
+                  disabled={isSubmitting}
+                  className="w-full bg-gradient-to-r from-[#4bbf39] to-[#39bfb0] text-white py-3 text-lg hover:from-[#39bfb0] hover:to-[#4bbf39] disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  {isSubmitting ? 'Submitting...' : 'Get Free UX Consultation'}
+                  {!isSubmitting && <ArrowRight className="ml-2 w-5 h-5" />}
+                </Button>
+              </form>
+            )}
+
+            <p className="text-xs text-gray-500 text-center mt-4">
+              Free consultation • No obligation • Expert insights
+            </p>
+          </CardContent>
+        </Card>
+      </motion.div>
+    </div>
+  </div>
+</section>
+
 
       {/* What We Do Section */}
       <section className="py-20">

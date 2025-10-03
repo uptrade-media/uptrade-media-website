@@ -213,193 +213,199 @@ function MediaPhotographyPage() {
         </div>
       </div>
 
-      {/* Hero Section */}
-      <section className="py-20 bg-gradient-to-br from-[#4bbf39] to-[#39bfb0] text-white relative overflow-hidden">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-          <div className="grid lg:grid-cols-2 gap-12 items-center">
-            <div>
-              <div className="inline-flex items-center bg-white/20 backdrop-blur-sm rounded-full px-4 py-2 mb-6">
-                <Camera className="w-5 h-5 mr-2" />
-                <span className="text-sm font-medium">Commercial Photography Services</span>
-              </div>
-              
-              <h1 className="text-4xl lg:text-6xl font-bold mb-6">
-                Professional Commercial Photography in Cincinnati
-              </h1>
-              
-              <p className="text-xl mb-8 opacity-90">
-                Elevate your brand with stunning commercial photography. From corporate headshots to product photography and event coverage, we create compelling visual content that drives business results.
-              </p>
-              
-              <div className="flex flex-col sm:flex-row gap-4 mb-12">
-                <a href="tel:+15133310555">
-                  <Button size="lg" className="bg-white text-[#4bbf39] hover:bg-gray-100 px-8 py-3">
-                    <Phone className="w-5 h-5 mr-2" />
-                    (513) 331-0555
-                  </Button>
-                </a>
-<Button
-  size="lg"
-  asChild
-  className="inline-flex items-center bg-white/20 backdrop-blur-sm border border-white/30 text-white hover:bg-white/90 hover:text-[#4bbf39] px-8 py-3 transition-all duration-200 shadow-xs"
->
-  <a href="#portfolio">
-    View Our Portfolio
-    <ArrowRight className="w-5 h-5 ml-2" />
-  </a>
-</Button>
+{/* Hero Section */}
+<section className="py-20 bg-gradient-to-br from-[#4bbf39] to-[#39bfb0] text-white relative overflow-hidden">
+  <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+    <div className="grid lg:grid-cols-2 gap-12 items-center">
+      <div>
+        <div className="inline-flex items-center bg-white/20 backdrop-blur-sm rounded-full px-4 py-2 mb-6">
+          <Camera className="w-5 h-5 mr-2" />
+          <span className="text-sm font-medium">Commercial Photography Services</span>
+        </div>
 
-              </div>
+        <h1 className="text-4xl lg:text-6xl font-bold mb-6">
+          Professional Commercial Photography in Cincinnati
+        </h1>
 
-              <div className="grid grid-cols-2 gap-8">
-                <div className="text-center">
-                  <div className="flex items-center justify-center mb-2">
-                    <Camera className="w-8 h-8 mr-2" />
-                    <div className="text-3xl font-bold">300+</div>
-                  </div>
-                  <div className="text-sm opacity-80">Photo Sessions</div>
-                </div>
-                <div className="text-center">
-                  <div className="flex items-center justify-center mb-2">
-                    <Star className="w-8 h-8 mr-2" />
-                    <div className="text-3xl font-bold">98%</div>
-                  </div>
-                  <div className="text-sm opacity-80">Client Satisfaction</div>
-                </div>
-              </div>
-            </div>
+        <p className="text-xl mb-8 opacity-90">
+          Elevate your brand with stunning commercial photography. From corporate headshots to product photography and event coverage, we create compelling visual content that drives business results.
+        </p>
 
-<motion.div
-  initial={{ opacity: 0, x: 50 }}
-  animate={{ opacity: 1, x: 0 }}
-  transition={{ duration: 0.6, delay: 0.2 }}
-  className="relative"
->
-  <Card className="bg-white border-white/20 shadow-2xl">
-    <CardHeader>
-      <CardTitle className="text-2xl font-bold text-gray-900 flex items-center">
-        <Camera className="w-6 h-6 mr-3 text-[#4bbf39]" />
-        Free Photography Consultation
-      </CardTitle>
-      <p className="text-gray-600">
-        Get expert insights on your photography needs and discover how professional images can transform your marketing.
-      </p>
-    </CardHeader>
-
-    <CardContent className="space-y-4">
-      {submitted ? (
-      <div className="text-center py-6">
-        <CheckCircle className="mx-auto text-green-600 mb-4" size={40} />
-        <h3 className="text-xl font-bold mb-2">Thank you</h3>
-        <p className="text-gray-600">We received your request and will follow up shortly.</p>
-      </div>
-      ) : (
-        <form
-          name="photography-consultation"
-          method="POST"
-          data-netlify="true"
-          netlify-honeypot="bot-field"
-          onSubmit={handleSubmit}
-          className="space-y-4"
-        >
-          <input type="hidden" name="form-name" value="photography-consultation" />
-          <p className="hidden">
-            <label>
-              Do not fill this out if you are human: <input name="bot-field" />
-            </label>
-          </p>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">Full Name *</label>
-              <input
-                type="text"
-                name="name"
-                required
-                autoComplete="name"
-                placeholder="John Smith"
-                className="w-full px-4 py-3 rounded-lg bg-gray-50 border border-gray-200 text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#4bbf39] focus:border-transparent"
-              />
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">Email Address *</label>
-              <input
-                type="email"
-                name="email"
-                required
-                autoComplete="email"
-                placeholder="john@company.com"
-                className="w-full px-4 py-3 rounded-lg bg-gray-50 border border-gray-200 text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#4bbf39] focus:border-transparent"
-              />
-            </div>
-          </div>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">Phone Number</label>
-              <input
-                type="tel"
-                name="phone"
-                autoComplete="tel"
-                placeholder="(513) 555-0123"
-                className="w-full px-4 py-3 rounded-lg bg-gray-50 border border-gray-200 text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#4bbf39] focus:border-transparent"
-              />
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">Company Name</label>
-              <input
-                type="text"
-                name="company"
-                autoComplete="organization"
-                placeholder="Your Company"
-                className="w-full px-4 py-3 rounded-lg bg-gray-50 border border-gray-200 text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#4bbf39] focus:border-transparent"
-              />
-            </div>
-          </div>
-
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">Photography Type</label>
-            <select
-              name="projectType"
-              className="w-full px-4 py-3 rounded-lg bg-gray-50 border border-gray-200 text-gray-900 focus:outline-none focus:ring-2 focus:ring-[#4bbf39] focus:border-transparent"
-            >
-              <option value="">Select photography type</option>
-              <option>Corporate & Headshots</option>
-              <option>Product Photography</option>
-              <option>Food & Restaurant</option>
-              <option>Event Coverage</option>
-              <option>Branding Photography</option>
-              <option>Other</option>
-            </select>
-          </div>
-
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">Project Details</label>
-            <textarea
-              name="details"
-              rows={3}
-              placeholder="Tell us about your photography project..."
-              className="w-full px-4 py-3 rounded-lg bg-gray-50 border border-gray-200 text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#4bbf39] focus:border-transparent"
-            />
-          </div>
+        {/* Full-width CTAs on mobile, auto on sm+ */}
+        <div className="flex flex-col sm:flex-row gap-4 mb-12">
+          <a href="tel:+15133310555" className="w-full sm:w-auto">
+            <Button size="lg" className="w-full sm:w-auto bg-white text-[#4bbf39] hover:bg-gray-100 px-8 py-3">
+              <Phone className="w-5 h-5 mr-2" />
+              (513) 331-0555
+            </Button>
+          </a>
 
           <Button
-            type="submit"
-            className="w-full bg-gradient-to-r from-[#4bbf39] to-[#39bfb0] text-white hover:from-[#39bfb0] hover:to-[#4bbf39] py-3 text-lg font-semibold"
+            size="lg"
+            asChild
+            className="w-full sm:w-auto inline-flex items-center bg-white/20 backdrop-blur-sm border border-white/30 text-white hover:bg-white/90 hover:text-[#4bbf39] px-8 py-3 transition-all duration-200 shadow-xs"
           >
-            Get Free Photography Consultation
-            <Camera className="ml-2 w-5 h-5" />
+            <a href="#portfolio">
+              View Our Portfolio
+              <ArrowRight className="w-5 h-5 ml-2" />
+            </a>
           </Button>
+        </div>
 
-          <p className="text-center text-gray-500 text-sm">Free consultation • No obligation • Expert insights</p>
-        </form>
-      )}
-    </CardContent>
-  </Card>
-</motion.div>
+        <div className="grid grid-cols-2 gap-8">
+          <div className="text-center">
+            <div className="flex items-center justify-center mb-2">
+              <Camera className="w-8 h-8 mr-2" />
+              <div className="text-3xl font-bold">300+</div>
+            </div>
+            <div className="text-sm opacity-80">Photo Sessions</div>
+          </div>
+          <div className="text-center">
+            <div className="flex items-center justify-center mb-2">
+              <Star className="w-8 h-8 mr-2" />
+              <div className="text-3xl font-bold">98%</div>
+            </div>
+            <div className="text-sm opacity-80">Client Satisfaction</div>
           </div>
         </div>
-      </section>
+      </div>
+
+      {/* Right column — allow shrink at tiny widths */}
+      <motion.div
+        initial={{ opacity: 0, x: 50 }}
+        animate={{ opacity: 1, x: 0 }}
+        transition={{ duration: 0.6, delay: 0.2 }}
+        className="relative min-w-0"
+      >
+        {/* Keep ~16px gutters on very small screens; relax at sm+ */}
+        <Card className="w-full max-w-[calc(100vw-2rem)] sm:max-w-none bg-white border-white/20 shadow-2xl">
+          <CardHeader>
+            <CardTitle className="text-2xl font-bold text-gray-900 flex items-center">
+              <Camera className="w-6 h-6 mr-3 text-[#4bbf39]" />
+              Free Photography Consultation
+            </CardTitle>
+            <p className="text-gray-600">
+              Get expert insights on your photography needs and discover how professional images can transform your marketing.
+            </p>
+          </CardHeader>
+
+          <CardContent className="space-y-4 min-w-0">
+            {submitted ? (
+              <div className="text-center py-6">
+                <CheckCircle className="mx-auto text-green-600 mb-4" size={40} />
+                <h3 className="text-xl font-bold mb-2">Thank you</h3>
+                <p className="text-gray-600">We received your request and will follow up shortly.</p>
+              </div>
+            ) : (
+              <form
+                name="photography-consultation"
+                method="POST"
+                data-netlify="true"
+                netlify-honeypot="bot-field"
+                onSubmit={handleSubmit}
+                className="space-y-4"
+              >
+                <input type="hidden" name="form-name" value="photography-consultation" />
+                <p className="hidden">
+                  <label>
+                    Do not fill this out if you are human: <input name="bot-field" />
+                  </label>
+                </p>
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">Full Name *</label>
+                    <input
+                      type="text"
+                      name="name"
+                      required
+                      autoComplete="name"
+                      placeholder="John Smith"
+                      className="w-full px-4 py-3 rounded-lg bg-gray-50 border border-gray-200 text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#4bbf39] focus:border-transparent"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">Email Address *</label>
+                    <input
+                      type="email"
+                      name="email"
+                      required
+                      autoComplete="email"
+                      placeholder="john@company.com"
+                      className="w-full px-4 py-3 rounded-lg bg-gray-50 border border-gray-200 text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#4bbf39] focus:border-transparent"
+                    />
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">Phone Number</label>
+                    <input
+                      type="tel"
+                      name="phone"
+                      autoComplete="tel"
+                      placeholder="(513) 555-0123"
+                      className="w-full px-4 py-3 rounded-lg bg-gray-50 border border-gray-200 text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#4bbf39] focus:border-transparent"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">Company Name</label>
+                    <input
+                      type="text"
+                      name="company"
+                      autoComplete="organization"
+                      placeholder="Your Company"
+                      className="w-full px-4 py-3 rounded-lg bg-gray-50 border border-gray-200 text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#4bbf39] focus:border-transparent"
+                    />
+                  </div>
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">Photography Type</label>
+                  <select
+                    name="projectType"
+                    className="w-full px-4 py-3 rounded-lg bg-gray-50 border border-gray-200 text-gray-900 focus:outline-none focus:ring-2 focus:ring-[#4bbf39] focus:border-transparent"
+                  >
+                    <option value="">Select photography type</option>
+                    <option>Corporate & Headshots</option>
+                    <option>Product Photography</option>
+                    <option>Food & Restaurant</option>
+                    <option>Event Coverage</option>
+                    <option>Branding Photography</option>
+                    <option>Other</option>
+                  </select>
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">Project Details</label>
+                  <textarea
+                    name="details"
+                    rows={3}
+                    placeholder="Tell us about your photography project..."
+                    className="w-full px-4 py-3 rounded-lg bg-gray-50 border border-gray-200 text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#4bbf39] focus:border-transparent"
+                  />
+                </div>
+
+                <Button
+                  type="submit"
+                  className="w-full bg-gradient-to-r from-[#4bbf39] to-[#39bfb0] text-white hover:from-[#39bfb0] hover:to-[#4bbf39] py-3 text-lg font-semibold"
+                >
+                  Free Photography Consultation
+                  <Camera className="ml-2 w-5 h-5" />
+                </Button>
+
+                <p className="text-center text-gray-500 text-sm">
+                  Free consultation • No obligation • Expert insights
+                </p>
+              </form>
+            )}
+          </CardContent>
+        </Card>
+      </motion.div>
+    </div>
+  </div>
+</section>
+
 
       {/* Featured Work Portfolio */}
       <section id="portfolio" className="py-20 bg-gray-50">
