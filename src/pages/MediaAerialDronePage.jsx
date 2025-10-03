@@ -7,7 +7,8 @@ import { motion } from 'framer-motion'
 
 function MediaAerialDronePage() {
   const [submitted, setSubmitted] = useState(false)
-  
+  const [expandedFaq, setExpandedFaq] = React.useState(null)
+
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' })
   }
@@ -23,7 +24,6 @@ function MediaAerialDronePage() {
     })
       .then(() => {
         setSubmitted(true)
-        // Redirect to thank you page after successful submission
         setTimeout(() => {
           window.location.href = '/thank-you'
         }, 1500)
@@ -143,10 +143,10 @@ function MediaAerialDronePage() {
     },
     {
       question: 'Can you fly drones in all weather conditions?',
-      answer: 'We prioritize safety and quality, so we don\'t fly in adverse weather conditions like high winds, rain, or snow. We monitor weather conditions closely and will reschedule if necessary to ensure optimal results and safe operations.'
+      answer: "We prioritize safety and quality, so we don't fly in adverse weather conditions like high winds, rain, or snow. We monitor weather conditions closely and will reschedule if necessary to ensure optimal results and safe operations."
     },
     {
-      question: 'What\'s the difference between drone photography and videography pricing?',
+      question: "What's the difference between drone photography and videography pricing?",
       answer: 'Pricing varies based on the scope of work, location, and deliverables. Photography sessions typically include multiple high-resolution images, while videography includes edited footage. We offer package deals that combine both services for maximum value.'
     },
     {
@@ -167,14 +167,16 @@ function MediaAerialDronePage() {
     }
   ]
 
-  const [expandedFaq, setExpandedFaq] = React.useState(null)
-
   return (
     <div className="min-h-screen bg-white">
       {/* Navigation */}
       <div className="bg-gray-50 py-4">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <Link to="/media" onClick={scrollToTop} className="inline-flex items-center text-[#4bbf39] hover:text-#9333EA transition-colors">
+          <Link
+            to="/media"
+            onClick={scrollToTop}
+            className="inline-flex items-center text-[#4bbf39] hover:text-[#9333EA] transition-colors"
+          >
             <ArrowLeft className="w-4 h-4 mr-2" />
             Back to Media Services
           </Link>
@@ -206,6 +208,7 @@ function MediaAerialDronePage() {
               </div>
             </motion.div>
 
+            {/* Form block — refactored to the Card + motion pattern with submitted state */}
             <motion.div
               initial={{ opacity: 0, x: 50 }}
               animate={{ opacity: 1, x: 0 }}
@@ -222,78 +225,99 @@ function MediaAerialDronePage() {
                     Get expert advice on aerial photography and videography for your project.
                   </p>
                 </CardHeader>
+
                 <CardContent className="space-y-4">
-                  <form 
-                    name="aerial-consultation" 
-                    method="POST" 
-                    data-netlify="true" 
-                    netlify-honeypot="bot-field"
-                    onSubmit={handleSubmit}
-                    className="space-y-4"
-                  >
-                    <input type="hidden" name="form-name" value="aerial-consultation" />
-                    <p style={{display: 'none'}}>
-                      <label>Don't fill this out if you're human: <input name="bot-field" /></label>
-                    </p>
-                    
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">
-                        Full Name
-                      </label>
-                      <input
-                        type="text"
-                        name="name" autoComplete="name"
-                        placeholder="John Smith"
-                        required
-                        className="w-full px-4 py-3 rounded-lg bg-gray-50 border border-gray-200 text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#4bbf39] focus:border-transparent"
-                      />
+                  {submitted ? (
+                    <div className="text-center py-6">
+                      <CheckCircle className="mx-auto text-green-600 mb-4" size={40} />
+                      <h3 className="text-xl font-bold mb-2">Thank you</h3>
+                      <p className="text-gray-600">
+                        We have received your request and will follow up within 24 hours.
+                      </p>
                     </div>
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">
-                        Email Address
-                      </label>
-                      <input
-                        type="email" autoComplete="email"
-                        name="email"
-                        placeholder="john@company.com"
-                        required
-                        className="w-full px-4 py-3 rounded-lg bg-gray-50 border border-gray-200 text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#4bbf39] focus:border-transparent"
-                      />
-                    </div>
-                  </div>
-                  
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Project Type
-                    </label>
-                    <select name="projectType" className="w-full px-4 py-3 rounded-lg bg-gray-50 border border-gray-200 text-gray-900 focus:outline-none focus:ring-2 focus:ring-[#4bbf39] focus:border-transparent">
-                      <option>Real Estate Photography</option>
-                      <option>Video Production</option>
-                      <option>Commercial Property</option>
-                      <option>Event Coverage</option>
-                      <option>Construction Documentation</option>
-                      <option>Other</option>
-                    </select>
-                  </div>
+                  ) : (
+                    <form
+                      name="aerial-consultation"
+                      method="POST"
+                      data-netlify="true"
+                      netlify-honeypot="bot-field"
+                      onSubmit={handleSubmit} // ⬅️ JS handler
+                      className="space-y-4"
+                    >
+                      <input type="hidden" name="form-name" value="aerial-consultation" />
+                      <p className="hidden">
+                        <label>
+                          Do not fill this out if you are human: <input name="bot-field" />
+                        </label>
+                      </p>
 
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Project Details
-                    </label>
-                    <textarea
-                      name="details"
-                      rows={3}
-                      placeholder="Tell us about your aerial photography needs..."
-                      className="w-full px-4 py-3 rounded-lg bg-gray-50 border border-gray-200 text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#4bbf39] focus:border-transparent resize-none"
-                    ></textarea>
-                  </div>
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div>
+                          <label className="block text-sm font-medium text-gray-700 mb-2">
+                            Full Name
+                          </label>
+                          <input
+                            type="text"
+                            name="name"
+                            autoComplete="name"
+                            placeholder="John Smith"
+                            required
+                            className="w-full px-4 py-3 rounded-lg bg-gray-50 border border-gray-200 text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#4bbf39] focus:border-transparent"
+                          />
+                        </div>
+                        <div>
+                          <label className="block text-sm font-medium text-gray-700 mb-2">
+                            Email Address
+                          </label>
+                          <input
+                            type="email"
+                            autoComplete="email"
+                            name="email"
+                            placeholder="john@company.com"
+                            required
+                            className="w-full px-4 py-3 rounded-lg bg-gray-50 border border-gray-200 text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#4bbf39] focus:border-transparent"
+                          />
+                        </div>
+                      </div>
 
-                  <Button type="submit" className="w-full bg-gradient-to-r from-[#4bbf39] to-[#39bfb0] text-white py-3 text-lg hover:from-[#39bfb0] hover:to-[#4bbf39]">
-                    Get Free Consultation
-                    <ArrowRight className="ml-2 w-5 h-5" />
-                  </Button>
-                  </form>
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-2">
+                          Project Type
+                        </label>
+                        <select
+                          name="projectType"
+                          className="w-full px-4 py-3 rounded-lg bg-gray-50 border border-gray-200 text-gray-900 focus:outline-none focus:ring-2 focus:ring-[#4bbf39] focus:border-transparent"
+                        >
+                          <option>Real Estate Photography</option>
+                          <option>Video Production</option>
+                          <option>Commercial Property</option>
+                          <option>Event Coverage</option>
+                          <option>Construction Documentation</option>
+                          <option>Other</option>
+                        </select>
+                      </div>
+
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-2">
+                          Project Details
+                        </label>
+                        <textarea
+                          name="details"
+                          rows={3}
+                          placeholder="Tell us about your aerial photography needs..."
+                          className="w-full px-4 py-3 rounded-lg bg-gray-50 border border-gray-200 text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#4bbf39] focus:border-transparent resize-none"
+                        ></textarea>
+                      </div>
+
+                      <Button
+                        type="submit"
+                        className="w-full bg-gradient-to-r from-[#4bbf39] to-[#39bfb0] text-white py-3 text-lg hover:from-[#39bfb0] hover:to-[#4bbf39]"
+                      >
+                        Get Free Consultation
+                        <ArrowRight className="ml-2 w-5 h-5" />
+                      </Button>
+                    </form>
+                  )}
                 </CardContent>
               </Card>
             </motion.div>
@@ -351,7 +375,7 @@ function MediaAerialDronePage() {
                 </Button>
               </Link>
             </motion.div>
-            
+
             <motion.div
               initial={{ opacity: 0, x: 20 }}
               whileInView={{ opacity: 1, x: 0 }}
@@ -359,8 +383,8 @@ function MediaAerialDronePage() {
               viewport={{ once: true }}
               className="relative"
             >
-              <img 
-                src="/how_aerial_shots_elevate_real_estate_marketing.jpg" 
+              <img
+                src="/how_aerial_shots_elevate_real_estate_marketing.jpg"
                 alt="Professional aerial photography showcasing real estate property from above, demonstrating how aerial shots elevate real estate marketing"
                 className="rounded-xl shadow-2xl w-full h-auto"
               />
@@ -381,8 +405,8 @@ function MediaAerialDronePage() {
               viewport={{ once: true }}
               className="relative"
             >
-              <img 
-                src="/how_aerial_shots_elevate_real_estate_marketing.jpg" 
+              <img
+                src="/how_aerial_shots_elevate_real_estate_marketing.jpg"
                 alt="Professional aerial photography showcasing real estate property from above, demonstrating how aerial shots elevate real estate marketing"
                 className="rounded-xl shadow-2xl w-full h-auto"
               />
@@ -572,16 +596,16 @@ function MediaAerialDronePage() {
                 transition={{ duration: 0.6, delay: index * 0.1 }}
                 viewport={{ once: true }}
               >
-                <Card className="cursor-pointer hover:shadow-md transition-shadow duration-200">
-                  <CardHeader 
-                    className="pb-3"
-                    onClick={() => setExpandedFaq(expandedFaq === index ? null : index)}
-                  >
+                <Card
+                  className="cursor-pointer hover:shadow-md transition-shadow duration-200"
+                  onClick={() => setExpandedFaq(expandedFaq === index ? null : index)}
+                >
+                  <CardHeader className="pb-3">
                     <div className="flex justify-between items-center">
                       <CardTitle className="text-lg font-semibold text-gray-900">
                         {item.question}
                       </CardTitle>
-                      <ArrowRight 
+                      <ArrowRight
                         className={`w-5 h-5 text-gray-500 transition-transform duration-200 ${
                           expandedFaq === index ? 'rotate-90' : ''
                         }`}

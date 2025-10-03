@@ -1,8 +1,8 @@
-import React, { useState } from 'react'
+import React, { useState, useCallback } from 'react'
 import { Link } from 'react-router-dom'
 import { Button } from '@/components/ui/button.jsx'
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card.jsx'
-import { CheckCircle, ArrowRight, TrendingUp, Target, Users, Zap, ArrowLeft, Phone, Star, Award, BarChart3, Funnel } from 'lucide-react'
+import { CheckCircle, ArrowRight, TrendingUp, Target, Users, Zap, ArrowLeft, Phone, Award, BarChart3, Funnel, } from 'lucide-react'
 import { motion } from 'framer-motion'
 
 function MarketingSalesFunnelPage() {
@@ -11,6 +11,33 @@ function MarketingSalesFunnelPage() {
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' })
   }
+
+  const [submitting, setSubmitting] = useState(false);
+const [submitted, setSubmitted] = useState(false);
+
+const handleSubscribe = useCallback(async (e) => {
+  e.preventDefault();
+  setSubmitting(true);
+
+  const form = e.currentTarget;
+  const formData = new FormData(form);
+
+  try {
+    // Netlify requires URL-encoded body
+    await fetch("/", {
+      method: "POST",
+      headers: { "Content-Type": "application/x-www-form-urlencoded" },
+      body: new URLSearchParams(formData).toString(),
+    });
+    setSubmitted(true);
+    form.reset();
+  } catch (err) {
+    console.error("Subscription failed:", err);
+    // optional: show a toast or inline error state
+  } finally {
+    setSubmitting(false);
+  }
+}, []);
 
   const funnelStages = [
     {
@@ -131,67 +158,154 @@ function MarketingSalesFunnelPage() {
         </div>
       </div>
 
-      {/* Hero Section */}
-      <section className="relative py-20 bg-gradient-to-br from-[#4bbf39] to-[#39bfb0] text-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid lg:grid-cols-2 gap-12 items-center">
-            <motion.div
-              initial={{ opacity: 0, x: -50 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.6 }}
-            >
-              <h1 className="text-4xl lg:text-6xl font-bold mb-6">
-                Sales Funnel Creation & Optimization
-              </h1>
-              <p className="text-xl mb-8 text-white/90">
-                Transform your website visitors into paying customers with strategically designed sales funnels that guide prospects through every stage of the buying journey.
-              </p>
-              <div className="flex flex-col sm:flex-row gap-4">
-                <Link to="/contact" onClick={scrollToTop}>
-                  <Button size="lg" className="bg-white text-[#4bbf39] hover:bg-gray-100 px-8 py-3">
-                    Build My Funnel
-                    <ArrowRight className="ml-2 w-5 h-5" />
-                  </Button>
-                </Link>
-                <a href="tel:+15133310555">
-                  <Button size="lg" className="bg-white/20 backdrop-blur-sm border border-white/30 text-white hover:bg-white/30 px-8 py-3">
-                    <Phone className="w-5 h-5 mr-2" />
-                    (513) 331-0555
-                  </Button>
-                </a>
-              </div>
-            </motion.div>
-
-            <motion.div
-              initial={{ opacity: 0, x: 50 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.6, delay: 0.2 }}
-              className="relative"
-            >
-              <img 
-                src="/LandingPageImage.webp"
-                alt="Professional sales funnel landing page example showing conversion optimization"
-                className="w-full h-auto rounded-xl shadow-2xl"
-              />
-            </motion.div>
-          </div>
-
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center mt-16">
-            {successMetrics.map((stat, index) => (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: 0.4 + index * 0.1 }}
-                className="text-center"
-              >
-                <div className="text-3xl lg:text-4xl font-bold mb-2">{stat.metric}</div>
-                <div className="text-white/80 text-sm">{stat.description}</div>
-              </motion.div>
-            ))}
-          </div>
+{/* Hero Section */}
+<section className="relative py-20 bg-gradient-to-br from-[#4bbf39] to-[#39bfb0] text-white">
+  <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div className="grid lg:grid-cols-2 gap-12 items-center">
+      <motion.div
+        initial={{ opacity: 0, x: -50 }}
+        animate={{ opacity: 1, x: 0 }}
+        transition={{ duration: 0.6 }}
+      >
+        <h1 className="text-4xl lg:text-6xl font-bold mb-6">
+          Sales Funnel Creation & Optimization
+        </h1>
+        <p className="text-xl mb-8 text-white/90">
+          Transform your website visitors into paying customers with strategically designed sales funnels that guide prospects through every stage of the buying journey.
+        </p>
+        <div className="flex flex-col sm:flex-row gap-4">
+          <Link to="/contact" onClick={scrollToTop}>
+            <Button size="lg" className="bg-white text-[#4bbf39] hover:bg-gray-100 px-8 py-3">
+              Build My Funnel
+              <ArrowRight className="ml-2 w-5 h-5" />
+            </Button>
+          </Link>
+          <a href="tel:+15133310555">
+            <Button size="lg" className="bg-white/20 backdrop-blur-sm border border-white/30 text-white hover:bg-white/30 px-8 py-3">
+              <Phone className="w-5 h-5 mr-2" />
+              (513) 331-0555
+            </Button>
+          </a>
         </div>
-      </section>
+      </motion.div>
+
+      <motion.div
+        initial={{ opacity: 0, x: 50 }}
+        animate={{ opacity: 1, x: 0 }}
+        transition={{ duration: 0.6, delay: 0.2 }}
+        className="relative"
+      >
+        <img 
+          src="/LandingPageImage.webp"
+          alt="Professional sales funnel landing page example showing conversion optimization"
+          className="w-full h-auto rounded-xl shadow-2xl"
+        />
+      </motion.div>
+    </div>
+
+    {/* Success Metrics */}
+    <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center mt-16">
+      {successMetrics.map((stat, index) => (
+        <motion.div
+          key={index}
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.4 + index * 0.1 }}
+          className="text-center"
+        >
+          <div className="text-3xl lg:text-4xl font-bold mb-2">{stat.metric}</div>
+          <div className="text-white/80 text-sm">{stat.description}</div>
+        </motion.div>
+      ))}
+    </div>
+
+{/* Aggressive CTA - Subscribe to Insights */}
+
+<motion.div
+  initial={{ opacity: 0, y: 30 }}
+  animate={{ opacity: 1, y: 0 }}          // ⬅️ animate on mount
+  transition={{ duration: 0.6, delay: 0.2 }}
+  className="mt-16 bg-white/10 backdrop-blur-md rounded-2xl p-8 text-center shadow-2xl"
+>
+  {submitted ? (
+    <div className="text-center py-6">
+      <CheckCircle className="mx-auto text-white mb-4" size={48} />
+      <h3 className="text-xl font-bold mb-2">You’re In</h3>
+      <p className="text-white/90">
+        Thanks for subscribing to <span className="font-semibold">Uptrade Media Insights</span>.  
+        Expect bold strategies and proven tactics delivered straight to your inbox.
+      </p>
+    </div>
+  ) : (
+    <>
+      <h3 className="text-2xl font-bold mb-4">
+        Don’t Just Watch Competitors Grow. Outpace Them.
+      </h3>
+      <p className="text-white/80 mb-6 max-w-2xl mx-auto">
+        Get the exact tactics behind our <strong>340%+ average conversion lifts</strong> delivered to your inbox.
+      </p>
+
+     <form
+  name="insights-subscribe"
+  method="POST"
+  data-netlify="true"
+  netlify-honeypot="bot-field"
+  onSubmit={handleSubscribe}
+  className="flex flex-col gap-4 justify-center items-stretch"
+>
+  {/* required for Netlify */}
+  <input type="hidden" name="form-name" value="insights-subscribe" />
+  <p style={{ display: "none" }}>
+    <label>Don’t fill this out if you’re human: <input name="bot-field" /></label>
+  </p>
+
+  {/* Input + Button Row */}
+  <div className="flex flex-col sm:flex-row gap-4 w-full justify-center items-stretch">
+    <input
+  type="email"
+  name="email"
+  required
+  placeholder="Enter your email"
+  className="h-10 px-4 rounded-lg text-gray-900 w-full sm:w-96 bg-white
+             focus:outline-none focus:ring-2 focus:ring-[#4bbf39]
+             border border-transparent focus:border-[#4bbf39] transition-all"
+/>
+
+<Button
+  type="submit"
+  size="lg"
+  disabled={submitting}
+  className="h-10 px-8 rounded-lg bg-white/20 backdrop-blur-sm border border-white/30 text-white
+             hover:bg-white/90 hover:text-[#4bbf39] transition-all duration-200 shadow-xs
+             disabled:opacity-60 disabled:cursor-not-allowed"
+>
+  {submitting ? "Subscribing..." : "Subscribe Now"}
+  <ArrowRight className="ml-2 w-5 h-5" />
+</Button>
+
+  </div>
+
+  {/* Consent Checkbox */}
+  <div className="flex items-start justify-center gap-2 text-left mt-2 max-w-xl mx-auto">
+    <input
+      type="checkbox"
+      name="consent"
+      required
+      className="mt-1 h-4 w-4 text-[#4bbf39] border-gray-300 rounded focus:ring-[#4bbf39]"
+    />
+    <label className="text-sm text-white/90">
+      I agree to receive communications, marketing updates, and promotional content from
+      <span className="font-semibold"> Uptrade Media</span>. You can unsubscribe anytime.
+    </label>
+  </div>
+</form>
+
+    </>
+  )}
+</motion.div>
+
+  </div>
+</section>
 
       {/* Funnel Stages Section */}
       <section className="py-20">
@@ -358,7 +472,7 @@ function MarketingSalesFunnelPage() {
               </Button>
             </Link>
             <a href="tel:+15133310555">
-              <Button size="lg" className="bg-white/20 backdrop-blur-sm border border-white/30 text-white hover:bg-white/30 px-8 py-3">
+              <Button size="lg" className="bg-white/20 backdrop-blur-sm border border-white/30 text-white hover:bg-white/90 hover:text-[#4bbf39] px-8 py-3 transition-all duration-200 shadow-xs">
                 <Phone className="w-5 h-5 mr-2" />
                 Call (513) 331-0555
               </Button>

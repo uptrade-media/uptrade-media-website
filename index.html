@@ -77,13 +77,15 @@
       ],
       "serviceType": [
         "Website Design",
-        "SEO Services",
-        "Digital Marketing",
+        "SEO & Local SEO Services",
+        "Paid Ads Management",
         "Video Production",
-        "Media Creation",
+        "Commercial Photography",
         "Brand Development",
-        "Aerial Photography",
+        "Aerial Media",
         "Content Marketing"
+        "Email & Social Campaigns"
+        "Sales Funnels & Leads Generation"
       ],
       "priceRange": "$$",
       "openingHours": "Mo-Fr 09:00-17:00",
@@ -117,151 +119,386 @@
       },
       "founder": {
         "@type": "Person",
-        "name": "Uptrade Media Team"
+        "name": "Ramsey Deal"
       },
-      "foundingDate": "2020",
+      "foundingDate": "2017",
       "numberOfEmployees": "5-10",
-      "slogan": "Elevating Your Digital Presence"
+      "slogan": "Unleash Your Brand with Expert Marketing, Media, & Design"
     }
     </script>
     
     <!-- Service Schema -->
-    <script type="application/ld+json">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
     {
-      "@context": "https://schema.org",
+      "@type": ["Organization","LocalBusiness"],
+      "@id": "https://uptrademedia.com/#org",
+      "name": "Uptrade Media",
+      "url": "https://uptrademedia.com/",
+      "logo": "https://uptrademedia.com/ogimage.jpg",
+      "image": "https://uptrademedia.com/ogimage.jpg",
+      "telephone": "+1-513-331-0555",
+      "priceRange": "$$",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "335 Manhattan Blvd, Unit 201",
+        "addressLocality": "Dayton",
+        "addressRegion": "KY",
+        "postalCode": "41074",
+        "addressCountry": "US"
+      },
+      "sameAs": [
+        "https://www.facebook.com/UptradeMedia",
+        "https://www.instagram.com/uptrademedia",
+        "https://www.linkedin.com/company/uptrade-media"
+      ]
+    },
+    {
       "@type": "Service",
+      "@id": "https://uptrademedia.com/#services",
       "name": "Digital Marketing Services",
-      "description": "Comprehensive digital marketing services including website design, SEO, video production, and media creation.",
-      "provider": {
-        "@type": "LocalBusiness",
-        "name": "Uptrade Media",
-        "url": "https://uptrademedia.com"
-      },
       "serviceType": "Digital Marketing",
-      "areaServed": {
-        "@type": "Place",
-        "name": "Cincinnati and Northern Kentucky"
-      },
+      "description": "Website design, SEO, paid ads, content, media production, and more.",
+      "provider": { "@id": "https://uptrademedia.com/#org" },
+      "areaServed": [
+        { "@type": "City", "name": "Cincinnati" },
+        { "@type": "AdministrativeArea", "name": "Northern Kentucky" }
+      ],
       "hasOfferCatalog": {
         "@type": "OfferCatalog",
-        "name": "Digital Marketing Services",
+        "name": "Service Catalog",
         "itemListElement": [
           {
             "@type": "Offer",
+            "url": "https://uptrademedia.com/design/web-design",
             "itemOffered": {
               "@type": "Service",
               "name": "Website Design & Development",
-              "description": "Custom website design and development services"
+              "description": "Custom sites and UX-focused builds",
+              "url": "https://uptrademedia.com/design/web-design"
             }
           },
           {
             "@type": "Offer",
+            "url": "https://uptrademedia.com/design/branding",
+            "itemOffered": {
+              "@type": "Service",
+              "name": "Branding & Identity",
+              "description": "Logos, brand systems, and visual identity",
+              "url": "https://uptrademedia.com/design/branding"
+            }
+          },
+          {
+            "@type": "Offer",
+            "url": "https://uptrademedia.com/design/ux",
+            "itemOffered": {
+              "@type": "Service",
+              "name": "UX & Conversion Design",
+              "description": "User-centered flows and CRO-minded layouts",
+              "url": "https://uptrademedia.com/design/ux"
+            }
+          },
+          {
+            "@type": "Offer",
+            "url": "https://uptrademedia.com/design/graphic-design",
+            "itemOffered": {
+              "@type": "Service",
+              "name": "Graphic & Print Design",
+              "description": "Marketing collateral, ads, and print design",
+              "url": "https://uptrademedia.com/design/graphic-design"
+            }
+          },
+          {
+            "@type": "Offer",
+            "url": "https://uptrademedia.com/marketing/seo",
             "itemOffered": {
               "@type": "Service",
               "name": "SEO & Local SEO",
-              "description": "Search engine optimization and local SEO services"
+              "description": "Technical SEO, content, and local ranking",
+              "url": "https://uptrademedia.com/marketing/seo"
             }
           },
           {
             "@type": "Offer",
+            "url": "https://uptrademedia.com/marketing/content-marketing",
+            "itemOffered": {
+              "@type": "Service",
+              "name": "Content Marketing",
+              "description": "Editorial strategy, blogging, and assets",
+              "url": "https://uptrademedia.com/marketing/content-marketing"
+            }
+          },
+          {
+            "@type": "Offer",
+            "url": "https://uptrademedia.com/marketing/ad-management",
+            "itemOffered": {
+              "@type": "Service",
+              "name": "Paid Ads (PPC) Management",
+              "description": "Google, Meta, and YouTube ad management",
+              "url": "https://uptrademedia.com/marketing/ad-management"
+            }
+          },
+          {
+            "@type": "Offer",
+            "url": "https://uptrademedia.com/marketing/sales-funnels",
+            "itemOffered": {
+              "@type": "Service",
+              "name": "Sales Funnels & Landing Pages",
+              "description": "High-converting funnels and lead gen",
+              "url": "https://uptrademedia.com/marketing/sales-funnels"
+            }
+          },
+          {
+            "@type": "Offer",
+            "url": "https://uptrademedia.com/marketing/reputation-management",
+            "itemOffered": {
+              "@type": "Service",
+              "name": "Reputation & Reviews",
+              "description": "Review acquisition and reputation lifts",
+              "url": "https://uptrademedia.com/marketing/reputation-management"
+            }
+          },
+          {
+            "@type": "Offer",
+            "url": "https://uptrademedia.com/marketing/email-social-marketing",
+            "itemOffered": {
+              "@type": "Service",
+              "name": "Email & Social Media Marketing",
+              "description": "Email automation and social content",
+              "url": "https://uptrademedia.com/marketing/email-social-marketing"
+            }
+          },
+          {
+            "@type": "Offer",
+            "url": "https://uptrademedia.com/media/video-production",
             "itemOffered": {
               "@type": "Service",
               "name": "Video Production",
-              "description": "Professional video production and editing services"
+              "description": "Planning, shooting, and editing",
+              "url": "https://uptrademedia.com/media/video-production"
             }
           },
           {
             "@type": "Offer",
+            "url": "https://uptrademedia.com/media/aerial-drone",
             "itemOffered": {
               "@type": "Service",
               "name": "Aerial & Drone Media",
-              "description": "Aerial photography and drone videography services"
+              "description": "Aerial photo/video and FAA-licensed ops",
+              "url": "https://uptrademedia.com/media/aerial-drone"
+            }
+          },
+          {
+            "@type": "Offer",
+            "url": "https://uptrademedia.com/media/photography",
+            "itemOffered": {
+              "@type": "Service",
+              "name": "Commercial Photography",
+              "description": "Lifestyle, product, architectural, and brand photography",
+              "url": "https://uptrademedia.com/media/photography"
+            }
+          },
+          {
+            "@type": "Offer",
+            "url": "https://uptrademedia.com/media/build-credibility",
+            "itemOffered": {
+              "@type": "Service",
+              "name": "Testimonial & Case Study Videos",
+              "description": "Proof-driven video content that builds trust",
+              "url": "https://uptrademedia.com/media/build-credibility"
             }
           }
         ]
       }
     }
-    </script>
+  ]
+}
+</script>
+
   </head>
   <body>
-    <!-- Hidden forms for Netlify detection -->
-    <form name="contact" netlify netlify-honeypot="bot-field" hidden>
-      <input type="text" name="name" />
-      <input type="email" name="email" />
-      <input type="tel" name="phone" />
-      <input type="text" name="company" />
-      <select name="service">
-        <option value="">Select a service</option>
-      </select>
-      <select name="budget">
-        <option value="">Select budget range</option>
-      </select>
-      <textarea name="message"></textarea>
-      <input name="bot-field" />
-    </form>
 
-    <form name="free-audit" netlify netlify-honeypot="bot-field" hidden>
-      <input type="text" name="name" />
-      <input type="email" name="email" />
-      <input type="tel" name="phone" />
-      <input type="url" name="website" />
-      <input type="text" name="company" />
-      <select name="goals">
-        <option value="">Select your main goal</option>
-      </select>
-      <textarea name="currentChallenges"></textarea>
-      <input name="bot-field" />
-    </form>
+<!-- Hidden Netlify shadow form for build-time detection -->
+<form name="seo-analysis" netlify netlify-honeypot="bot-field" method="POST" style="display:none">
+  <input type="hidden" name="form-name" value="seo-analysis" />
+  <input type="text" name="website" />
+  <input type="text" name="business" />
+  <input type="email" name="email" />
+  <input type="tel" name="phone" />
+  <input type="text" name="keywords" />
+  <input name="bot-field" />
+</form>
 
-    <form name="ux-ui-consultation" netlify netlify-honeypot="bot-field" hidden>
-      <input type="text" name="name" />
-      <input type="email" name="email" />
-      <input type="tel" name="phone" />
-      <input type="text" name="company" />
-      <select name="projectType">
-        <option value="">Select project type</option>
-      </select>
-      <textarea name="details"></textarea>
-      <input name="bot-field" />
-    </form>
+<!-- Hidden Netlify shadow form: paid-ads-audit -->
+<form name="paid-ads-audit" netlify netlify-honeypot="bot-field" method="POST" style="display:none">
+  <input type="hidden" name="form-name" value="paid-ads-audit" />
+  <input type="hidden" name="subject" value="New Paid Ads Audit Request" />
+  <input type="text"   name="name" />
+  <input type="email"  name="email" />
+  <input type="tel"    name="phone" />
+  <select name="budget">
+    <option value=""></option>
+    <option value="1000-2500">$1,000 - $2,500</option>
+    <option value="2500-5000">$2,500 - $5,000</option>
+    <option value="5000-10000">$5,000 - $10,000</option>
+    <option value="10000+">$10,000+</option>
+  </select>
+  <select name="platform">
+    <option value=""></option>
+    <option value="google">Google Ads</option>
+    <option value="facebook">Facebook/Instagram</option>
+    <option value="linkedin">LinkedIn</option>
+    <option value="tiktok">TikTok</option>
+    <option value="other">Other</option>
+  </select>
+  <input name="bot-field" />
+  <!-- Optional context fields (helpful in submissions): -->
+  <input type="hidden" name="page" value="/" />
+</form>
 
-    <form name="reputation-management" netlify netlify-honeypot="bot-field" hidden>
-      <input type="text" name="name" />
-      <input type="email" name="email" />
-      <input type="tel" name="phone" />
-      <input type="text" name="company" />
-      <select name="serviceType">
-        <option value="">Select service type</option>
-      </select>
-      <textarea name="details"></textarea>
-      <input name="bot-field" />
-    </form>
+<!-- Hidden Netlify shadow form: reputation-management -->
+<form name="reputation-management" netlify netlify-honeypot="bot-field" method="POST" action="/thank-you" style="display:none">
+  <input type="hidden" name="form-name" value="reputation-management" />
+  <input type="hidden" name="subject" value="New Reputation Audit Request" />
+  <input type="text" name="name" />
+  <input type="email" name="email" />
+  <input type="tel" name="phone" />
+  <input type="text" name="business" />
+  <textarea name="concerns"></textarea>
+  <input name="bot-field" />
+  <input type="hidden" name="page" value="/" />
+</form>
 
-    <form name="photography-consultation" netlify netlify-honeypot="bot-field" hidden>
-      <input type="text" name="name" />
-      <input type="email" name="email" />
-      <input type="tel" name="phone" />
-      <input type="text" name="company" />
-      <select name="serviceType">
-        <option value="">Select service type</option>
-      </select>
-      <textarea name="details"></textarea>
-      <input name="bot-field" />
-    </form>
+<!-- Netlify static form registration (hidden) -->
+<form name="content-strategy" data-netlify="true" netlify-honeypot="bot-field" hidden>
+  <input type="text" name="name" />
+  <input type="email" name="email" />
+  <input type="tel" name="phone" />
+  <select name="industry">
+    <option value=""></option>
+    <option value="legal">Legal Services</option>
+    <option value="healthcare">Healthcare</option>
+    <option value="realestate">Real Estate</option>
+    <option value="professional">Professional Services</option>
+    <option value="ecommerce">E-commerce</option>
+    <option value="technology">Technology</option>
+    <option value="other">Other</option>
+  </select>
+  <textarea name="goals"></textarea>
+  <input type="hidden" name="subject" value="New Content Strategy Request" />
+  <input type="hidden" name="page" value="/" />
+</form>
 
-    <form name="testimonial-consultation" netlify netlify-honeypot="bot-field" hidden>
-      <input type="text" name="name" />
-      <input type="email" name="email" />
-      <input type="tel" name="phone" />
-      <input type="text" name="company" />
-      <select name="serviceType">
-        <option value="">Select service type</option>
-      </select>
-      <textarea name="details"></textarea>
-      <input name="bot-field" />
-    </form>
+<!-- Netlify static form registration (hidden) -->
+<form name="marketing-email-social" data-netlify="true" netlify-honeypot="bot-field" hidden>
+  <input type="text" name="name" /> <!-- Full Name -->
+  <input type="email" name="email" /> <!-- Email -->
+  <input type="tel" name="phone" /> <!-- Phone -->
+
+  <select name="help_with">
+    <option value=""></option>
+    <option value="Email marketing">Email marketing</option>
+    <option value="Social media content">Social media content</option>
+    <option value="Content calendar">Content calendar</option>
+    <option value="Ad copy &amp; creative">Ad copy &amp; creative</option>
+    <option value="List growth &amp; lead magnets">List growth &amp; lead magnets</option>
+    <option value="Campaign setup &amp; automation">Campaign setup &amp; automation</option>
+    <option value="Reporting &amp; analytics">Reporting &amp; analytics</option>
+    <option value="Other">Other</option>
+  </select>
+
+  <textarea name="message"></textarea> <!-- Current Challenge -->
+
+  <!-- Hidden metadata if you want to track submissions -->
+  <input type="hidden" name="subject" value="New Marketing Consultation Request" />
+  <input type="hidden" name="page" value="/" />
+</form>
+
+<!-- Netlify static form registration (hidden) -->
+<form name="aerial-consultation" data-netlify="true" netlify-honeypot="bot-field" hidden>
+  <input type="text" name="name" /> <!-- Full Name -->
+  <input type="email" name="email" /> <!-- Email -->
+
+  <select name="projectType">
+    <option value=""></option>
+    <option>Real Estate Photography</option>
+    <option>Video Production</option>
+    <option>Commercial Property</option>
+    <option>Event Coverage</option>
+    <option>Construction Documentation</option>
+    <option>Other</option>
+  </select>
+
+  <textarea name="details"></textarea> <!-- Project Details -->
+</form>
+
+<!-- Netlify static form registration (hidden) -->
+<form name="web-design-consultation" data-netlify="true" netlify-honeypot="bot-field" hidden>
+  <input type="text" name="name" /> <!-- Full Name -->
+  <input type="email" name="email" /> <!-- Email -->
+  <input type="tel" name="phone" /> <!-- Phone -->
+  <input type="text" name="company" /> <!-- Company -->
+
+  <select name="projectType">
+    <option value=""></option>
+    <option value="new-website">New Website Design</option>
+    <option value="website-redesign">Website Redesign</option>
+    <option value="ecommerce">E-commerce Website</option>
+    <option value="landing-page">Landing Page Design</option>
+    <option value="website-audit">Website Audit</option>
+    <option value="other">Other</option>
+  </select>
+
+  <textarea name="challenge"></textarea> <!-- Current Challenge -->
+</form>
+
+<!-- Netlify static form registration (hidden) -->
+<form name="brand-consultation" data-netlify="true" netlify-honeypot="bot-field" hidden>
+  <input type="text" name="business" /> <!-- Business Name -->
+  <input type="text" name="industry" /> <!-- Industry -->
+  <input type="email" name="email" /> <!-- Email -->
+  <input type="tel" name="phone" /> <!-- Phone -->
+
+  <select name="projectType">
+    <option value=""></option>
+    <option value="new-brand">New Brand Identity</option>
+    <option value="rebrand">Brand Refresh/Rebrand</option>
+    <option value="logo-only">Logo Design Only</option>
+    <option value="brand-guidelines">Brand Guidelines</option>
+    <option value="full-package">Complete Brand Package</option>
+  </select>
+</form>
+
+<!-- Netlify static form registration (hidden) -->
+<form name="ux-ui-consultation" data-netlify="true" netlify-honeypot="bot-field" hidden>
+  <input type="text" name="name" /> <!-- Full Name -->
+  <input type="email" name="email" /> <!-- Email -->
+  <input type="tel" name="phone" /> <!-- Phone -->
+  <input type="text" name="company" /> <!-- Company -->
+
+  <select name="projectType">
+    <option value=""></option>
+    <option>Website Redesign</option>
+    <option>Mobile App Design</option>
+    <option>Web Application</option>
+    <option>Design System</option>
+    <option>UX Audit</option>
+    <option>Other</option>
+  </select>
+
+  <textarea name="details"></textarea> <!-- Project Details -->
+</form>
+
+<!-- Hidden Netlify form for build-time detection -->
+<form name="insights-subscribe" netlify netlify-honeypot="bot-field" hidden>
+  <input type="email" name="email" />
+  <input type="checkbox" name="consent" />
+</form>
 
     <div id="root"></div>
     <script type="module" src="/src/main.jsx"></script>
+
   </body>
 </html>

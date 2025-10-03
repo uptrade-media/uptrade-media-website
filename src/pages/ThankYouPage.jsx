@@ -140,7 +140,7 @@ const ThankYouPage = () => {
               >
                 <Card className="h-full hover:shadow-lg transition-shadow duration-300">
                   <CardContent className="p-8 text-center">
-                    <div className="w-16 h-16 bg-gradient-to-r from-[#4bbf39] to-[#39bfb0] rounded-full flex items-center justify-center mx-auto mb-6">
+                    <div className="w-16 h-16 bg-gradient-to-r from-[#4bbf39] to-[#39bfb0] rounded-full flex items-center justify-center mx-auto mb-6 text-white">
                       {step.icon}
                     </div>
                     <h3 className="text-xl font-bold text-gray-900 mb-3">{step.title}</h3>

@@ -1,0 +1,12 @@
+@import "tailwindcss";
+
+/* Add/keep your base/components/utilities if you have them in v4 style */
+@source "./src";
+
+/* Override breakpoints so md starts at 1100px */
+@theme {
+  --breakpoint-sm: 640px;
+  --breakpoint-md: 1100px; /* ✅ this is the key change */
+  --breakpoint-lg: 1280px;
+  --breakpoint-xl: 1536px;
+}

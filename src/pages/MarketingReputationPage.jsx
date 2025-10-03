@@ -3,7 +3,7 @@ import BrandedLoadingSpinner from "../components/BrandedLoadingSpinner.jsx"
 import { Link } from 'react-router-dom'
 import { Button } from '@/components/ui/button.jsx'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card.jsx'
-import { CheckCircle, ArrowRight, Star, MessageSquare, Shield, TrendingUp, Users, Lightbulb, Phone, ArrowLeft } from 'lucide-react'
+import { CheckCircle, ArrowRight, Star, MessageSquare, Shield, TrendingUp, Users, Lightbulb, Phone, ArrowLeft, ShieldCheck } from 'lucide-react'
 import { motion } from 'framer-motion'
 
 function MarketingReputationPage() {
@@ -61,31 +61,30 @@ function MarketingReputationPage() {
 
   const [expandedFaq, setExpandedFaq] = React.useState(null)
   const [submitted, setSubmitted] = useState(false)
-  const [isSubmitting, setIsSubmitting] = useState(false)
+  const [setIsSubmitting] = useState(false)
 
-  const handleSubmit = (e) => {
-    setIsSubmitting(true)
+const handleSubmit = async (e) => {
     e.preventDefault()
     const form = e.target
-    const data = new FormData(form)
-    fetch("/", {
-      method: "POST",
-      headers: { "Content-Type": "application/x-www-form-urlencoded" },
-      body: new URLSearchParams(data).toString(),
-    })
-      .then(() => {
-        setSubmitted(true)
-        setIsSubmitting(false)
-        // Redirect to thank you page after successful submission
-        setTimeout(() => {
-          window.location.href = '/thank-you'
-        }, 1500)
+    const formData = new FormData(form)
+
+    try {
+      await fetch('/', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: new URLSearchParams(formData).toString()
       })
-      .catch((err) => {
-        console.error("Form submit error:", err)
-        setIsSubmitting(false)
-        alert("There was an error. Please try again.")
-      })
+      
+      setSubmitted(true)
+      
+      // Redirect to thank you page after successful submission
+      setTimeout(() => {
+        window.location.href = '/thank-you'
+      }, 1500)
+    } catch (err) {
+      console.error('Form submit error:', err)
+      alert('Something went wrong. Please try again.')
+    }
   }
 
   return (
@@ -167,91 +166,129 @@ function MarketingReputationPage() {
               transition={{ duration: 0.8, delay: 0.3 }}
               className="relative"
             >
-              <div className="bg-white rounded-2xl shadow-2xl p-8">
-                <div className="text-center mb-6">
-                  <h3 className="text-2xl font-bold text-gray-900 mb-2">Free Reputation Audit</h3>
-                  <p className="text-gray-600">Discover how your online reputation impacts your business and get actionable insights to improve it.</p>
-      </div>
+<Card className="bg-white border-white/20 shadow-2xl">
+  <CardHeader>
+    <CardTitle className="text-2xl font-bold text-gray-900 flex items-center">
+      <ShieldCheck className="w-6 h-6 mr-3 text-[#4bbf39]" />
+      Free Reputation Audit
+    </CardTitle>
+    <p className="text-gray-600">
+      Discover how your online reputation impacts your business and get actionable insights to improve it.
+    </p>
+  </CardHeader>
 
-                <form 
-                  name="reputation-management" 
-                  method="POST" 
-                  data-netlify="true" 
-                  netlify-honeypot="bot-field"
-                  onSubmit={handleSubmit}
-                  className="space-y-4"
-                >
-                  <input type="hidden" name="form-name" value="reputation-management" />
-                  <p style={{display: 'none'}}>
-                    <label>Don't fill this out if you're human: <input name="bot-field" /></label>
-                  </p>
-                  <div className="grid grid-cols-2 gap-4">
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-1">Full Name *</label>
-                      <input
-                        type="text"
-                        name="name" autoComplete="name"
-                        className="w-full px-4 py-3 rounded-lg bg-gray-50 border border-gray-300 text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#4bbf39] focus:border-transparent"
-                        placeholder="John Smith"
-                        
-                        required
-                      />
+  <CardContent className="space-y-4">
+    {submitted ? (
+      <div className="text-center py-6">
+        <CheckCircle className="mx-auto text-green-600 mb-4" size={40} />
+        <h3 className="text-xl font-bold mb-2">Thank you</h3>
+        <p className="text-gray-600">We received your request and will follow up shortly.</p>
       </div>
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-1">Email Address *</label>
-                      <input
-                        type="email" autoComplete="email"
-                        name="email"
-                        className="w-full px-4 py-3 rounded-lg bg-gray-50 border border-gray-300 text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#4bbf39] focus:border-transparent"
-                        placeholder="john@company.com"
-                        required
-                      />
-      </div>
-      </div>
+    ) : (
+      <form
+        name="reputation-management"
+        method="POST"
+        data-netlify="true"
+        data-netlify-honeypot="bot-field"
+        onSubmit={handleSubmit}
+        className="space-y-4"
+      >
+        <input type="hidden" name="form-name" value="reputation-management" />
+        <p hidden>
+          <label>Don’t fill this out: <input name="bot-field" /></label>
+        </p>
 
-                  <div className="grid grid-cols-2 gap-4">
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-1">Phone Number</label>
-                      <input
-                        type="tel"
-                        name="phone"
-                        autoComplete="tel"
-                        className="w-full px-4 py-3 rounded-lg bg-gray-50 border border-gray-300 text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#4bbf39] focus:border-transparent"
-                        placeholder="(513) 555-0123"
-                      />
-      </div>
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-1">Business Name</label>
-                      <input
-                        type="text"
-                        name="business"
-                        autoComplete="organization"
-                        className="w-full px-4 py-3 rounded-lg bg-gray-50 border border-gray-300 text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#4bbf39] focus:border-transparent"
-                        placeholder="Your Business"
-                      />
-      </div>
-      </div>
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2" htmlFor="rep-name">
+              Full Name *
+            </label>
+            <input
+              id="rep-name"
+              type="text"
+              name="name"
+              autoComplete="name"
+              placeholder="John Smith"
+              required
+              className="w-full px-4 py-3 rounded-lg bg-gray-50 border border-gray-200 text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#4bbf39] focus:border-transparent"
+            />
+          </div>
 
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">Current Reputation Concerns</label>
-                    <textarea
-                      name="concerns"
-                      rows={3}
-                      className="w-full px-4 py-3 rounded-lg bg-gray-50 border border-gray-300 text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#4bbf39] focus:border-transparent"
-                      placeholder="Tell us about your reputation management needs..."
-                    ></textarea>
-      </div>
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2" htmlFor="rep-email">
+              Email Address *
+            </label>
+            <input
+              id="rep-email"
+              type="email"
+              name="email"
+              autoComplete="email"
+              placeholder="john@company.com"
+              required
+              className="w-full px-4 py-3 rounded-lg bg-gray-50 border border-gray-200 text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#4bbf39] focus:border-transparent"
+            />
+          </div>
+        </div>
 
-                  <Button type="submit" className="w-full bg-gradient-to-r from-[#4bbf39] to-[#39bfb0] hover:from-[#39bfb0] hover:to-[#4bbf39] text-white py-3">
-                    Get Free Reputation Audit
-                    <ArrowRight className="w-5 h-5 ml-2" />
-                  </Button>
-                </form>
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2" htmlFor="rep-phone">
+              Phone Number
+            </label>
+            <input
+              id="rep-phone"
+              type="tel"
+              name="phone"
+              autoComplete="tel"
+              placeholder="(513) 555-0123"
+              className="w-full px-4 py-3 rounded-lg bg-gray-50 border border-gray-200 text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#4bbf39] focus:border-transparent"
+            />
+          </div>
 
-                <p className="text-xs text-gray-500 text-center mt-4">
-                  Free audit • No obligation • Expert insights
-                </p>
-      </div>
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2" htmlFor="rep-business">
+              Business Name
+            </label>
+            <input
+              id="rep-business"
+              type="text"
+              name="business"
+              autoComplete="organization"
+              placeholder="Your Business"
+              className="w-full px-4 py-3 rounded-lg bg-gray-50 border border-gray-200 text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#4bbf39] focus:border-transparent"
+            />
+          </div>
+        </div>
+
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-2" htmlFor="rep-concerns">
+            Current Reputation Concerns
+          </label>
+          <textarea
+            id="rep-concerns"
+            name="concerns"
+            rows={3}
+            placeholder="Tell us about your reputation management needs..."
+            className="w-full px-4 py-3 rounded-lg bg-gray-50 border border-gray-200 text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#4bbf39] focus:border-transparent resize-none"
+          ></textarea>
+        </div>
+
+        <Button
+          type="submit"
+          className="w-full bg-gradient-to-r from-[#4bbf39] to-[#39bfb0] text-white py-3 text-lg hover:from-[#39bfb0] hover:to-[#4bbf39]"
+        >
+          Get Free Reputation Audit
+          <ArrowRight className="ml-2 w-5 h-5" />
+        </Button>
+
+        <p className="text-xs text-gray-500 text-center">
+          Free audit • No obligation • Expert insights
+        </p>
+      </form>
+    )}
+  </CardContent>
+</Card>
+
             </motion.div>
       </div>
       </div>

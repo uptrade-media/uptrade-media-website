@@ -5,39 +5,40 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card.j
 import { CheckCircle, ArrowRight, Camera, Image, Users, Sun, Star, Lightbulb, ArrowLeft, Phone, Mail, Target, Award, Eye, Palette, Building, Utensils, Scale, Anchor } from 'lucide-react'
 import { motion } from 'framer-motion'
 import SEOHead from '../components/SEOHead'
-import { 
-  UnifiedForm, 
-  FormInput, 
-  FormSelect, 
-  FormTextarea, 
-  useFormState 
-} from '@/components/ui/unified-form.jsx'
+
 
 function MediaPhotographyPage() {
-  const {
-    formData,
-    isSubmitting,
-    isSubmitted,
-    handleInputChange,
-    handleSubmit,
-    resetForm
-  } = useFormState({
-    name: '',
-    email: '',
-    phone: '',
-    company: '',
-    projectType: '',
-    details: ''
-  })
+  const [expandedFaq, setExpandedFaq] = useState(null)
+  const [submitted, setSubmitted] = useState(false)
 
-  const onFormSubmit = async () => {
+  const handleSubmit = async (e) => {
+    e.preventDefault()
+    const form = e.target
+    const formData = new FormData(form)
+
     try {
-      await handleSubmit('photography-consultation')
-    } catch (error) {
-      console.error('Form submission error:', error)
-      throw error
+      await fetch('/', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: new URLSearchParams(formData).toString()
+      })
+      
+      setSubmitted(true)
+      
+      // Redirect to thank you page after successful submission
+      setTimeout(() => {
+        window.location.href = '/thank-you'
+      }, 1500)
+    } catch (err) {
+      console.error('Form submit error:', err)
+      alert('Something went wrong. Please try again.')
     }
   }
+
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' })
+  }
+
 
   const photographyServices = [
     {
@@ -191,8 +192,6 @@ function MediaPhotographyPage() {
     }
   ]
 
-  const [expandedFaq, setExpandedFaq] = React.useState(null)
-
   return (
     <div className="min-h-screen bg-white">
       <SEOHead 
@@ -270,93 +269,134 @@ function MediaPhotographyPage() {
               </div>
             </div>
 
-            <div className="lg:pl-8">
-              <div className="bg-white rounded-2xl shadow-2xl p-8">
-                <div className="text-center mb-6">
-                  <h3 className="text-2xl font-bold text-gray-900 mb-2">Free Photography Consultation</h3>
-                  <p className="text-gray-600">Get expert insights on your photography needs and discover how professional images can transform your marketing.</p>
-                </div>
+<motion.div
+  initial={{ opacity: 0, x: 50 }}
+  animate={{ opacity: 1, x: 0 }}
+  transition={{ duration: 0.6, delay: 0.2 }}
+  className="relative"
+>
+  <Card className="bg-white border-white/20 shadow-2xl">
+    <CardHeader>
+      <CardTitle className="text-2xl font-bold text-gray-900 flex items-center">
+        <Camera className="w-6 h-6 mr-3 text-[#4bbf39]" />
+        Free Photography Consultation
+      </CardTitle>
+      <p className="text-gray-600">
+        Get expert insights on your photography needs and discover how professional images can transform your marketing.
+      </p>
+    </CardHeader>
 
-                <UnifiedForm
-                  formName="photography-consultation"
-                  onSubmit={onFormSubmit}
-                  submitText="Get Free Photography Consultation"
-                  isSubmitting={isSubmitting}
-                  isSubmitted={isSubmitted}
-                  successMessage="Thank you! We'll be in touch within 24 hours to discuss your photography project."
-                  showCard={false}
-                >
-                  <div className="grid grid-cols-2 gap-4">
-                    <FormInput
-                      label="Full Name"
-                      name="name" autoComplete="name"
-                      type="text"
-                      required
-                      placeholder="John Smith"
-                      value={formData.name}
-                      onChange={handleInputChange}
-                    />
-                    <FormInput
-                      label="Email Address"
-                      name="email"
-                      type="email" autoComplete="email"
-                      required
-                      placeholder="john@company.com"
-                      value={formData.email}
-                      onChange={handleInputChange}
-                    />
-                  </div>
+    <CardContent className="space-y-4">
+      {submitted ? (
+      <div className="text-center py-6">
+        <CheckCircle className="mx-auto text-green-600 mb-4" size={40} />
+        <h3 className="text-xl font-bold mb-2">Thank you</h3>
+        <p className="text-gray-600">We received your request and will follow up shortly.</p>
+      </div>
+      ) : (
+        <form
+          name="photography-consultation"
+          method="POST"
+          data-netlify="true"
+          netlify-honeypot="bot-field"
+          onSubmit={handleSubmit}
+          className="space-y-4"
+        >
+          <input type="hidden" name="form-name" value="photography-consultation" />
+          <p className="hidden">
+            <label>
+              Do not fill this out if you are human: <input name="bot-field" />
+            </label>
+          </p>
 
-                  <div className="grid grid-cols-2 gap-4">
-                    <FormInput
-                      label="Phone Number"
-                      name="phone"
-                      type="tel" autoComplete="tel"
-                      placeholder="(513) 555-0123"
-                      value={formData.phone}
-                      onChange={handleInputChange}
-                    />
-                    <FormInput
-                      label="Company Name"
-                      name="company" autoComplete="organization"
-                      type="text"
-                      placeholder="Your Company"
-                      value={formData.company}
-                      onChange={handleInputChange}
-                    />
-                  </div>
-
-                  <FormSelect
-                    label="Photography Type"
-                    name="projectType"
-                    placeholder="Select photography type"
-                    options={[
-                      'Corporate & Headshots',
-                      'Product Photography',
-                      'Food & Restaurant',
-                      'Event Coverage',
-                      'Branding Photography',
-                      'Other'
-                    ]}
-                    value={formData.projectType}
-                    onChange={handleInputChange}
-                  />
-
-                  <FormTextarea
-                    label="Project Details"
-                    name="details"
-                    rows={3}
-                    placeholder="Tell us about your photography project..."
-                    value={formData.details}
-                    onChange={handleInputChange}
-                  />
-                </UnifiedForm>
-
-                <p className="text-xs text-gray-500 text-center mt-4">
-                  Free consultation • No obligation • Expert insights
-                </p>
-              </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">Full Name *</label>
+              <input
+                type="text"
+                name="name"
+                required
+                autoComplete="name"
+                placeholder="John Smith"
+                className="w-full px-4 py-3 rounded-lg bg-gray-50 border border-gray-200 text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#4bbf39] focus:border-transparent"
+              />
             </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">Email Address *</label>
+              <input
+                type="email"
+                name="email"
+                required
+                autoComplete="email"
+                placeholder="john@company.com"
+                className="w-full px-4 py-3 rounded-lg bg-gray-50 border border-gray-200 text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#4bbf39] focus:border-transparent"
+              />
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">Phone Number</label>
+              <input
+                type="tel"
+                name="phone"
+                autoComplete="tel"
+                placeholder="(513) 555-0123"
+                className="w-full px-4 py-3 rounded-lg bg-gray-50 border border-gray-200 text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#4bbf39] focus:border-transparent"
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">Company Name</label>
+              <input
+                type="text"
+                name="company"
+                autoComplete="organization"
+                placeholder="Your Company"
+                className="w-full px-4 py-3 rounded-lg bg-gray-50 border border-gray-200 text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#4bbf39] focus:border-transparent"
+              />
+            </div>
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">Photography Type</label>
+            <select
+              name="projectType"
+              className="w-full px-4 py-3 rounded-lg bg-gray-50 border border-gray-200 text-gray-900 focus:outline-none focus:ring-2 focus:ring-[#4bbf39] focus:border-transparent"
+            >
+              <option value="">Select photography type</option>
+              <option>Corporate & Headshots</option>
+              <option>Product Photography</option>
+              <option>Food & Restaurant</option>
+              <option>Event Coverage</option>
+              <option>Branding Photography</option>
+              <option>Other</option>
+            </select>
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">Project Details</label>
+            <textarea
+              name="details"
+              rows={3}
+              placeholder="Tell us about your photography project..."
+              className="w-full px-4 py-3 rounded-lg bg-gray-50 border border-gray-200 text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#4bbf39] focus:border-transparent"
+            />
+          </div>
+
+          <Button
+            type="submit"
+            className="w-full bg-gradient-to-r from-[#4bbf39] to-[#39bfb0] text-white hover:from-[#39bfb0] hover:to-[#4bbf39] py-3 text-lg font-semibold"
+          >
+            Get Free Photography Consultation
+            <Camera className="ml-2 w-5 h-5" />
+          </Button>
+
+          <p className="text-center text-gray-500 text-sm">Free consultation • No obligation • Expert insights</p>
+        </form>
+      )}
+    </CardContent>
+  </Card>
+</motion.div>
           </div>
         </div>
       </section>

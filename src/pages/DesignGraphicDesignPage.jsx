@@ -231,7 +231,7 @@ function DesignGraphicDesignPage() {
                   </Button>
                 </Link>
                 <a href="tel:+15133310555">
-                  <Button className="bg-white/20 backdrop-blur-sm border border-white/30 text-white hover:bg-white/30 transition-all duration-200">
+                  <Button size="lg" className="inline-flex items-center bg-white/20 backdrop-blur-sm border border-white/30 text-white hover:bg-white/90 hover:text-[#4bbf39] px-8 py-3 transition-all duration-200 shadow-xs">
                     <Phone className="w-5 h-5 mr-2" />
                     (513) 331-0555
                   </Button>
@@ -264,6 +264,16 @@ function DesignGraphicDesignPage() {
                   </p>
                 </CardHeader>
                 <CardContent className="space-y-4">
+                    {submitted ? (
+                    <div className="text-center py-6">
+                      <CheckCircle className="mx-auto text-green-600 mb-4" size={40} />
+                      <h3 className="text-xl font-bold mb-2">Thank you</h3>
+                      <p className="text-gray-600">
+                        We have received your request and will follow up within 24 hours.
+                      </p>
+                    </div>
+                  ) : (
+
                   <form 
                     name="graphic-design-consultation" 
                     method="POST" 
@@ -363,6 +373,7 @@ function DesignGraphicDesignPage() {
                     <ArrowRight className="ml-2 w-5 h-5" />
                   </Button>
                   </form>
+                  )}
                   
                   <p className="text-xs text-gray-500 text-center">
                     Free consultation • No obligation • Expert insights
@@ -681,7 +692,7 @@ function DesignGraphicDesignPage() {
               Get a Free Consultation
               <ArrowRight className="ml-2 w-5 h-5" />
             </Button>
-            <Button size="lg" className="bg-white/20 backdrop-blur-sm border border-white/30 text-white hover:bg-white/90 hover:text-[#4bbf39] px-8 py-3 transition-all duration-200 shadow-xs h-12">
+            <Button className="bg-white/20 backdrop-blur-sm border border-white/30 text-white hover:bg-white/90 hover:text-[#4bbf39] px-8 py-3 transition-all duration-200 shadow-xs h-10">
               <Phone className="mr-2 w-5 h-5" />
               Call (513) 331-0555
             </Button>

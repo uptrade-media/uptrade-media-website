@@ -425,7 +425,7 @@ function MarketingPaidAdsPage() {
       method="POST"
       data-netlify="true"
       data-netlify-honeypot="bot-field"
-      onSubmit={handleSubmit}
+       onSubmit={handleSubmit}  // ⬅️ use JS handler instead of action
       className="space-y-4"
     >
       <input type="hidden" name="form-name" value="paid-ads-audit" />

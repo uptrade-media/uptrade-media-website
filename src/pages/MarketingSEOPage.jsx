@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react'
+import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 import SEOHead from '../components/SEOHead.jsx'
 import { Button } from '@/components/ui/button.jsx'
@@ -35,6 +35,7 @@ import {
   Activity
 } from 'lucide-react'
 import { motion } from 'framer-motion'
+
 
 function MarketingSEOPage() {
   const [expandedFaq, setExpandedFaq] = useState(null)
@@ -400,121 +401,115 @@ function MarketingSEOPage() {
               transition={{ duration: 0.6, delay: 0.2 }}
               className="relative"
             >
-              <Card className="bg-white border-white/20 shadow-2xl">
-                <CardHeader>
-                  <CardTitle className="text-2xl font-bold text-gray-900 flex items-center">
-                    <BarChart3 className="w-6 h-6 mr-3 text-[#4bbf39]" />
-                    Free SEO Analysis
-                  </CardTitle>
-                  <p className="text-gray-600">
-                    Get a comprehensive analysis of your website's SEO performance and discover opportunities for improvement.
-                  </p>
-                </CardHeader>
-                <CardContent className="space-y-4">
-                  {submitted ? (
-                    <div className="text-center py-8">
-                      <div className="text-2xl font-semibold text-gray-900 mb-2">Request received</div>
-                      <p className="text-gray-600">We will review your site and email the audit within 24 hours.</p>
-                    </div>
-                  ) : (
-                    <form
-                      name="seo-analysis"
-                      method="POST"
-                      data-netlify="true"
-                      netlify-honeypot="bot-field"
-                      onSubmit={handleSubmit}
-                      className="space-y-4"
-                    >
-                      {/* Netlify helpers */}
-                      <input type="hidden" name="form-name" value="seo-analysis" />
-                      <p className="hidden">
-                        <label>
-                          Do not fill this out if you are human:
-                          <input name="bot-field" />
-                        </label>
-                      </p>
+  
+    <Card className="bg-white border-white/20 shadow-2xl">
+      <CardHeader>
+        <CardTitle className="text-2xl font-bold text-gray-900 flex items-center">
+          <BarChart3 className="w-6 h-6 mr-3 text-[#4bbf39]" />
+          Free SEO Analysis
+        </CardTitle>
+        <p className="text-gray-600">
+          Get a comprehensive analysis of your website's SEO performance and discover opportunities for improvement.
+        </p>
+      </CardHeader>
 
-                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                        <div>
-                          <label className="block text-sm font-medium text-gray-700 mb-2">
-                            Website URL *
-                          </label>
-                          <input
-                            type="url"
-                            name="website"
-                            required
-                            autoComplete="url"
-                            placeholder="https://yourwebsite.com"
-                            className="w-full px-4 py-3 rounded-lg bg-gray-50 border border-gray-200 text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#4bbf39] focus:border-transparent"
-                          />
-                        </div>
-                        <div>
-                          <label className="block text-sm font-medium text-gray-700 mb-2">
-                            Business Name *
-                          </label>
-                          <input
-                            type="text"
-                            name="business"
-                            required
-                            autoComplete="organization"
-                            placeholder="Your Business"
-                            className="w-full px-4 py-3 rounded-lg bg-gray-50 border border-gray-200 text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#4bbf39] focus:border-transparent"
-                          />
-                        </div>
-                      </div>
-                      
-                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                        <div>
-                          <label className="block text-sm font-medium text-gray-700 mb-2">
-                            Email Address *
-                          </label>
-                          <input
-                            type="email"
-                            name="email"
-                            required
-                            autoComplete="email"
-                            placeholder="john@company.com"
-                            className="w-full px-4 py-3 rounded-lg bg-gray-50 border border-gray-200 text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#4bbf39] focus:border-transparent"
-                          />
-                        </div>
-                        <div>
-                          <label className="block text-sm font-medium text-gray-700 mb-2">
-                            Phone Number
-                          </label>
-                          <input
-                            type="tel"
-                            name="phone"
-                            autoComplete="tel"
-                            placeholder="(513) 555-0123"
-                            className="w-full px-4 py-3 rounded-lg bg-gray-50 border border-gray-200 text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#4bbf39] focus:border-transparent"
-                          />
-                        </div>
-                      </div>
+      <CardContent className="space-y-4">
+        {submitted ? (
+      <div className="text-center py-6">
+        <CheckCircle className="mx-auto text-green-600 mb-4" size={40} />
+        <h3 className="text-xl font-bold mb-2">Thank you</h3>
+        <p className="text-gray-600">We have received your request and will email the audit within 24 hours.</p>
+      </div>
+        ) : (
+<form
+  name="seo-analysis"
+  method="POST"
+  data-netlify="true"
+  netlify-honeypot="bot-field"
+   onSubmit={handleSubmit}  // ⬅️ use JS handler instead of action
+  className="space-y-4"
+>
+  <input type="hidden" name="form-name" value="seo-analysis" />
+  <p className="hidden">
+    <label>
+      Do not fill this out if you are human:
+      <input name="bot-field" />
+    </label>
+  </p>
 
-                      <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-2">
-                          Primary Keywords (Optional)
-                        </label>
-                        <input
-                          type="text"
-                          name="keywords"
-                          placeholder="e.g., Cincinnati plumber, law firm SEO"
-                          className="w-full px-4 py-3 rounded-lg bg-gray-50 border border-gray-200 text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#4bbf39] focus:border-transparent"
-                        />
-                      </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Website URL *</label>
+                <input
+                  type="url"
+                  name="website"
+                  required
+                  autoComplete="url"
+                  placeholder="https://yourwebsite.com"
+                  className="w-full px-4 py-3 rounded-lg bg-gray-50 border border-gray-200 text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#4bbf39] focus:border-transparent"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Business Name *</label>
+                <input
+                  type="text"
+                  name="business"
+                  required
+                  autoComplete="organization"
+                  placeholder="Your Business"
+                  className="w-full px-4 py-3 rounded-lg bg-gray-50 border border-gray-200 text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#4bbf39] focus:border-transparent"
+                />
+              </div>
+            </div>
 
-                      <Button type="submit" className="w-full bg-gradient-to-r from-[#4bbf39] to-[#39bfb0] text-white hover:from-[#39bfb0] hover:to-[#4bbf39] py-3 text-lg font-semibold">
-                        Get My Free SEO Analysis
-                        <Search className="ml-2 w-5 h-5" />
-                      </Button>
-                      
-                      <p className="text-center text-gray-500 text-sm">
-                        Detailed report delivered within 24 hours
-                      </p>
-                    </form>
-                  )}
-                </CardContent>
-              </Card>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Email Address *</label>
+                <input
+                  type="email"
+                  name="email"
+                  required
+                  autoComplete="email"
+                  placeholder="john@company.com"
+                  className="w-full px-4 py-3 rounded-lg bg-gray-50 border border-gray-200 text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#4bbf39] focus:border-transparent"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Phone Number</label>
+                <input
+                  type="tel"
+                  name="phone"
+                  autoComplete="tel"
+                  placeholder="(513) 555-0123"
+                  className="w-full px-4 py-3 rounded-lg bg-gray-50 border border-gray-200 text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#4bbf39] focus:border-transparent"
+                />
+              </div>
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">Primary Keywords (Optional)</label>
+              <input
+                type="text"
+                name="keywords"
+                placeholder="e.g., Cincinnati plumber, law firm SEO"
+                className="w-full px-4 py-3 rounded-lg bg-gray-50 border border-gray-200 text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#4bbf39] focus:border-transparent"
+              />
+            </div>
+
+            <Button
+              type="submit"
+              className="w-full bg-gradient-to-r from-[#4bbf39] to-[#39bfb0] text-white hover:from-[#39bfb0] hover:to-[#4bbf39] py-3 text-lg font-semibold"
+            >
+              Get My Free SEO Analysis
+              <Search className="ml-2 w-5 h-5" />
+            </Button>
+
+            <p className="text-center text-gray-500 text-sm">Detailed report delivered within 24 hours</p>
+</form>
+)}
+</CardContent>
+</Card>
+
             </motion.div>
           </div>
         </div>
