@@ -207,6 +207,7 @@ const BlogPostPage = () => {
   const SIDEBAR_PAD_TOP = 20
   const SIDEBAR_PAD_BOTTOM = 20
   const STOP_GAP = 20
+  const EXTRA_STOP_BUFFER = 80
 
   const stickyWrapRef = useRef(null)
   const stickyInnerRef = useRef(null)
@@ -248,7 +249,7 @@ const BlogPostPage = () => {
 
         const y = window.scrollY
         const fixedStartY = wrapAbsTop - STICKY_TOP_PX
-        const stopAtY = stopAbsTop - innerHeight - STOP_GAP - STICKY_TOP_PX
+        const stopAtY = stopAbsTop - innerHeight - STOP_GAP - STICKY_TOP_PX - EXTRA_STOP_BUFFER
 
         if (y < fixedStartY) {
           setAffixState('static')
@@ -578,7 +579,7 @@ const BlogPostPage = () => {
                       const stopAbsTop = stopEl.getBoundingClientRect().top + window.scrollY
                       const inner = stickyInnerRef.current
                       const innerHeight = inner ? inner.offsetHeight : 0
-                      const absoluteTop = Math.max(0, stopAbsTop - wrapAbsTop - innerHeight - 16)
+                      const absoluteTop = stopAbsTop - wrapAbsTop - innerHeight - 16 - EXTRA_STOP_BUFFER
                       return { top: absoluteTop }
                     })()),
                     paddingTop: isDesktop && affixState === 'fixed' ? SIDEBAR_PAD_TOP : 0,
