@@ -1,5 +1,70 @@
 @import "tailwindcss";
 @import "tw-animate-css";
+@plugin "@tailwindcss/typography";
+
+/* --- Blog prose customizations --- */
+.prose {
+  /* brand link color & accents */
+  --tw-prose-links: #4bbf39;
+  --tw-prose-bullets: #4bbf39;
+  --tw-prose-quotes: #111827;
+  --tw-prose-quote-borders: #e5e7eb;
+  --tw-prose-headings: #0f172a;
+  --tw-prose-body: #334155;
+}
+
+/* Headings */
+.prose :where(h1,h2,h3,h4){ scroll-margin-top: 6rem; }
+
+/* Links */
+.prose a {
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+/* Images */
+.prose img {
+  border-radius: 0.75rem;
+  box-shadow: 0 6px 24px rgba(0,0,0,0.06);
+}
+
+/* Code blocks */
+.prose pre {
+  background: #0f172a;      /* slate-900 */
+  color: #e2e8f0;           /* slate-300 */
+  border-radius: 0.75rem;
+  padding: 1rem 1.25rem;
+  overflow-x: auto;
+}
+
+/* Inline code */
+.prose :where(code):not(pre code) {
+  background: #f1f5f9;      /* slate-100 */
+  border-radius: 0.375rem;
+  padding: .15rem .35rem;
+}
+
+/* Tables */
+.prose table {
+  display: block;
+  width: 100%;
+  overflow-x: auto;
+  border-radius: .5rem;
+}
+.prose thead th {
+  background: #f8fafc;
+}
+
+/* Blockquotes */
+.prose blockquote {
+  border-left-color: #e5e7eb;
+}
+
+/* If you use rehype-autolink-headings (you do), remove underline on wrapped headings */
+.prose :where(h2,h3,h4) > a {
+  text-decoration: none;
+  color: inherit;
+}
 
 @custom-variant dark (&:is(.dark *));
 

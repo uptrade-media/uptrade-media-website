@@ -118,12 +118,19 @@ body {
   background: transparent !important;
 }
 
-/* Keep wheel scroll from bubbling to body while over the sidebar */
-.sidebar-scroll {
-  overscroll-behavior: contain;
-  -webkit-overflow-scrolling: touch;
+/* Make the sidebar scroll independently */
+.sidebar-scroll{
+  overscroll-behavior: contain;       /* don't bubble to the page at edges */
+  -webkit-overflow-scrolling: touch;  /* momentum on iOS */
+  touch-action: pan-y;                /* allow vertical touch scrolling */
+  scrollbar-gutter: stable;           /* prevents layout shift when bar appears */
 }
 
 @media (max-width: 1023.98px) {
   .sidebar-scroll { max-height: none !important; overflow: visible !important; }
+}
+
+/* e.g. in mobile-blog-fixes.css */
+.prose [id] {
+  scroll-margin-top: 80px; /* >= STICKY_TOP_PX + a little */
 }

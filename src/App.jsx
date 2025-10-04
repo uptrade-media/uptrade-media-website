@@ -1405,7 +1405,8 @@ function AppContent() {
             <Route path="/portfolio/manhattan-harbour-living" element={<ManhattanHarbourLivingPage />} />
             <Route path="/portfolio/chateau-heritage-square" element={<ChateauHeritageSquarePage />} />
             <Route path="/insights" element={<InsightsPage />} />
-            <Route path="/insights/:slug" element={<BlogPostPage />} />
+            <Route path="/insights/:category/:slug" element={<BlogPostPage />} />
+            <Route path="/insights/:slug" element={<BlogPostPage />} /> {/* fallback */}
             <Route path="/about" element={<AboutPage />} />
             <Route path="/contact" element={<ContactPage />} />
             <Route path="/free-audit" element={<FreeAuditPage />} />

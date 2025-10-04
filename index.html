@@ -1,9 +1,23 @@
 <!doctype html>
 <html lang="en">
   <head>
+    <link rel="alternate" type="application/rss+xml" title="Uptrade Media Insights" href="/rss.xml" />
     <meta charset="UTF-8" />
     <meta name="referrer" content="no-referrer-when-downgrade" />
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' https: data:; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; script-src 'self' 'unsafe-inline' 'unsafe-eval'; connect-src 'self' ws:;" />
+    <meta http-equiv="Content-Security-Policy" content="
+  default-src 'self';
+  base-uri 'self';
+  img-src 'self' https: data:;
+  style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;
+  font-src 'self' https://fonts.gstatic.com data:;
+  script-src 'self' 'unsafe-inline' 'unsafe-eval' blob:;
+  connect-src 'self' ws: wss:;
+  frame-src 'self' https://*.wistia.com https://*.wistia.net;
+  media-src 'self' https: data:;
+  worker-src 'self' blob:;
+  frame-ancestors 'self';
+">
+
     
     <!-- Favicon -->
     <link rel="icon" type="image/svg+xml" href="/uptrade-media-favicon.svg" />
@@ -77,18 +91,18 @@
           "addressRegion": "KY"
         }
       ],
-      "serviceType": [
-        "Website Design",
-        "SEO & Local SEO Services",
-        "Paid Ads Management",
-        "Video Production",
-        "Commercial Photography",
-        "Brand Development",
-        "Aerial Media",
-        "Content Marketing"
-        "Email & Social Campaigns"
-        "Sales Funnels & Leads Generation"
-      ],
+"serviceType": [
+  "Website Design",
+  "SEO & Local SEO Services",
+  "Paid Ads Management",
+  "Video Production",
+  "Commercial Photography",
+  "Brand Development",
+  "Aerial Media",
+  "Content Marketing",
+  "Email & Social Campaigns",
+  "Sales Funnels & Leads Generation"
+],
       "priceRange": "$$",
       "openingHours": "Mo-Fr 09:00-17:00",
       "sameAs": [

@@ -14,9 +14,154 @@ import { motion } from 'framer-motion'
 import { getPostBySlug, getBlogPosts } from '../utils/blogManager'
 import '../mobile-blog-fixes.css'
 import SEO from '../components/SEO'
+import { mdxComponents } from '../mdx-components.jsx'
+
+/* -----------------------------
+   QoL: Reading progress (top)
+------------------------------*/
+function ReadingProgress({ target = '#post-article' }) {
+  const [p, setP] = useState(0)
+  useEffect(() => {
+    const el = document.querySelector(target)
+    if (!el) return
+    const onScroll = () => {
+      const total = el.scrollHeight - window.innerHeight
+      const scrolled = Math.min(Math.max(window.scrollY - (el.offsetTop || 0), 0), total)
+      setP(total > 0 ? (scrolled / total) * 100 : 0)
+    }
+    onScroll()
+    window.addEventListener('scroll', onScroll, { passive: true })
+    window.addEventListener('resize', onScroll)
+    return () => {
+      window.removeEventListener('scroll', onScroll)
+      window.removeEventListener('resize', onScroll)
+    }
+  }, [target])
+  return (
+    <div className="fixed top-0 left-0 right-0 z-[60] h-0.5 bg-transparent pointer-events-none">
+      <div className="h-full bg-gradient-to-r from-[#4bbf39] to-[#39bfb0]" style={{ width: `${p}%` }} />
+    </div>
+  )
+}
+
+/* -----------------------------
+   QoL: Share bar (compact)
+------------------------------*/
+function ShareBar({ url, title }) {
+  const encodedURL = encodeURIComponent(url || '')
+  const encodedTitle = encodeURIComponent(title || '')
+  const items = [
+    { id: 'x', label: 'X', href: `https://twitter.com/intent/tweet?url=${encodedURL}&text=${encodedTitle}` },
+    { id: 'fb', label: 'Facebook', href: `https://www.facebook.com/sharer/sharer.php?u=${encodedURL}` },
+    { id: 'ln', label: 'LinkedIn', href: `https://www.linkedin.com/shareArticle?mini=true&url=${encodedURL}&title=${encodedTitle}` },
+  ]
+  return (
+    <div className="not-prose my-6 flex flex-wrap items-center gap-3 text-sm">
+      <span className="text-gray-500">Share:</span>
+      {items.map(i => (
+        <a
+          key={i.id}
+          href={i.href}
+          target="_blank"
+          rel="noopener"
+          className="px-3 py-1 rounded-full border hover:bg-gray-50"
+        >
+          {i.label}
+        </a>
+      ))}
+      <button
+        className="px-3 py-1 rounded-full border hover:bg-gray-50"
+        onClick={async () => {
+          try { await navigator.clipboard.writeText(url); alert('Link copied!') } catch {}
+        }}
+      >
+        Copy link
+      </button>
+    </div>
+  )
+}
+
+/* -----------------------------
+   QoL: Table of contents
+   - Finds h2/h3 inside #post-content
+   - Active section highlight
+------------------------------*/
+function TOC({ containerSelector = '#post-content' }) {
+  const [items, setItems] = useState([])
+  const [activeId, setActiveId] = useState(null)
+
+  useEffect(() => {
+    const root = document.querySelector(containerSelector)
+    if (!root) return
+    const hs = Array.from(root.querySelectorAll('h2, h3'))
+      .filter(h => h.id)
+      .map(h => ({ id: h.id, text: h.textContent?.trim() || '', level: h.tagName.toLowerCase() }))
+    setItems(hs)
+
+    const onScroll = () => {
+      let closest = null
+      let min = Infinity
+      hs.forEach(h => {
+        const el = document.getElementById(h.id)
+        if (!el) return
+        const rect = el.getBoundingClientRect()
+        const dist = Math.abs(rect.top - 120) // ~header offset
+        if (dist < min) { min = dist; closest = h.id }
+      })
+      if (closest) setActiveId(closest)
+    }
+    onScroll()
+    window.addEventListener('scroll', onScroll, { passive: true })
+    window.addEventListener('resize', onScroll)
+    return () => {
+      window.removeEventListener('scroll', onScroll)
+      window.removeEventListener('resize', onScroll)
+    }
+  }, [containerSelector])
+
+  if (!items.length) return null
+
+  return (
+    <nav aria-label="Table of contents" className="not-prose">
+      <div className="hidden md:block rounded-lg border border-gray-200 p-4 bg-white">
+        <h3 className="text-sm font-semibold text-gray-700 mb-3">On this page</h3>
+        <ul className="space-y-2">
+          {items.map(it => (
+            <li key={it.id} className={it.level === 'h3' ? 'ml-4' : ''}>
+              <a
+                href={`#${it.id}`}
+                className={`text-sm hover:text-[#4bbf39] ${activeId === it.id ? 'text-[#4bbf39] font-medium' : 'text-gray-600'}`}
+              >
+                {it.text}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      {/* Mobile collapsible */}
+      <details className="md:hidden rounded-lg border border-gray-200 p-4 bg-white">
+        <summary className="cursor-pointer text-sm font-semibold text-gray-700">Table of contents</summary>
+        <ul className="mt-3 space-y-2">
+          {items.map(it => (
+            <li key={it.id} className={it.level === 'h3' ? 'ml-4' : ''}>
+              <a
+                href={`#${it.id}`}
+                className={`text-sm hover:text-[#4bbf39] ${activeId === it.id ? 'text-[#4bbf39] font-medium' : 'text-gray-600'}`}
+              >
+                {it.text}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </details>
+    </nav>
+  )
+}
 
 const BlogPostPage = () => {
-  const { slug } = useParams()
+  const { category, slug } = useParams()
+  const full = `${category}/${slug}`
 
   const [submitting, setSubmitting] = useState(false)
   const [submitted, setSubmitted] = useState(false)
@@ -25,7 +170,7 @@ const BlogPostPage = () => {
   const [loading, setLoading] = useState(true)
   const [relatedPosts, setRelatedPosts] = useState([])
 
-  // --- NEW: desktop detection (lg = 1024px) ---
+  // --- desktop detection (lg = 1024px) ---
   const [isDesktop, setIsDesktop] = useState(() => {
     if (typeof window === 'undefined') return true
     return window.matchMedia('(min-width: 1024px)').matches
@@ -61,7 +206,7 @@ const BlogPostPage = () => {
   const STICKY_TOP_PX = 40
   const SIDEBAR_PAD_TOP = 20
   const SIDEBAR_PAD_BOTTOM = 20
-  const STOP_GAP = 16
+  const STOP_GAP = 20
 
   const stickyWrapRef = useRef(null)
   const stickyInnerRef = useRef(null)
@@ -73,7 +218,6 @@ const BlogPostPage = () => {
   const [placeholderHeight, setPlaceholderHeight] = useState(0)
 
   useLayoutEffect(() => {
-    // NEW: disable sticky logic entirely on mobile/tablet
     if (!isDesktop) {
       setAffixState('static')
       setPlaceholderHeight(0)
@@ -81,73 +225,139 @@ const BlogPostPage = () => {
       return
     }
 
+    let rafId = 0
+
     const update = () => {
-      const wrap = stickyWrapRef.current
-      const inner = stickyInnerRef.current
-      const stopEl = subscribeRef.current
-      if (!wrap || !inner) return
+      cancelAnimationFrame(rafId)
+      rafId = requestAnimationFrame(() => {
+        const wrap = stickyWrapRef.current
+        const inner = stickyInnerRef.current
+        const stopEl = subscribeRef.current
+        if (!wrap || !inner) return
 
-      const wrapRect = wrap.getBoundingClientRect()
-      const wrapAbsTop = wrapRect.top + window.scrollY
+        const wrapRect = wrap.getBoundingClientRect()
+        const wrapAbsTop = wrapRect.top + window.scrollY
 
-      const innerHeight = inner.offsetHeight
-      setPlaceholderHeight(innerHeight)
-      setSidebarWidth(wrap.clientWidth)
+        const innerHeight = inner.offsetHeight
+        setPlaceholderHeight(innerHeight)
+        setSidebarWidth(wrap.clientWidth)
 
-      const stopAbsTop = stopEl
-        ? stopEl.getBoundingClientRect().top + window.scrollY
-        : Number.POSITIVE_INFINITY
+        const stopAbsTop = stopEl
+          ? stopEl.getBoundingClientRect().top + window.scrollY
+          : Number.POSITIVE_INFINITY
 
-      const y = window.scrollY
-      const fixedStartY = wrapAbsTop - STICKY_TOP_PX
-      const stopAtY = stopAbsTop - innerHeight - STOP_GAP - STICKY_TOP_PX
+        const y = window.scrollY
+        const fixedStartY = wrapAbsTop - STICKY_TOP_PX
+        const stopAtY = stopAbsTop - innerHeight - STOP_GAP - STICKY_TOP_PX
 
-      if (y < fixedStartY) {
-        setAffixState('static')
-      } else if (y >= fixedStartY && y < stopAtY) {
-        setAffixState('fixed')
-      } else {
-        setAffixState('stopped')
-      }
+        if (y < fixedStartY) {
+          setAffixState('static')
+        } else if (y >= fixedStartY && y < stopAtY) {
+          setAffixState('fixed')
+        } else {
+          setAffixState('stopped')
+        }
+      })
     }
 
+    // Initial + listeners
     update()
+    const onHash = () => { update(); requestAnimationFrame(update); setTimeout(update, 250) }
     window.addEventListener('scroll', update, { passive: true })
     window.addEventListener('resize', update)
+    window.addEventListener('hashchange', onHash)
+    window.addEventListener('load', update)
+    document.fonts?.ready?.then(update)
+
+    // Recalc when DOM/layout changes
+    const roTargets = [document.body, stickyInnerRef.current, subscribeRef.current].filter(Boolean)
+    const ro = new ResizeObserver(() => { update(); requestAnimationFrame(update) })
+    roTargets.forEach(el => ro.observe(el))
+
+    const mo = new MutationObserver(() => { update(); requestAnimationFrame(update) })
+    mo.observe(document.body, { childList: true, subtree: true, characterData: true })
+
     return () => {
+      cancelAnimationFrame(rafId)
       window.removeEventListener('scroll', update)
       window.removeEventListener('resize', update)
+      window.removeEventListener('hashchange', onHash)
+      window.removeEventListener('load', update)
+      ro.disconnect()
+      mo.disconnect()
     }
   }, [isDesktop])
 
+  // Re-measure after any in-page anchor click (TOC etc.)
+  useEffect(() => {
+    const handler = (e) => {
+      const a = e.target.closest?.('a[href^="#"]')
+      if (!a) return
+      requestAnimationFrame(() => {
+        window.requestAnimationFrame(() => {
+          window.dispatchEvent(new Event('hashchange'))
+        })
+      })
+      setTimeout(() => window.dispatchEvent(new Event('hashchange')), 250)
+    }
+    document.addEventListener('click', handler)
+    return () => document.removeEventListener('click', handler)
+  }, [])
+
+  // ------- Robust post loading (slug + canonical fallbacks) -------
   useEffect(() => {
     let alive = true
     ;(async () => {
       try {
         setLoading(true)
-        const p = await getPostBySlug(slug)
+
+        const norm = (v) => (v ?? '').toString().trim().toLowerCase()
+        const stripTrailingSlash = (v) => v.replace(/\/+$/, '')
+        const urlSlug = norm(decodeURIComponent(slug || ''))
+
+        // 1) direct
+        let p = await getPostBySlug(urlSlug)
+        let all
+
+        // 2) fallbacks
+        if (!p) {
+          all = await getBlogPosts()
+          const endsWithSlug = (canonish) => {
+            const c = norm(stripTrailingSlash(canonish || ''))
+            return c.endsWith(`/${urlSlug}`)
+          }
+
+          p =
+            all.find(x => norm(x.slug) === urlSlug) ||
+            all.find(x => norm(x.meta?.slug) === urlSlug) ||
+            all.find(x => endsWithSlug(x.meta?.canonical || x.canonical)) ||
+            all.find(x => endsWithSlug(x.url))
+        }
+
         if (!alive) return
+
         if (!p) {
           setPost(null)
           setRelatedPosts([])
           return
         }
+
         setPost(p)
 
-        const all = await getBlogPosts()
+        // 3) related
+        if (!all) all = await getBlogPosts()
         if (!alive) return
 
         const sameCategory = all.filter(x => x.slug !== p.slug && x.category === p.category)
         const others = all.filter(x => x.slug !== p.slug && x.category !== p.category)
 
-        const byTags = (arr) => {
-          const tags = new Set((p.tags || []).map(t => String(t).toLowerCase()))
-          return arr.sort((a, b) => {
-            const overlapA = (a.tags || []).filter(t => tags.has(String(t).toLowerCase())).length
-            const overlapB = (b.tags || []).filter(t => tags.has(String(t).toLowerCase())).length
-            return overlapB - overlapA
+        const tagsSet = new Set((p.tags || []).map(t => String(t).toLowerCase()))
+        const byTags = (arr) =>
+          arr.sort((a, b) => {
+            const overlap = (post) => (post.tags || []).filter(t => tagsSet.has(String(t).toLowerCase())).length
+            return overlap(b) - overlap(a)
           })
-        }
+
         const related = [...byTags(sameCategory), ...byTags(others)].slice(0, 3)
         setRelatedPosts(related)
       } catch (err) {
@@ -189,27 +399,42 @@ const BlogPostPage = () => {
     )
   }
 
-  const Content = post.component || null
+  // Be permissive about the compiled MDX export name
+  const Content =
+    post.component ||
+    post.Component ||
+    post.MDX ||
+    post.content ||
+    null
+
+  const meta = post.meta || {}
   const dateStr = post.date
     ? new Date(post.date).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })
     : ''
 
+  const canonicalAbs = (post.canonical && post.canonical.startsWith('http'))
+    ? post.canonical
+    : `https://uptrademedia.com${post.canonical || `/insights/${post.slug}`}`
+
   return (
     <div className="min-h-screen bg-white blog-container" style={{ overflow: 'visible' }}>
+      {/* Reading progress */}
+      <ReadingProgress target="#post-article" />
+
       {post && (
         <SEO
-          title={post.title}
-          description={post.excerpt}
-          keywords={(post.tags || []).join(', ')}
-          image={post.image}
-          url={`/insights/${post.slug}`}
+          title={meta.title || post.title}
+          description={meta.description || post.excerpt}
+          keywords={((meta.tags || post.tags) || []).join(', ')}
+          image={meta.image || post.image}
+          url={meta.canonical || `/insights/${post.slug}`}
           type="article"
           article={{
             publishedTime: post.publishDate || post.date,
             modifiedTime: post.modifiedDate || post.publishDate || post.date,
             author: 'Uptrade Media',
             section: post.category,
-            tags: post.tags
+            tags: meta.tags || post.tags
           }}
         />
       )}
@@ -232,7 +457,7 @@ const BlogPostPage = () => {
       </div>
 
       {/* Article + Sidebar GRID */}
-      <article className="py-12" style={{ overflow: 'visible' }}>
+      <article id="post-article" className="py-12" style={{ overflow: 'visible' }}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8" style={{ overflow: 'visible' }}>
           <div className="grid lg:grid-cols-3 gap-12 items-start" style={{ overflow: 'visible' }}>
             {/* MAIN */}
@@ -259,7 +484,10 @@ const BlogPostPage = () => {
                   </span>
                 </div>
 
-                <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6 leading-tight">{post.title}</h1>
+                {/* Gradient H1 */}
+                <h1 className="text-4xl md:text-5xl font-bold mb-6 leading-tight bg-gradient-to-r from-[#4bbf39] to-[#39bfb0] bg-clip-text text-transparent">
+                  {post.title}
+                </h1>
 
                 <div className="flex flex-wrap items-center gap-6 mb-8 text-gray-600">
                   {dateStr && (
@@ -280,11 +508,11 @@ const BlogPostPage = () => {
                   )}
                 </div>
 
-                {post.image && (
-                  <div className="mb-8 overflow-hidden">
+                {(meta.image || post.image) && (
+                  <div className="mb-6 overflow-hidden">
                     <img
-                      src={post.image}
-                      alt={post.title}
+                      src={meta.image || post.image}
+                      alt={meta.imageAlt || post.title}
                       loading="lazy"
                       className="w-full h-64 md:h-96 object-cover rounded-lg shadow-lg max-w-full"
                       style={{ maxWidth: '100%', height: 'auto' }}
@@ -292,11 +520,31 @@ const BlogPostPage = () => {
                   </div>
                 )}
 
-                <div className="prose prose-lg max-w-none" style={{ wordWrap: 'break-word', overflowWrap: 'break-word' }}>
-                  {Content ? <Content /> : <p className="text-gray-600">Content not available.</p>}
+                {/* Intro paragraph (from description/excerpt), then TOC, then share, then content */}
+                {(meta.description || post.excerpt) && (
+                  <p className="text-xl text-gray-700 leading-relaxed mb-6">
+                    {meta.description || post.excerpt}
+                  </p>
+                )}
+
+                {/* TOC under title + image + intro */}
+                <div className="not-prose mb-6">
+                  <TOC containerSelector="#post-content" />
                 </div>
 
-                <div className="mt-12 pt-8 border-t border-gray-200">
+                {/* Share bar */}
+                <ShareBar url={canonicalAbs} title={post.title} />
+
+                {/* MDX content */}
+                <div
+                  id="post-content"
+                  className="prose prose-lg max-w-none"
+                  style={{ wordWrap: 'break-word', overflowWrap: 'break-word' }}
+                >
+                  {Content ? <Content components={mdxComponents} /> : <p className="text-gray-600">Content not available.</p>}
+                </div>
+
+                <div className="mt-12 pt-8 border-top border-gray-200">
                   <h3 className="text-lg font-semibold mb-4">Tags</h3>
                   <div className="flex flex-wrap gap-2">
                     {(post.tags || []).map(tag => (
@@ -309,10 +557,10 @@ const BlogPostPage = () => {
               </motion.div>
             </div>
 
-            {/* SIDEBAR */}
+            {/* SIDEBAR (Recommended stays) */}
             <aside className="lg:col-span-1 min-w-0">
               <div ref={stickyWrapRef} className="relative">
-                {/* NEW: no placeholder height on mobile */}
+                {/* placeholder to keep layout when sticky */}
                 <div style={{ height: isDesktop && affixState !== 'static' ? placeholderHeight : 0 }} />
                 <div
                   ref={stickyInnerRef}
@@ -330,7 +578,7 @@ const BlogPostPage = () => {
                       const stopAbsTop = stopEl.getBoundingClientRect().top + window.scrollY
                       const inner = stickyInnerRef.current
                       const innerHeight = inner ? inner.offsetHeight : 0
-                      const absoluteTop = stopAbsTop - wrapAbsTop - innerHeight - 16
+                      const absoluteTop = Math.max(0, stopAbsTop - wrapAbsTop - innerHeight - 16)
                       return { top: absoluteTop }
                     })()),
                     paddingTop: isDesktop && affixState === 'fixed' ? SIDEBAR_PAD_TOP : 0,
@@ -344,7 +592,8 @@ const BlogPostPage = () => {
                       maxHeight: isDesktop && affixState === 'fixed'
                         ? `calc(100vh - ${STICKY_TOP_PX + SIDEBAR_PAD_TOP + SIDEBAR_PAD_BOTTOM}px)`
                         : 'none',
-                      overflowY: isDesktop && affixState === 'fixed' ? 'auto' : 'visible'
+                      overflowY: isDesktop && affixState === 'fixed' ? 'auto' : 'visible',
+                      overscrollBehavior: isDesktop && affixState === 'fixed' ? 'contain' : 'auto'
                     }}
                     onWheel={(e) => {
                       if (!(isDesktop && affixState === 'fixed')) return
@@ -360,46 +609,51 @@ const BlogPostPage = () => {
                     <div className="bg-gray-50 rounded-lg p-6 shadow-sm">
                       <h3 className="text-xl font-bold text-gray-900 mb-6">Recommended</h3>
                       <div className="space-y-6">
-                        {relatedPosts.map((rp) => (
-                          <Link key={rp.slug} to={`/insights/${rp.slug}`} className="block group">
-                            <div className="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 overflow-hidden">
-                              {rp.image && (
-                                <img
-                                  src={rp.image}
-                                  alt={rp.title}
-                                  loading="lazy"
-                                  className="w-full h-32 object-cover max-w-full"
-                                  style={{ maxWidth: '100%', height: 'auto', minHeight: '128px' }}
-                                />
-                              )}
-                              <div className="p-4">
-                                <div className="flex items-center mb-2">
-                                  <span
-                                    className={`px-2 py-1 rounded-full text-xs font-medium ${
-                                      rp.category === 'marketing'
-                                        ? 'bg-[#4bbf39]/10 text-[#4bbf39]'
-                                        : rp.category === 'media'
-                                        ? 'bg-[#39bfb0]/10 text-[#39bfb0]'
-                                        : rp.category === 'design'
-                                        ? 'bg-purple-100 text-[#A855F7]'
-                                        : 'bg-orange-100 text-orange-600'
-                                    }`}
-                                  >
-                                    {rp.category?.charAt(0).toUpperCase() + rp.category?.slice(1)}
-                                  </span>
-                                </div>
-                                <h4 className="font-semibold text-gray-900 group-hover:text-[#4bbf39] transition-colors line-clamp-2 mb-2">
-                                  {rp.title}
-                                </h4>
-                                <p className="text-sm text-gray-600 line-clamp-2 mb-2">{rp.excerpt}</p>
-                                <div className="flex items-center text-xs text-gray-500">
-                                  <Clock className="w-3 h-3 mr-1" />
-                                  {rp.readTime}
+                        {relatedPosts.map((rp) => {
+                          const href = rp.canonical
+                            ? rp.canonical.replace(/^https?:\/\/[^/]+/, '')
+                            : `/insights/${rp.slug}`
+                          return (
+                            <Link key={rp.slug} to={href} className="block group">
+                              <div className="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 overflow-hidden">
+                                {rp.image && (
+                                  <img
+                                    src={rp.image}
+                                    alt={rp.imageAlt || rp.title}
+                                    loading="lazy"
+                                    className="w-full h-32 object-cover max-w-full"
+                                    style={{ maxWidth: '100%', height: 'auto', minHeight: '128px' }}
+                                  />
+                                )}
+                                <div className="p-4">
+                                  <div className="flex items-center mb-2">
+                                    <span
+                                      className={`px-2 py-1 rounded-full text-xs font-medium ${
+                                        rp.category === 'marketing'
+                                          ? 'bg-[#4bbf39]/10 text-[#4bbf39]'
+                                          : rp.category === 'media'
+                                          ? 'bg-[#39bfb0]/10 text-[#39bfb0]'
+                                          : rp.category === 'design'
+                                          ? 'bg-purple-100 text-[#A855F7]'
+                                          : 'bg-orange-100 text-orange-600'
+                                      }`}
+                                    >
+                                      {rp.category?.charAt(0).toUpperCase() + rp.category?.slice(1)}
+                                    </span>
+                                  </div>
+                                  <h4 className="font-semibold text-gray-900 group-hover:text-[#4bbf39] transition-colors line-clamp-2 mb-2">
+                                    {rp.title}
+                                  </h4>
+                                  <p className="text-sm text-gray-600 line-clamp-2 mb-2">{rp.excerpt}</p>
+                                  <div className="flex items-center text-xs text-gray-500">
+                                    <Clock className="w-3 h-3 mr-1" />
+                                    {rp.readTime}
+                                  </div>
                                 </div>
                               </div>
-                            </div>
-                          </Link>
-                        ))}
+                            </Link>
+                          )
+                        })}
                       </div>
                     </div>
 
